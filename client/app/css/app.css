@@ -1,0 +1,123 @@
+/* app css stylesheet */
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+.menu {
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
+}
+
+.menu:before {
+    content: "[";
+}
+
+.menu:after {
+    content: "]";
+}
+
+.menu > li {
+    display: inline;
+}
+
+.menu > li:before {
+    content: "|";
+    padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+    content: "";
+    padding: 0;
+}
+
+.result-container {
+    height: 350px;
+    float: left;
+    width: 33.333%;
+    padding: 0 2em 0 0;
+    background-color: #fff;
+}
+
+.result-container ul li {
+    list-style: none;
+    margin-bottom: 1em;
+    font-size: .92857em;
+}
+
+.result-container ul {
+    padding: 0;
+    margin: 0;
+}
+
+.loading {
+    background: #fff url(../img/loading-circle.gif) no-repeat center center;
+}
+
+.result-container li .title {
+    text-decoration: none;
+    color: #0075b0;
+    font-weight: bold;
+}
+.result-container .creator {
+    display: block;
+    color: #666;
+}
+
+@media screen and (max-width: 1020px) and (min-width: 767px) {
+    .result-container {
+        width: 50%;
+        border: none
+    }
+}
+
+@media screen and (max-width: 766px) {
+    .result-container {
+        width: 100%;
+        border: none;
+        height: inherit;
+    }
+}
+
+/* Typeahead stuff
+----------------------------*/
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+}
+.dropdown-menu li a {
+    display: block;
+    padding: 3px 20px;
+    color: #333333;
+    white-space: nowrap;
+}
+.dropdown-menu .active a, .dropdown-menu .active a:hover, .dropdown-menu .active a:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #428bca;
+    outline: 0;
+}

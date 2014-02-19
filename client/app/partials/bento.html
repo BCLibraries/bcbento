@@ -1,0 +1,27 @@
+<div class="result-container" ng-class="{loading: ! catalog_results} ">
+    <h2>Catalog</h2>
+
+    <ul ng-show="catalog_results" ng-repeat="result in catalog_results">
+        <li><a href="http://{{result.link}}" class="title">{{result.title}}</a>
+            <span class="creator" ng-if="result.creator">{{result.creator}}</span>
+            <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="result-container" ng-class="{loading: ! articles_results}">
+    <h2>Articles</h2>
+
+    <ul ng-show="articles_results" ng-repeat="result in articles_results" >
+        <li><a href="http://localhost/libsearch/bc/id/{{result.id}}" class="title">{{result.title}}</a>
+            <span class="creator">{{result.contributors[0]}}</span></li>
+    </ul>
+</div>
+
+<div class="result-container" ng-class="{loading: ! dpla_results} ">
+    <h2>DPLA</h2>
+
+    <ul ng-show="dpla_results" ng-repeat="result in dpla_results">
+        <li>{{result.sourceResource.title}}</li>
+    </ul>
+</div>

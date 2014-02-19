@@ -1,0 +1,15 @@
+logs/*
+!.gitkeep
+node_modules/
+tmp
+.DS_Store
+.idea
+server/bootstrap/compiled.php
+server/vendor
+server/composer.phar
+server/composer.lock
+server/.env.local.php
+server/.env.php
+.DS_Store
+Thumbs.db
+server/app/storage/*

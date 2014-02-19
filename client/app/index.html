@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <title>Search : Boston College Libraries</title>
+    <link rel="stylesheet" href="css/app.css"/>
+
+</head>
+<body ng-controller="AutoComplete">
+<h1>Search</h1>
+<ul class="menu">
+    <li><a href="#/bento">bento</a></li>
+    <li><a href="#/catalog">catalog</a></li>
+    <li><a href="#/databases">databases</a></li>
+    <li><a href="#/articles">articles</a></li>
+</ul>
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<form method="get" action="" onsubmit="search()">
+    <label for="searchbox">Search terms</label>
+    <input id="searchbox"
+           type="text"
+           ng-model="asyncSelected"
+           typeahead="suggestion for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+           class="form-control"
+           onsubmit="search()"
+           typeahead-template-url="customTemplate.html"
+           typeahead-wait-ms="50"
+           typeahead-editable="true">
+</form>
+<div ng-view></div>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+-->
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-route.js"></script>
+<script src="js/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
+<script src="js/app.js"></script>
+<script src="js/services.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/directives.js"></script>
+<script type="text/ng-template" id="/partials/bento.html"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    var search = function () {
+        var code = $('#searchbox').val();
+        document.location.href = "#/bento?any=" + code;
+    }
+</script>
+</body>
+</html>
