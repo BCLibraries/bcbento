@@ -12,4 +12,3 @@ server/.env.local.php
 server/.env.php
 .DS_Store
 Thumbs.db
-server/app/storage/*
