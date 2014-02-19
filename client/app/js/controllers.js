@@ -45,7 +45,7 @@ angular.module('myApp.controllers', []).
             $scope.selected = undefined;
 
             $scope.getLocation = function (val) {
-                return $http.get('http://localhost/search-services/suggest?text=' + val).then(function (res) {
+                return $http.get('/search-services/suggest?text=' + val).then(function (res) {
                     var suggestions = [];
                     console.log(res.data.ac[0]);
                     angular.forEach(res.data.ac[0].options, function (item) {
