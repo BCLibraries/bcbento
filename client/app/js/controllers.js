@@ -14,7 +14,7 @@ angular.module('myApp.controllers', []).
 
             if ($location.search().any) {
 
-                base_url = 'http://localhost/search-services/';
+                base_url = '/search-services/';
                 search = '?any=' + $location.search().any;
 
                 for (var i = 0; i < search_services.length; i++) {
