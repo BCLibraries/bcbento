@@ -1,0 +1,20 @@
+<h2>Catalog</h2>
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<form method="get" action="" onsubmit="search()">
+    <label for="searchbox" class="hidden">Search terms</label>
+    <input id="searchbox"
+           type="text"
+           ng-model="asyncSelected"
+           typeahead="suggestion for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+           class="form-control"
+           onsubmit="search()"
+           typeahead-template-url="customTemplate.html"
+           typeahead-wait-ms="50"
+           typeahead-editable="true">
+</form>

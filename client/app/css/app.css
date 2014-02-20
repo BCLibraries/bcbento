@@ -8,7 +8,9 @@
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .menu {
@@ -63,11 +65,16 @@ body {
     background: #fff url(../img/loading-circle.gif) no-repeat center center;
 }
 
+.results {
+    clear: left;
+}
+
 .result-container li .title {
     text-decoration: none;
     color: #0075b0;
     font-weight: bold;
 }
+
 .result-container .creator {
     display: block;
     color: #666;
@@ -109,15 +116,42 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box;
 }
+
 .dropdown-menu li a {
     display: block;
     padding: 3px 20px;
     color: #333333;
     white-space: nowrap;
 }
+
 .dropdown-menu .active a, .dropdown-menu .active a:hover, .dropdown-menu .active a:focus {
     color: #ffffff;
     text-decoration: none;
     background-color: #428bca;
     outline: 0;
+}
+
+h2 {
+    float: left;
+    margin-top: 0;
+    text-align: right;
+}
+
+form {
+    float: left;
+    margin-top: 3px;
+    margin-left: 1em;
+}
+
+.hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+#searchbox {
+    width: 32em;
 }

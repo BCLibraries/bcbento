@@ -1,27 +1,51 @@
-<div class="result-container" ng-class="{loading: ! catalog_results} ">
-    <h2>Catalog</h2>
+<h2>Bento</h2>
 
-    <ul ng-show="catalog_results" ng-repeat="result in catalog_results">
-        <li><a href="http://{{result.link}}" class="title">{{result.title}}</a>
-            <span class="creator" ng-if="result.creator">{{result.creator}}</span>
-            <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
-        </li>
-    </ul>
-</div>
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+</script>
 
-<div class="result-container" ng-class="{loading: ! articles_results}">
-    <h2>Articles</h2>
+<form method="get" action="" onsubmit="search()">
+    <label for="searchbox" class="hidden">Search terms</label>
+    <input id="searchbox"
+           type="text"
+           ng-model="asyncSelected"
+           typeahead="suggestion for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+           class="form-control"
+           onsubmit="search()"
+           typeahead-template-url="customTemplate.html"
+           typeahead-wait-ms="50"
+           typeahead-editable="true">
+</form>
 
-    <ul ng-show="articles_results" ng-repeat="result in articles_results" >
-        <li><a href="http://localhost/libsearch/bc/id/{{result.id}}" class="title">{{result.title}}</a>
-            <span class="creator">{{result.contributors[0]}}</span></li>
-    </ul>
-</div>
+<div class="results">
 
-<div class="result-container" ng-class="{loading: ! dpla_results} ">
-    <h2>DPLA</h2>
+    <div class="result-container" ng-class="{loading: ! catalog_results} ">
+        <h3>Catalog</h3>
 
-    <ul ng-show="dpla_results" ng-repeat="result in dpla_results">
-        <li>{{result.sourceResource.title}}</li>
-    </ul>
+        <ul ng-show="catalog_results" ng-repeat="result in catalog_results">
+            <li><a href="http://{{result.link}}" class="title">{{result.title}}</a>
+                <span class="creator" ng-if="result.creator">{{result.creator}}</span>
+                <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="result-container" ng-class="{loading: ! articles_results}">
+        <h3>Articles</h3>
+
+        <ul ng-show="articles_results" ng-repeat="result in articles_results">
+            <li><a href="http://localhost/libsearch/bc/id/{{result.id}}" class="title">{{result.title}}</a>
+                <span class="creator">{{result.contributors[0]}}</span></li>
+        </ul>
+    </div>
+
+    <div class="result-container" ng-class="{loading: ! dpla_results} ">
+        <h3>DPLA</h3>
+
+        <ul ng-show="dpla_results" ng-repeat="result in dpla_results">
+            <li>{{result.sourceResource.title}}</li>
+        </ul>
+    </div>
 </div>

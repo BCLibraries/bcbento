@@ -7,7 +7,6 @@
 
 </head>
 <body ng-controller="AutoComplete">
-<h1>Search</h1>
 <ul class="menu">
     <li><a href="#/bento">bento</a></li>
     <li><a href="#/catalog">catalog</a></li>
@@ -15,24 +14,7 @@
     <li><a href="#/articles">articles</a></li>
 </ul>
 
-<script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-    </a>
-</script>
 
-<form method="get" action="" onsubmit="search()">
-    <label for="searchbox">Search terms</label>
-    <input id="searchbox"
-           type="text"
-           ng-model="asyncSelected"
-           typeahead="suggestion for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
-           class="form-control"
-           onsubmit="search()"
-           typeahead-template-url="customTemplate.html"
-           typeahead-wait-ms="50"
-           typeahead-editable="true">
-</form>
 <div ng-view></div>
 
 <!-- In production use:

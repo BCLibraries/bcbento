@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-    controller('MyCtrl1', ['$http', '$scope', '$location',
+    controller('bento', ['$http', '$scope', '$location',
 
         function ($http, $scope, $location) {
 
@@ -55,9 +55,13 @@ angular.module('myApp.controllers', []).
                 });
             };
 
+        }])
+    .controller('catalog', ['$scope',
+        function ($scope) {
+
         }]);
 
-String.prototype.truncate = function(max_length) {
+String.prototype.truncate = function (max_length) {
     var too_long, s_;
     too_long = this.length > max_length;
     if (too_long) {
