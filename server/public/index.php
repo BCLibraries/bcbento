@@ -20,6 +20,8 @@
 
 require __DIR__.'/../bootstrap/autoload.php';
 
+require __DIR__.'/../vendor/3ft9/dpla/tfn/dpla.php';
+
 /*
 |--------------------------------------------------------------------------
 | Turn On The Lights
