@@ -41,6 +41,16 @@
         </ul>
     </div>
 
+    <div class="result-container librarians" ng-class="{loading: ! services_results} ">
+        <h3>Librarians</h3>
+
+        <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
+            <li><img src="{{result.image}}" alt="picture of {{result.name}}">
+                <div>{{result.name}}</div>
+            </li>
+        </ul>
+    </div>
+
     <div class="result-container" ng-class="{loading: ! dpla_results} ">
         <h3>DPLA</h3>
 

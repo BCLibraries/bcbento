@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(
     array(
-        'local' => array('gerrityr-macbook.bc.edu'),
+        'local'   => array('gerrityr-macbook.bc.edu', 'mbox.bc.edu','gerrityr-macbook-3.local'),
         'staging' => array('libdev')
     )
 );
@@ -59,7 +59,6 @@ $framework = $app['path.base'] .
     '/vendor/laravel/framework/src';
 
 require $framework . '/Illuminate/Foundation/start.php';
-
 
 
 /*

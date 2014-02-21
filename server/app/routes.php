@@ -19,5 +19,5 @@ use \Doctrine\Common\Cache\ApcCache;
 Route::get('catalog','PrimoController@catalog');
 Route::get('articles','PrimoController@articles');
 Route::get('dpla','DPLAController@search');
-Route::get('suggest','ElasticSearchController@suggest');
-Route::get('guides','ElasticSearchController@guides');
+Route::get('suggest','AutoSuggestController@suggest');
+Route::get('services','LocalServicesController@services');
