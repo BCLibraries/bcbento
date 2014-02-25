@@ -57,15 +57,6 @@ class LocalServicesController extends BaseController
                                 'query' => $keyword
                             ]
                         ]
-                    ],
-                    'filter' => [
-                        'not' => [
-                            'filter' => [
-                                'exists' => [
-                                    'field' => 'LCCDep3'
-                                ]
-                            ]
-                        ]
                     ]
                 ]
             ],
@@ -74,18 +65,21 @@ class LocalServicesController extends BaseController
             'sort'   => [],
             'facets' => [
                 'LCCDep1' => [
-                    'terms' => [
-                        'field' => 'LCCDep1'
+                    'terms_stats' => [
+                        'key_field'    => 'LCCDep1',
+                        'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep2' => [
-                    'terms' => [
-                        'field' => 'LCCDep2'
+                    'terms_stats' => [
+                        'key_field'    => 'LCCDep2',
+                        'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep3' => [
-                    'terms' => [
-                        'field' => 'LCCDep3'
+                    'terms_stats' => [
+                        'key_field'    => 'LCCDep3',
+                        'value_script' => 'doc.score'
                     ]
                 ]
             ]
@@ -126,7 +120,7 @@ class LocalServicesController extends BaseController
                     'match_phrase' => [
                         'tags' => [
                             'query' => $taxonomy_term[$i]['term'],
-                            'boost' => $taxonomy_term[$i]['count'] * $level_boost
+                            'boost' => $taxonomy_term[$i]['total'] * $level_boost
                         ]
                     ]
                 ];
@@ -150,7 +144,11 @@ class LocalServicesController extends BaseController
         foreach ($librarians['hits']['hits'] as $hit) {
             $librarian = [
                 'name'     => $hit['_source']['name'],
-                'image'    => str_replace('libguides.bc.edu/', 'lgimages.s3.amazonaws.com', $hit['_source']['imageSrc']),
+                'image'    => str_replace(
+                    'libguides.bc.edu/',
+                    'lgimages.s3.amazonaws.com',
+                    $hit['_source']['imageSrc']
+                ),
                 'phone'    => $hit['_source']['profileURL'],
                 'email'    => $hit['_source']['email'],
                 'location' => $hit['_source']['location']
