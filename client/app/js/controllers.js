@@ -49,7 +49,7 @@ angular.module('myApp.controllers', []).
                     var suggestions = [];
                     console.log(res.data.ac[0]);
                     angular.forEach(res.data.ac[0].options, function (item) {
-                        suggestions.push(item.text);
+                        suggestions.push(item);
                     });
                     return suggestions;
                 });

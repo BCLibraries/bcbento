@@ -153,5 +153,27 @@ form {
 }
 
 #searchbox {
-    width: 32em;
+    width: 46em;
+}
+
+.typeahead-subject {
+    font-size: .85em;
+    color: #888;
+    text-align: right;
+    display: inline-block;
+    width: 20%;
+}
+
+.typeahead-label {
+    display: inline-block;
+    width: 80%;
+    overflow: hidden
+}
+
+.active .typeahead-subject {
+    color: #ddd;
+}
+
+.dropdown-menu {
+    width: 36em;
 }

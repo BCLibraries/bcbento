@@ -52,7 +52,7 @@ class LocalServicesController extends BaseController
             'query'  => [
                 'filtered' => [
                     'query'  => [
-                        'match' => [
+                        'match_phrase' => [
                             '_all' => [
                                 'query' => $keyword
                             ]
