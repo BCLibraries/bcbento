@@ -16,14 +16,18 @@ class LocalServicesController extends BaseController
      * @var ElasticSearch\Client
      */
     private $_elastic_search;
+
     /**
      * @var Illuminate\Support\Facades\Response
      */
     private $_response;
+
     /**
      * @var Illuminate\Http\Request
      */
     private $_request;
+
+    const MIN_LIBRARIAN_SCORE = '.3';
 
     public function __construct(
         Elasticsearch\Client $elastic_search,
@@ -51,7 +55,7 @@ class LocalServicesController extends BaseController
         $params['body'] = [
             'query'  => [
                 'filtered' => [
-                    'query'  => [
+                    'query' => [
                         'match_phrase' => [
                             '_all' => [
                                 'query' => $keyword
@@ -142,6 +146,9 @@ class LocalServicesController extends BaseController
     {
         $results = [];
         foreach ($librarians['hits']['hits'] as $hit) {
+            if ($hit['_score'] < self::MIN_LIBRARIAN_SCORE) {
+                break;
+            }
             $librarian = [
                 'name'     => $hit['_source']['name'],
                 'image'    => str_replace(
@@ -151,7 +158,8 @@ class LocalServicesController extends BaseController
                 ),
                 'phone'    => $hit['_source']['profileURL'],
                 'email'    => $hit['_source']['email'],
-                'location' => $hit['_source']['location']
+                'location' => $hit['_source']['location'],
+                'score'    => $hit['_score']
             ];
             $subjects = [];
             foreach ($hit['_source']['subjects'] as $subject) {
