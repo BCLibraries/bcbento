@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Common\Cache\ApcCache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
@@ -27,16 +28,24 @@ class LocalServicesController extends BaseController
      */
     private $_request;
 
+    /**
+     * @var Doctrine\Common\Cache\ApcCache
+     */
+    private $_cache;
+
     const MIN_LIBRARIAN_SCORE = '.3';
+    const MIN_GUIDE_SCORE = '.3';
 
     public function __construct(
         Elasticsearch\Client $elastic_search,
         Response $response,
-        Request $request
+        Request $request,
+        ApcCache $cache
     ) {
         $this->_elastic_search = $elastic_search;
         $this->_response = $response;
         $this->_request = $request;
+        $this->_cache = $cache;
     }
 
     public function services()
@@ -48,8 +57,21 @@ class LocalServicesController extends BaseController
         return $this->_response->json(['librarians' => $librarians]);
     }
 
+    public function guides()
+    {
+        $input = $this->_request->get('any');
+        $terms_reponse = $this->_getRelevantTerms($input);
+        $this->_buildSubjectGuidesQuery($terms_reponse);
+        $guides = $this->_getGuides($terms_reponse);
+        return $this->_response->json(['guides' => $guides]);
+    }
+
     protected function _getRelevantTerms($keyword)
     {
+        $cache_key = $this->_cache_key($keyword);
+        if ($this->_cache->contains($cache_key)) {
+            return $this->_cache->fetch($cache_key);
+        }
         $params = [];
         $params['index'] = 'records';
         $params['body'] = [
@@ -94,6 +116,9 @@ class LocalServicesController extends BaseController
         foreach ($response['facets'] as $facet) {
             $facet_array[] = $facet['terms'];
         }
+
+        $this->_cache->save($cache_key, $facet_array, 60 * 60 * 24);
+
         return $facet_array;
     }
 
@@ -174,5 +199,74 @@ class LocalServicesController extends BaseController
         }
 
         return $results;
+    }
+
+    protected function _getGuides(array $taxonomy_terms)
+    {
+        $params = [
+            'index' => 'libguides',
+            'body'  => $this->_buildSubjectGuidesQuery($taxonomy_terms)
+        ];
+        $librarians = $this->_elastic_search->search($params);
+        return $this->_buildSubjectGuideResponse($librarians);
+    }
+
+    protected function _buildSubjectGuidesQuery(array $taxonomy_terms)
+    {
+        // Increase to make lower-level taxonomy results comparatively more valuable.
+        $level_boost_multiple = 10;
+
+        // Increase to use more matched taxonomy terms.
+        $terms_to_use = 3;
+
+        $level_boost = 1;
+        $should = [];
+        foreach ($taxonomy_terms as $taxonomy_term) {
+            $i = 0;
+            while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
+                $should[] = [
+                    'match' => [
+                        '_all' => [
+                            'query' => $taxonomy_term[$i]['term'],
+                            'boost' => $taxonomy_term[$i]['total'] * $level_boost
+                        ]
+                    ]
+                ];
+                $i++;
+            }
+            $level_boost *= $level_boost_multiple;
+        }
+
+        return [
+            'query' => [
+                'bool' => [
+                    'should' => $should
+                ]
+            ]
+        ];
+    }
+
+    protected function _buildSubjectGuideResponse(array $subject_guides)
+    {
+        $results = [];
+        foreach ($subject_guides['hits']['hits'] as $hit) {
+
+            if ($hit['_score'] < self::MIN_GUIDE_SCORE) {
+                break;
+            }
+
+            $results[] = [
+                'title' => htmlspecialchars_decode($hit['_source']['type']),
+                'url'   => $hit['_source']['url'],
+                'score' => $hit['_score']
+            ];
+        }
+
+        return $results;
+    }
+
+    protected function _cache_key($term)
+    {
+        return 'SEARCH_TERMS_' . $term;
     }
 }

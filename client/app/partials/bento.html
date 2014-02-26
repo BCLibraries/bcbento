@@ -2,7 +2,8 @@
 
 <script type="text/ng-template" id="customTemplate.html">
     <a>
-        <span class="typeahead-label" bind-html-unsafe="match.label | typeaheadHighlight:query"></span>        <span class="typeahead-subject" bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
+        <span class="typeahead-label" bind-html-unsafe="match.label | typeaheadHighlight:query"></span> <span
+            class="typeahead-subject" bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
     </a>
 </script>
 
@@ -24,20 +25,21 @@
     <div class="result-container" ng-class="{loading: ! catalog_results} ">
         <h3>Catalog</h3>
 
-        <ul ng-show="catalog_results" ng-repeat="result in catalog_results">
-            <li><a href="http://{{result.link}}" class="title">{{result.title}}</a>
+        <ul ng-show="catalog_results">
+            <li ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
                 <span class="creator" ng-if="result.creator">{{result.creator}}</span>
                 <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
                 <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
             </li>
         </ul>
+        <a href="{{catalog_results.search_link}}">{{catalog_results.total_results}} total</a>
     </div>
 
     <div class="result-container" ng-class="{loading: ! articles_results}">
         <h3>Primo Central</h3>
 
-        <ul ng-show="articles_results" ng-repeat="result in articles_results">
-            <li><a href="http://localhost/libsearch/bc/id/{{result.id}}" class="title">{{result.title}}</a>
+        <ul ng-show="articles_results">
+            <li ng-repeat="result in articles_results"><a href="{{result.link}}" class="title">{{result.title}}</a>
                 <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
                 <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
             </li>
@@ -49,16 +51,26 @@
 
         <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
             <li><img src="{{result.image}}" alt="picture of {{result.name}}">
+
                 <div>{{result.name}}</div>
             </li>
         </ul>
     </div>
 
+    <div class="result-container guides" ng-class="{loading: ! guides_results} ">
+        <h3>Subject guides</h3>
+
+        <ul ng-show="guides_results">
+            <li ng-repeat="result in guides_results.guides">
+                <div><a href="{{result.url}}">{{result.title}}</a></div>
+            </li>
+        </ul>
+    </div>
     <div class="result-container" ng-class="{loading: ! dpla_results} ">
         <h3>DPLA</h3>
 
-        <ul ng-show="dpla_results" ng-repeat="result in dpla_results">
-            <li>{{result.sourceResource.title}}</li>
+        <ul ng-show="dpla_results">
+            <li ng-repeat="result in dpla_results">{{result.sourceResource.title}}</li>
         </ul>
     </div>
 </div>

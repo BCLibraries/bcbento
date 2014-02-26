@@ -118,3 +118,10 @@ $app->bind(
         return new Elasticsearch\Client(['hosts' => $hosts]);
     }
 );
+
+$app->bind(
+    'Doctrine\Common\Cache\ApcCache',
+    function() {
+        return new \Doctrine\Common\Cache\ApcCache();
+    }
+);

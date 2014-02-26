@@ -22,6 +22,8 @@ class PrimoController extends BaseController
      */
     private $_request;
 
+    private $_keyword;
+
     /**
      * @var BCLib\PrimoServices\QueryBuilder
      */
@@ -41,16 +43,18 @@ class PrimoController extends BaseController
 
     public function catalog()
     {
-        $query = $this->_query_builder->keyword($this->_request->get('any'))->getQuery()
+        $this->_keyword = $this->_request->get('any');
+        $query = $this->_query_builder->keyword($this->_keyword)->getQuery()
             ->bulkSize(5);
         $result = $this->_primo->search($query);
-        $response_array = $this->_buildCatalogResponse($result);
-        return $this->_response->json($response_array);
+        $response = $this->_buildCatalogResponse($result);
+        return $this->_response->json($response);
     }
 
     public function articles()
     {
-        $query = $this->_query_builder->keyword($this->_request->get('any'))->getQuery()
+        $this->_keyword = $this->_request->get('any');
+        $query = $this->_query_builder->keyword($this->_keyword)->getQuery()
             ->articles()->bulkSize(4);
         $result = $this->_primo->search($query);
         $response_array = $this->_buildArticleResponse($result);
@@ -59,10 +63,15 @@ class PrimoController extends BaseController
 
     protected function _buildCatalogResponse(\BCLib\PrimoServices\BriefSearchResult $result)
     {
-        $response_array = [];
+        $response = new stdClass();
+
+        $response->total_results = $result->total_results;
+        $response->search_link = $this->_searchDeepLink();
+
+        $items = [];
         foreach ($result->results as $result) {
             $deep_link = $this->_primo->createDeepLink();
-            $response_array[] = [
+            $items[] = [
                 'id'           => $result->id,
                 'title'        => $result->title,
                 'date'         => $result->date,
@@ -73,7 +82,8 @@ class PrimoController extends BaseController
             ];
 
         }
-        return $response_array;
+        $response->items = $items;
+        return $response;
     }
 
 
@@ -81,21 +91,32 @@ class PrimoController extends BaseController
     {
         $response_array = [];
         foreach ($result->results as $result) {
-            $deep_link = $this->_primo->createDeepLink();
             $id_array = $result->field('//prim:search/prim:recordid');
             $id = isset($id_array[0]) ? $id_array[0] : '';
+
+            $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
+            $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
+            $deep_link .= '&docId=' . $result->id;
+
             $response_array[] = [
                 'id'        => $id,
                 'title'     => $result->title,
                 'date'      => $result->date,
                 'publisher' => $result->publisher,
                 'creator'   => $result->field('//prim:display/prim:creator'),
-                'link'      => $deep_link->link($id),
+                'link'      => $deep_link,
                 'source'    => $result->field('//prim:display/prim:source'),
                 'part_of'   => $result->field('//prim:display/prim:ispartof')
             ];
 
         }
         return $response_array;
+    }
+
+    protected function _searchDeepLink()
+    {
+        return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
+        'institution=BCL&vid=bclib&onCampus=true&group=GUEST&loc=local,scope:(BCL)&query=any,contains,' .
+        $this->_keyword;
     }
 }

@@ -21,3 +21,4 @@ Route::get('articles','PrimoController@articles');
 Route::get('dpla','DPLAController@search');
 Route::get('suggest','AutosuggestController@suggest');
 Route::get('services','LocalServicesController@services');
+Route::get('guides','LocalServicesController@guides');
