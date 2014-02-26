@@ -28,16 +28,19 @@
             <li><a href="http://{{result.link}}" class="title">{{result.title}}</a>
                 <span class="creator" ng-if="result.creator">{{result.creator}}</span>
                 <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
+                <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
             </li>
         </ul>
     </div>
 
     <div class="result-container" ng-class="{loading: ! articles_results}">
-        <h3>Articles</h3>
+        <h3>Primo Central</h3>
 
         <ul ng-show="articles_results" ng-repeat="result in articles_results">
             <li><a href="http://localhost/libsearch/bc/id/{{result.id}}" class="title">{{result.title}}</a>
-                <span class="creator">{{result.contributors[0]}}</span></li>
+                <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
+                <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
+            </li>
         </ul>
     </div>
 

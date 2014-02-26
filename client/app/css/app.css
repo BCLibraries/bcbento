@@ -80,6 +80,11 @@ body {
     color: #666;
 }
 
+.result-container .publisher {
+    display: block;
+    color: #888;
+}
+
 @media screen and (max-width: 1020px) and (min-width: 767px) {
     .result-container {
         width: 50%;
