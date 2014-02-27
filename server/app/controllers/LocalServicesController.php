@@ -33,6 +33,8 @@ class LocalServicesController extends BaseController
      */
     private $_cache;
 
+    private $_keyword;
+
     const MIN_LIBRARIAN_SCORE = '.3';
     const MIN_GUIDE_SCORE = '.3';
 
@@ -59,6 +61,7 @@ class LocalServicesController extends BaseController
 
     public function guides()
     {
+        $this->_keyword = $this->_request->get('any');
         $input = $this->_request->get('any');
         $terms_reponse = $this->_getRelevantTerms($input);
         $this->_buildSubjectGuidesQuery($terms_reponse);
@@ -204,7 +207,7 @@ class LocalServicesController extends BaseController
     protected function _getGuides(array $taxonomy_terms)
     {
         $params = [
-            'index' => 'libguides',
+            'index' => 'libguides_v0',
             'body'  => $this->_buildSubjectGuidesQuery($taxonomy_terms)
         ];
         $librarians = $this->_elastic_search->search($params);
@@ -225,8 +228,8 @@ class LocalServicesController extends BaseController
             $i = 0;
             while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
                 $should[] = [
-                    'match' => [
-                        '_all' => [
+                    'match_phrase' => [
+                        'taxonomy' => [
                             'query' => $taxonomy_term[$i]['term'],
                             'boost' => $taxonomy_term[$i]['total'] * $level_boost
                         ]
@@ -236,6 +239,13 @@ class LocalServicesController extends BaseController
             }
             $level_boost *= $level_boost_multiple;
         }
+        $should[] = [
+          'match' => [
+              '_all' => [
+                  'query' => $this->_keyword
+              ]
+          ]
+        ];
 
         return [
             'query' => [
@@ -249,17 +259,29 @@ class LocalServicesController extends BaseController
     protected function _buildSubjectGuideResponse(array $subject_guides)
     {
         $results = [];
+
+        $seen = [];
+
         foreach ($subject_guides['hits']['hits'] as $hit) {
+
+            $title = htmlspecialchars_decode($hit['_source']['guide_name']);
+
+            if (isset($seen[$title])) {
+                continue;
+            }
 
             if ($hit['_score'] < self::MIN_GUIDE_SCORE) {
                 break;
             }
 
             $results[] = [
-                'title' => htmlspecialchars_decode($hit['_source']['type']),
-                'url'   => $hit['_source']['url'],
-                'score' => $hit['_score']
+                'title'       => $title,
+                'url'         => $hit['_source']['guide_url'],
+                'score'       => $hit['_score'],
+                'description' => $hit['_score']['guide_description']
             ];
+
+            $seen[$title] = true;
         }
 
         return $results;
