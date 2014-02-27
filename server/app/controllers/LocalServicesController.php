@@ -277,8 +277,8 @@ class LocalServicesController extends BaseController
             $results[] = [
                 'title'       => $title,
                 'url'         => $hit['_source']['guide_url'],
+                'description' => $hit['_source']['guide_description'],
                 'score'       => $hit['_score'],
-                'description' => $hit['_score']['guide_description']
             ];
 
             $seen[$title] = true;

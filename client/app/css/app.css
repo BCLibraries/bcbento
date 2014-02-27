@@ -1,3 +1,78 @@
+@font-face {
+    font-family: 'bc-search-symbols';
+    src: url('../font/bc-search-symbols.eot?45439404');
+    src: url('../font/bc-search-symbols.eot?45439404#iefix') format('embedded-opentype'), url('../font/bc-search-symbols.woff?45439404') format('woff'), url('../font/bc-search-symbols.ttf?45439404') format('truetype'), url('../font/bc-search-symbols.svg?45439404#bc-search-symbols') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "bc-search-symbols";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-google:before {
+    content: '\e800';
+}
+
+/* '' */
+.icon-video:before {
+    content: '\e806';
+}
+
+/* '' */
+.icon-picture:before {
+    content: '\e805';
+}
+
+/* '' */
+.icon-th-list:before {
+    content: '\e803';
+}
+
+/* '' */
+.icon-link:before {
+    content: '\e801';
+}
+
+/* '' */
+.icon-arrows-cw:before {
+    content: '\e802';
+}
+
+/* '' */
+.icon-list:before {
+    content: '\e804';
+}
+
+/* '' */
+
 /* app css stylesheet */
 
 *, *:before, *:after {
@@ -8,7 +83,7 @@
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     width: 95%;
     margin: 0 auto;
 }
@@ -43,9 +118,7 @@ body {
 }
 
 .result-container {
-    height: 350px;
-    float: left;
-    width: 33.333%;
+    min-height: 350px;
     padding: 0 2em 0 0;
     background-color: #fff;
 }
@@ -85,20 +158,7 @@ body {
     color: #888;
 }
 
-@media screen and (max-width: 1020px) and (min-width: 767px) {
-    .result-container {
-        width: 50%;
-        border: none
-    }
-}
 
-@media screen and (max-width: 766px) {
-    .result-container {
-        width: 100%;
-        border: none;
-        height: inherit;
-    }
-}
 
 /* Typeahead stuff
 ----------------------------*/
@@ -181,4 +241,91 @@ form {
 
 .dropdown-menu {
     width: 36em;
+}
+
+#primary, #secondary, #tertiary {
+    float: left;
+}
+
+#primary {
+    width: 40%;
+    padding: .5em;
+}
+
+#secondary {
+    width: 30%;
+    padding: .5em
+}
+
+#tertiary {
+    width: 30%;
+    padding: .5em;
+}
+
+#primary {
+    clear: left;
+    float: left;
+}
+
+.result-container h3 {
+    float: left;
+    width: 60%;
+}
+
+.result-link {
+    float: left;
+    width: 40%;
+    margin-top: 1.64em;
+    font-size: .9em
+}
+
+.result-link a {
+    text-decoration: none;
+    color: #0075b0;
+}
+
+.result-container ul {
+    clear: left;
+}
+
+@media screen and (max-width: 1020px) and (min-width: 767px) {
+    #primary {
+        width: 50%;
+    }
+
+    #secondary {
+        width: 50%;
+    }
+
+    #tertiary {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 766px) {
+    #primary {
+        width: 100%;
+    }
+
+    #secondary {
+        width: 100%;
+    }
+
+    #tertiary {
+        width: 100%;
+    }
+
+    .result-container {
+        min-height: 0;
+    }
+}
+
+h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.librarian-subject, .guide-description
+{
+    color: #666;
 }

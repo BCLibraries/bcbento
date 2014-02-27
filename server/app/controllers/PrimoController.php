@@ -45,7 +45,7 @@ class PrimoController extends BaseController
     {
         $this->_keyword = $this->_request->get('any');
         $query = $this->_query_builder->keyword($this->_keyword)->getQuery()
-            ->bulkSize(5);
+            ->bulkSize(10);
         $result = $this->_primo->search($query);
         $response = $this->_buildCatalogResponse($result);
         return $this->_response->json($response);

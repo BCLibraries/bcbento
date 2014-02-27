@@ -20,10 +20,15 @@
            typeahead-editable="true">
 </form>
 
-<div class="results">
+<div id="primary">
 
     <div class="result-container" ng-class="{loading: ! catalog_results} ">
         <h3>Catalog</h3>
+
+        <div class="result-link" ng-show="catalog_results">
+            <a href="{{catalog_results.search_link}}">{{catalog_results.total_results}}
+                results <span class="icon-link"> </span></a>
+        </div>
 
         <ul ng-show="catalog_results">
             <li ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
@@ -32,9 +37,10 @@
                 <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
             </li>
         </ul>
-        <a href="{{catalog_results.search_link}}">{{catalog_results.total_results}} total</a>
     </div>
+</div>
 
+<div id="secondary">
     <div class="result-container" ng-class="{loading: ! articles_results}">
         <h3>Primo Central</h3>
 
@@ -46,13 +52,26 @@
         </ul>
     </div>
 
+
+    <div class="result-container" ng-class="{loading: ! dpla_results} ">
+        <h3>DPLA</h3>
+
+        <ul ng-show="dpla_results">
+            <li ng-repeat="result in dpla_results">{{result.sourceResource.title}}</li>
+        </ul>
+    </div>
+
+</div>
+
+<div id="tertiary">
+
     <div class="result-container librarians" ng-class="{loading: ! services_results} ">
         <h3>Librarians</h3>
 
         <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
             <li><img src="{{result.image}}" alt="picture of {{result.name}}">
-
-                <div>{{result.name}}</div>
+                <h4 class="librarian-name">{{result.name}}</h4>
+                <div class="librarian-subject" ng-repeat="subject in result.subjects">{{subject.term}}</div>
             </li>
         </ul>
     </div>
@@ -63,14 +82,10 @@
         <ul ng-show="guides_results">
             <li ng-repeat="result in guides_results.guides">
                 <div><a href="{{result.url}}">{{result.title}}</a></div>
+                <div class="guide-description">{{result.description}}</div>
             </li>
         </ul>
     </div>
-    <div class="result-container" ng-class="{loading: ! dpla_results} ">
-        <h3>DPLA</h3>
+</div>
 
-        <ul ng-show="dpla_results">
-            <li ng-repeat="result in dpla_results">{{result.sourceResource.title}}</li>
-        </ul>
-    </div>
 </div>
