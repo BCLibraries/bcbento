@@ -31,6 +31,9 @@ class DPLAController extends BaseController
     {
         $result = $this->_dpla->createSearchQuery()->forText($this->_request->get('any'))
             ->withPaging(1, 4)->execute();
-        return $this->_response->json($result->getDocuments());
+        $response = new stdClass();
+        $response->total = $result->getTotalCount();
+        $response->link = 'http://dp.la/search?utf8=%E2%9C%93&q=' . $this->_request->get('any');
+        return $this->_response->json($response);
     }
 } 

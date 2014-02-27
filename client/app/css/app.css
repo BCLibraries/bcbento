@@ -280,7 +280,7 @@ form {
     text-align: right;
 }
 
-.result-link a {
+.outside-result a, .result-link a {
     text-decoration: none;
     color: #0075b0;
 }
@@ -329,4 +329,8 @@ h4 {
 .librarian-subject, .guide-description
 {
     color: #666;
+}
+
+.outside-result {
+    clear: left;
 }
