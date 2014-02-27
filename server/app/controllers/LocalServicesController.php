@@ -35,7 +35,7 @@ class LocalServicesController extends BaseController
 
     private $_keyword;
 
-    const MIN_LIBRARIAN_SCORE = '.3';
+    const MIN_LIBRARIAN_SCORE = '.1';
     const MIN_GUIDE_SCORE = '.3';
 
     public function __construct(
@@ -138,7 +138,7 @@ class LocalServicesController extends BaseController
     protected function _buildLibrariansQuery(array $taxonomy_terms)
     {
         // Increase to make lower-level taxonomy results comparatively more valuable.
-        $level_boost_multiple = 10;
+        $level_boost_multiple = 3;
 
         // Increase to use more matched taxonomy terms.
         $terms_to_use = 3;

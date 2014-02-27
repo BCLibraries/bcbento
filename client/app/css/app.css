@@ -118,7 +118,7 @@ body {
 }
 
 .result-container {
-    min-height: 350px;
+    min-height: 200px;
     padding: 0 2em 0 0;
     background-color: #fff;
 }
@@ -248,17 +248,17 @@ form {
 }
 
 #primary {
-    width: 40%;
+    width: 45%;
     padding: .5em;
 }
 
 #secondary {
-    width: 30%;
+    width: 35%;
     padding: .5em
 }
 
 #tertiary {
-    width: 30%;
+    width: 20%;
     padding: .5em;
 }
 
@@ -267,7 +267,7 @@ form {
     float: left;
 }
 
-.result-container h3 {
+#primary .result-container h3, #secondary .result-container h3 {
     float: left;
     width: 60%;
 }
@@ -276,7 +276,8 @@ form {
     float: left;
     width: 40%;
     margin-top: 1.64em;
-    font-size: .9em
+    font-size: .9em;
+    text-align: right;
 }
 
 .result-link a {

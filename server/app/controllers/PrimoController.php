@@ -55,7 +55,7 @@ class PrimoController extends BaseController
     {
         $this->_keyword = $this->_request->get('any');
         $query = $this->_query_builder->keyword($this->_keyword)->getQuery()
-            ->articles()->bulkSize(4);
+            ->articles()->bulkSize(3);
         $result = $this->_primo->search($query);
         $response_array = $this->_buildArticleResponse($result);
         return $this->_response->json($response_array);
@@ -66,7 +66,7 @@ class PrimoController extends BaseController
         $response = new stdClass();
 
         $response->total_results = $result->total_results;
-        $response->search_link = $this->_searchDeepLink();
+        $response->search_link = $this->_searchCatalogDeepLink();
 
         $items = [];
         foreach ($result->results as $result) {
@@ -89,7 +89,13 @@ class PrimoController extends BaseController
 
     protected function _buildArticleResponse(\BCLib\PrimoServices\BriefSearchResult $result)
     {
+        $response = new stdClass();
+
+        $response->total_results = $result->total_results;
+        $response->search_link = $this->_searchArticlesDeepLink();
+
         $response_array = [];
+
         foreach ($result->results as $result) {
             $id_array = $result->field('//prim:search/prim:recordid');
             $id = isset($id_array[0]) ? $id_array[0] : '';
@@ -110,13 +116,22 @@ class PrimoController extends BaseController
             ];
 
         }
-        return $response_array;
+        $response->items = $response_array;
+        return $response;
     }
 
-    protected function _searchDeepLink()
+    protected function _searchCatalogDeepLink()
     {
         return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
         'institution=BCL&vid=bclib&onCampus=true&group=GUEST&loc=local,scope:(BCL)&query=any,contains,' .
         $this->_keyword;
     }
+
+    protected function _searchArticlesDeepLink()
+    {
+        return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
+        'institution=BCL&vid=bclib&onCampus=true&group=GUEST&tab=pci_only&query=any,contains,' .
+        $this->_keyword.'&loc=adaptor%2Cprimo_central_multiple_fe';
+    }
+
 }

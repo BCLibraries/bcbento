@@ -44,8 +44,13 @@
     <div class="result-container" ng-class="{loading: ! articles_results}">
         <h3>Primo Central</h3>
 
+        <div class="result-link" ng-show="catalog_results">
+            <a href="{{articles_results.search_link}}">{{articles_results.total_results}}
+                results <span class="icon-link"> </span></a>
+        </div>
+
         <ul ng-show="articles_results">
-            <li ng-repeat="result in articles_results"><a href="{{result.link}}" class="title">{{result.title}}</a>
+            <li ng-repeat="result in articles_results.items"><a href="{{result.link}}" class="title">{{result.title}}</a>
                 <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
                 <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
             </li>
@@ -71,6 +76,7 @@
         <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
             <li><img src="{{result.image}}" alt="picture of {{result.name}}">
                 <h4 class="librarian-name">{{result.name}}</h4>
+
                 <div class="librarian-subject" ng-repeat="subject in result.subjects">{{subject.term}}</div>
             </li>
         </ul>
