@@ -92,7 +92,8 @@ $app->bind(
     function ($app) {
         return new \BCLib\PrimoServices\PrimoServices(
             $_ENV['PRIMO_HOST'],
-            $_ENV['PRIMO_INSTITUTION']
+            $_ENV['PRIMO_INSTITUTION'],
+            new \Doctrine\Common\Cache\ApcCache()
         );
     }
 );
