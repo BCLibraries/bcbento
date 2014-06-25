@@ -45,7 +45,7 @@ class PrimoController extends BaseController
     {
         $this->_keyword = $this->_request->get('any');
         $query = $this->_query_builder->keyword($this->_keyword)->getQuery()
-            ->bulkSize(10);
+            ->local('BCL')->bulkSize(10);
         $result = $this->_primo->search($query);
         $response = $this->_buildCatalogResponse($result);
         return $this->_response->json($response);
@@ -131,7 +131,7 @@ class PrimoController extends BaseController
     {
         return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
         'institution=BCL&vid=bclib&onCampus=true&group=GUEST&tab=pci_only&query=any,contains,' .
-        $this->_keyword.'&loc=adaptor%2Cprimo_central_multiple_fe';
+        $this->_keyword . '&loc=adaptor%2Cprimo_central_multiple_fe';
     }
 
 }

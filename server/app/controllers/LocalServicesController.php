@@ -4,12 +4,6 @@ use Doctrine\Common\Cache\ApcCache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
-/**
- * Created by PhpStorm.
- * User: florinb
- * Date: 2/21/14
- * Time: 12:32 PM
- */
 class LocalServicesController extends BaseController
 {
 
@@ -35,7 +29,7 @@ class LocalServicesController extends BaseController
 
     private $_keyword;
 
-    const MIN_LIBRARIAN_SCORE = '.1';
+    const MIN_LIBRARIAN_SCORE = '.01';
     const MIN_GUIDE_SCORE = '.3';
 
     public function __construct(
@@ -73,21 +67,25 @@ class LocalServicesController extends BaseController
     {
         $cache_key = $this->_cache_key($keyword);
         if ($this->_cache->contains($cache_key)) {
-            return $this->_cache->fetch($cache_key);
+            //return $this->_cache->fetch($cache_key);
         }
         $params = [];
         $params['index'] = 'records';
         $params['body'] = [
             'query'  => [
-                'filtered' => [
-                    'query' => [
-                        'match_phrase' => [
-                            '_all' => [
-                                'query' => $keyword
-                            ]
-                        ]
-                    ]
-                ]
+               'query_string' => [
+                   'query' => $keyword,
+                   'default_operator' => 'AND',
+                   'fields' => [
+                       "title^10",
+                       "author^5",
+                       "subject^3",
+                       "description",
+                       "issn",
+                       "isbn"
+                   ],
+                   'use_dis_max' => false
+               ]
             ],
             'from'   => 0,
             'size'   => 0,
@@ -115,6 +113,7 @@ class LocalServicesController extends BaseController
         ];
 
         $response = $this->_elastic_search->search($params);
+
         $facet_array = [];
         foreach ($response['facets'] as $facet) {
             $facet_array[] = $facet['terms'];
@@ -148,11 +147,14 @@ class LocalServicesController extends BaseController
         foreach ($taxonomy_terms as $taxonomy_term) {
             $i = 0;
             while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
+
+                $boost = $taxonomy_term[$i]['total'] * $level_boost;
+
                 $should[] = [
                     'match_phrase' => [
-                        'tags' => [
+                        'taxonomy' => [
                             'query' => $taxonomy_term[$i]['term'],
-                            'boost' => $taxonomy_term[$i]['total'] * $level_boost
+                            'boost' => $boost
                         ]
                     ]
                 ];
@@ -165,7 +167,9 @@ class LocalServicesController extends BaseController
             'query' => [
                 'bool' => [
                     'should' => $should
-                ]
+                ],
+                'from' => 0,
+                'size' => 2
             ]
         ];
     }
@@ -182,9 +186,9 @@ class LocalServicesController extends BaseController
                 'image'    => str_replace(
                     'libguides.bc.edu/',
                     'lgimages.s3.amazonaws.com',
-                    $hit['_source']['imageSrc']
+                    $hit['_source']['img']
                 ),
-                'phone'    => $hit['_source']['profileURL'],
+                'phone'    => $hit['_source']['profile'],
                 'email'    => $hit['_source']['email'],
                 'location' => $hit['_source']['location'],
                 'score'    => $hit['_score']
@@ -207,7 +211,7 @@ class LocalServicesController extends BaseController
     protected function _getGuides(array $taxonomy_terms)
     {
         $params = [
-            'index' => 'libguides_v0',
+            'index' => 'guides',
             'body'  => $this->_buildSubjectGuidesQuery($taxonomy_terms)
         ];
         $librarians = $this->_elastic_search->search($params);
