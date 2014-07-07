@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "laravel/framework": "4.1.*",
-        "bclibraries/primo-services": "dev-master",
+        "bclibraries/primo-services" : "0.1.*",
         "mockery/mockery": "@dev",
         "3ft9/dpla": "1.0.8",
         "elasticsearch/elasticsearch": "~0.4"
