@@ -12,3 +12,4 @@ server/.env.*
 .DS_Store
 Thumbs.db
 no-version
+bc-combined-js*

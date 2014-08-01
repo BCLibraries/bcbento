@@ -1,13 +1,6 @@
 <h2>Bento</h2>
 
-<script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <span class="typeahead-label" bind-html-unsafe="match.label | typeaheadHighlight:query"></span> <span
-            class="typeahead-subject" bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
-    </a>
-</script>
-
-<form method="get" action="" onsubmit="search()">
+<form method="get" action="" onsubmit="search()" name="searchAuto">
     <label for="searchbox" class="hidden">Search terms</label>
     <input id="searchbox"
            type="text"
@@ -17,8 +10,18 @@
            onsubmit="search()"
            typeahead-template-url="customTemplate.html"
            typeahead-wait-ms="50"
-           typeahead-editable="true">
+           typeahead-editable="true"
+           typeahead-on-select="search($item,$model,$label)">
 </form>
+
+<!-- The template for an auto-suggest entry. -->
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span class="typeahead-label" bind-html-unsafe="match.label | typeaheadHighlight:query"></span> <span
+            class="typeahead-subject" bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
 
 <div id="primary">
 
@@ -41,7 +44,7 @@
 </div>
 
 <div id="secondary">
-   <div class="result-container" ng-class="{loading: ! articles_results}">
+    <div class="result-container" ng-class="{loading: ! articles_results}">
         <h3>Primo Central</h3>
 
         <div class="result-link" ng-show="catalog_results">
@@ -50,7 +53,8 @@
         </div>
 
         <ul ng-show="articles_results">
-            <li ng-repeat="result in articles_results.items"><a href="{{result.link}}" class="title">{{result.title}}</a>
+            <li ng-repeat="result in articles_results.items"><a href="{{result.link}}"
+                                                                class="title">{{result.title}}</a>
                 <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
                 <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
             </li>
@@ -61,13 +65,13 @@
     <div class="result-container outside" ng-class="{loading: ! dpla_results} ">
         <h3>Outside BC</h3>
 
-        <div class="outside-result" ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}} results</a>  at the <strong>DPLA</strong></div>
+        <div class="outside-result" ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
+            results</a> at the <strong>DPLA</strong></div>
     </div>
 
 </div>
 
 <div id="tertiary">
-
     <div class="result-container librarians" ng-class="{loading: ! services_results} ">
         <h3>Librarians</h3>
 

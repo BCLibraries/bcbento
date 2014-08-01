@@ -5,32 +5,22 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Search : Boston College Libraries</title>
     <link rel="stylesheet" href="css/app.css"/>
-
 </head>
+
 <body ng-controller="AutoComplete">
-<ul class="menu">
-    <li><a href="#/bento">bento</a></li>
-    <li><a href="#/catalog">catalog</a></li>
-    <li><a href="#/databases">databases</a></li>
-    <li><a href="#/articles">articles</a></li>
-</ul>
 
-
+<!-- This is the container -->
 <div ng-view></div>
 
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
--->
-<script src="lib/angular/angular.js"></script>
-<script src="lib/angular/angular-route.js"></script>
-<script src="js/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
-<script src="js/app.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/directives.js"></script>
-<script type="text/ng-template" id="/partials/bento.html"></script>
+<!--DEPLOY SCRIPT TARGET -->
+
+<script src="js/angular.min.js"></script><!--DEV-->
+<script src="js/angular-route.min.js"></script><!--DEV-->
+<script src="js/ui-bootstrap-custom-tpls-0.10.0.min.js"></script><!--DEV-->
+<script src="js/app.js"></script><!--DEV-->
+<script src="js/controllers.js"></script><!--DEV-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/ng-template" id="/partials/bento.html"></script>
 <script>
     var search = function () {
         var code = $('#searchbox').val();
