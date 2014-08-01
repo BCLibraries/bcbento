@@ -9,9 +9,6 @@
     ]).
         config(['$routeProvider', function ($routeProvider) {
             $routeProvider.when('/bento', {templateUrl: 'partials/bento.html', controller: 'bento'});
-            $routeProvider.when('/catalog', {templateUrl: 'partials/catalog.html', controller: 'catalog'});
-            $routeProvider.when('/databases', {templateUrl: 'partials/databases.html', controller: 'databases'});
-            $routeProvider.when('/articles', {templateUrl: 'partials/articles.html', controller: 'articles'});
-            $routeProvider.otherwise({redirectTo: '/bento'});
+            $routeProvider.otherwise({templateUrl: 'partials/typeahead', controller: 'bento'});
         }]);
 })();
