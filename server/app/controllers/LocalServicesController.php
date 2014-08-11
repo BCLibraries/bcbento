@@ -50,7 +50,7 @@ class LocalServicesController extends BaseController
         $terms_response = $this->_getRelevantTerms($input);
         $this->_buildLibrariansQuery($terms_response);
         $librarians = $this->_getLibrarians($terms_response);
-        return $this->_response->json(['librarians' => $librarians]);
+        return $this->_response->json(['librarians' => $librarians])->setCallback(Input::get('callback'));
     }
 
     public function guides()
@@ -60,7 +60,7 @@ class LocalServicesController extends BaseController
         $terms_reponse = $this->_getRelevantTerms($input);
         $this->_buildSubjectGuidesQuery($terms_reponse);
         $guides = $this->_getGuides($terms_reponse);
-        return $this->_response->json(['guides' => $guides]);
+        return $this->_response->json(['guides' => $guides])->setCallback(Input::get('callback'));
     }
 
     protected function _getRelevantTerms($keyword)

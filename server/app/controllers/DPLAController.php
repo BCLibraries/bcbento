@@ -34,6 +34,6 @@ class DPLAController extends BaseController
         $response = new stdClass();
         $response->total = $result->getTotalCount();
         $response->link = 'http://dp.la/search?utf8=%E2%9C%93&q=' . $this->_request->get('any');
-        return $this->_response->json($response);
+        return $this->_response->json($response)->setCallback(Input::get('callback'));
     }
 } 

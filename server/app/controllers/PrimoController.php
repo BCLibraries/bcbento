@@ -48,7 +48,7 @@ class PrimoController extends BaseController
             ->local('BCL')->bulkSize(10);
         $result = $this->_primo->search($query);
         $response = $this->_buildCatalogResponse($result);
-        return $this->_response->json($response);
+        return $this->_response->json($response)->setCallback(Input::get('callback'));
     }
 
     public function articles()
@@ -58,7 +58,7 @@ class PrimoController extends BaseController
             ->articles()->bulkSize(3);
         $result = $this->_primo->search($query);
         $response_array = $this->_buildArticleResponse($result);
-        return $this->_response->json($response_array);
+        return $this->_response->json($response_array)->setCallback(Input::get('callback'));
     }
 
     protected function _buildCatalogResponse(\BCLib\PrimoServices\BriefSearchResult $result)

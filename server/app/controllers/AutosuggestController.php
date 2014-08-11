@@ -47,7 +47,7 @@ class AutosuggestController extends BaseController
 
         $result = $this->_elastic_search->suggest($params);
 
-        return $this->_response->json($result);
+        return $this->_response->json($result)->setCallback(Input::get('callback'));
     }
 
 }

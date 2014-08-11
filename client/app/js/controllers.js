@@ -28,7 +28,7 @@
                 }
 
                 function fetch(search_service) {
-                    $http.get(base_url + search_service + search, {'cache': true}).success(
+                    $http.jsonp(base_url + search_service + search + '&callback=JSON_CALLBACK', {'cache': true}).success(
                         function (data) {
                             console.log(search_service);
                             console.log(data);
@@ -36,7 +36,7 @@
                         }
                     ).error(
                         function (data, status) {
-                            console.log(status);
+                            console.log("Error: " + status);
                         }
                     );
                 }
@@ -49,12 +49,14 @@
                 }
 
                 $scope.getLocation = function (val) {
-                    return $http.get('/search-services/suggest?text=' + val).then(function (res) {
+                    return $http.jsonp('/search-services/suggest?callback=JSON_CALLBACK&text=' + val).then(function (res) {
 
                         // Autopopulate first item
                         var first_item = document.getElementById('searchbox').value;
 
-                        var suggestions = [{text: first_item, payload: {type: ""}}];
+                        var suggestions = [
+                            {text: first_item, payload: {type: ""}}
+                        ];
                         angular.forEach(res.data.ac[0].options, function (item) {
                             suggestions.push(item);
                         });
