@@ -7,7 +7,6 @@ tmp
 server/bootstrap/compiled.php
 server/vendor
 server/composer.phar
-server/composer.lock
 server/.env.*
 .DS_Store
 Thumbs.db
