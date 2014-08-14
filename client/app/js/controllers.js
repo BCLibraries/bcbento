@@ -18,6 +18,8 @@
                     base_url = '/search-services/';
                     search = '?any=' + $location.search().any;
 
+                    $scope.asyncSelected = $location.search().any;
+
                     for (var i = 0; i < search_services.length; i++) {
                         fetch(search_services[i]);
                     }
@@ -30,8 +32,15 @@
                 function fetch(search_service) {
                     $http.jsonp(base_url + search_service + search + '&callback=JSON_CALLBACK', {'cache': true}).success(
                         function (data) {
-                            console.log(search_service);
-                            console.log(data);
+                            var element = document.createElement('div');
+
+                            // Fix strange HTML embeds in article results.
+                            if (data.items) {
+                                for (var i = 0; i < data.items.length; i++) {
+                                    element.innerHTML = data.items[i].title;
+                                    data.items[i].title = element.textContent;
+                                }
+                            }
                             $scope[search_service + '_results'] = data;
                         }
                     ).error(
@@ -41,33 +50,31 @@
                     );
                 }
             }])
-        .controller('AutoComplete', ['$scope', '$http',
-            function ($scope, $http) {
+        .controller('AutoComplete', ['$scope', '$http', '$location',
+            function ($scope, $http, $location) {
                 $scope.search = function ($item, $model, $label) {
-                    document.getElementById('searchbox').value = $item.text;
-                    search();
+                    $scope.asyncSelected = $item.text;
+                    $location.search('any=' + $item.text);
                 }
 
                 $scope.getLocation = function (val) {
+                    var truncate_length = 50;
+
                     return $http.jsonp('/search-services/suggest?callback=JSON_CALLBACK&text=' + val).then(function (res) {
 
                         // Autopopulate first item
                         var first_item = document.getElementById('searchbox').value;
 
                         var suggestions = [
-                            {text: first_item, payload: {type: ""}}
+                            {text: first_item, label: first_item.truncate(truncate_length), payload: {type: ""}}
                         ];
                         angular.forEach(res.data.ac[0].options, function (item) {
+                            item.label = item.text.truncate(truncate_length);
                             suggestions.push(item);
                         });
-                        console.log(suggestions);
                         return suggestions;
                     });
                 };
-
-            }])
-        .controller('catalog', ['$scope',
-            function ($scope) {
 
             }]);
 
@@ -76,10 +83,10 @@
         too_long = this.length > max_length;
         if (too_long) {
             s_ = this.substr(0, max_length - 1);
-            s_ = s_.substr(0, s_.lastIndexOf(' '));
+            s_ = s_.substr(0, s_.lastIndexOf(' ')) + '…';
         } else {
             s_ = this;
         }
-        return s_ + "…";
+        return s_;
     }
 })();
