@@ -1,6 +1,6 @@
 <?php
 
-use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
@@ -36,7 +36,7 @@ class LocalServicesController extends BaseController
         Elasticsearch\Client $elastic_search,
         Response $response,
         Request $request,
-        ApcCache $cache
+        Cache $cache
     ) {
         $this->_elastic_search = $elastic_search;
         $this->_response = $response;
@@ -72,40 +72,40 @@ class LocalServicesController extends BaseController
         $params = [];
         $params['index'] = 'records';
         $params['body'] = [
-            'query'  => [
-               'query_string' => [
-                   'query' => $keyword,
-                   'default_operator' => 'AND',
-                   'fields' => [
-                       "title^10",
-                       "author^5",
-                       "subject^3",
-                       "description",
-                       "issn",
-                       "isbn"
-                   ],
-                   'use_dis_max' => false
-               ]
+            'query' => [
+                'query_string' => [
+                    'query' => $keyword,
+                    'default_operator' => 'AND',
+                    'fields' => [
+                        "title^10",
+                        "author^5",
+                        "subject^3",
+                        "description",
+                        "issn",
+                        "isbn"
+                    ],
+                    'use_dis_max' => false
+                ]
             ],
-            'from'   => 0,
-            'size'   => 0,
-            'sort'   => [],
+            'from' => 0,
+            'size' => 0,
+            'sort' => [],
             'facets' => [
                 'LCCDep1' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep1',
+                        'key_field' => 'LCCDep1',
                         'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep2' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep2',
+                        'key_field' => 'LCCDep2',
                         'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep3' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep3',
+                        'key_field' => 'LCCDep3',
                         'value_script' => 'doc.score'
                     ]
                 ]
@@ -128,7 +128,7 @@ class LocalServicesController extends BaseController
     {
         $params = [
             'index' => 'librarians',
-            'body'  => $this->_buildLibrariansQuery($taxonomy_terms)
+            'body' => $this->_buildLibrariansQuery($taxonomy_terms)
         ];
         $librarians = $this->_elastic_search->search($params);
         return $this->_buildLibrariansResponse($librarians);
@@ -182,23 +182,23 @@ class LocalServicesController extends BaseController
                 break;
             }
             $librarian = [
-                'name'     => $hit['_source']['name'],
-                'image'    => str_replace(
+                'name' => $hit['_source']['name'],
+                'image' => str_replace(
                     'libguides.bc.edu/',
                     'lgimages.s3.amazonaws.com',
                     $hit['_source']['img']
                 ),
-                'phone'    => $hit['_source']['profile'],
-                'email'    => $hit['_source']['email'],
+                'phone' => $hit['_source']['profile'],
+                'email' => $hit['_source']['email'],
                 'location' => $hit['_source']['location'],
-                'score'    => $hit['_score']
+                'score' => $hit['_score']
             ];
             $subjects = [];
             foreach ($hit['_source']['subjects'] as $subject) {
                 list($term, $url) = explode('***', $subject);
                 $subjects[] = [
                     'term' => $term,
-                    'url'  => $url
+                    'url' => $url
                 ];
             }
             $librarian['subjects'] = $subjects;
@@ -212,7 +212,7 @@ class LocalServicesController extends BaseController
     {
         $params = [
             'index' => 'guides',
-            'body'  => $this->_buildSubjectGuidesQuery($taxonomy_terms)
+            'body' => $this->_buildSubjectGuidesQuery($taxonomy_terms)
         ];
         $librarians = $this->_elastic_search->search($params);
         return $this->_buildSubjectGuideResponse($librarians);
@@ -244,11 +244,11 @@ class LocalServicesController extends BaseController
             $level_boost *= $level_boost_multiple;
         }
         $should[] = [
-          'match' => [
-              '_all' => [
-                  'query' => $this->_keyword
-              ]
-          ]
+            'match' => [
+                '_all' => [
+                    'query' => $this->_keyword
+                ]
+            ]
         ];
 
         return [
@@ -279,10 +279,10 @@ class LocalServicesController extends BaseController
             }
 
             $results[] = [
-                'title'       => $title,
-                'url'         => $hit['_source']['guide_url'],
+                'title' => $title,
+                'url' => $hit['_source']['guide_url'],
                 'description' => $hit['_source']['guide_description'],
-                'score'       => $hit['_score'],
+                'score' => $hit['_score'],
             ];
 
             $seen[$title] = true;

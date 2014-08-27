@@ -121,8 +121,12 @@ $app->bind(
 );
 
 $app->bind(
-    'Doctrine\Common\Cache\ApcCache',
-    function() {
-        return new \Doctrine\Common\Cache\ApcCache();
+    'Doctrine\Common\Cache\Cache',
+    function () {
+        $redis = new Redis();
+        $redis->connect($_ENV['REDIS_HOST']);
+        $cache = new \Doctrine\Common\Cache\RedisCache();
+        $cache->setRedis($redis);
+        return $cache;
     }
 );
