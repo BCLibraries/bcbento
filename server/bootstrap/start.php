@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(
     array(
-        'local'   => array('gerrityr-macbook.bc.edu', 'mbox.bc.edu','gerrityr-macbook-3.local','otterbox1.bc.edu'),
+        'local'   => array('gerrityr-macbook.bc.edu', 'mbox.bc.edu','gerrityr-macbook-3.local','otterbox1.bc.edu','OtterBox.local'),
         'staging' => array('libdev')
     )
 );
