@@ -1,15 +1,3 @@
-*, *:before, *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-body {
-    font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 95%;
-    margin: 0 auto;
-}
-
 /** Accessible hide class. **/
 .hidden {
     position: absolute;
@@ -18,14 +6,6 @@ body {
     width: 1px;
     height: 1px;
     overflow: hidden;
-}
-
-/** Layouts **/
-
-h2 {
-    float: left;
-    margin-top: 0;
-    text-align: right;
 }
 
 /** Full screen. **/
@@ -92,11 +72,12 @@ h2 {
 ----------------------------*/
 
 /** Script default styles. **/
-.dropdown-menu {
+#newsearch .dropdown-menu {
+    width: 100%;
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1000;
+    z-index: 101;
     display: none;
     float: left;
     min-width: 160px;
@@ -112,14 +93,14 @@ h2 {
     background-clip: padding-box;
 }
 
-.dropdown-menu li a {
+#newsearch  .dropdown-menu li a {
     display: block;
     padding: 3px 20px;
     color: #333333;
     white-space: nowrap;
 }
 
-.dropdown-menu .active a, .dropdown-menu .active a:hover, .dropdown-menu .active a:focus {
+#newsearch .dropdown-menu .active a,#newsearch  .dropdown-menu .active a:hover,#newsearch .dropdown-menu .active a:focus {
     color: #ffffff;
     text-decoration: none;
     background-color: #428bca;
@@ -155,8 +136,16 @@ form {
     color: #ddd;
 }
 
-.dropdown-menu {
-    width: 36em;
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 95%;
+    margin: 0 auto;
 }
 
 /** End typeahead stuff **/

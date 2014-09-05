@@ -1,18 +1,41 @@
-<h2>Bento</h2>
-
 <!-- The search form -->
-<form method="get" action="" onsubmit="search()" name="searchAuto">
-    <label for="searchbox" class="hidden">Search terms</label>
-    <input id="searchbox"
-           type="text"
-           class="form-control"
-           ng-model="asyncSelected"
-           typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
-           typeahead-template-url="bc-autosuggest-entry"
-           typeahead-wait-ms="80"
-           typeahead-editable="true"
-           typeahead-on-select="search($item,$model,$label)">
-</form>
+
+<div id="block_search">
+    <h2>Begin Your Search Here</h2>
+
+    <!-- SOME SEARCH BAR I FOUND -->
+    <div id="newsearch" class="row" ng-app="myApp" ng-controller="AutoComplete" stlye="clear:both">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul id="myTab" class="nav nav-tabs test">
+                    <li class="active"><a href="#">Tab One</a></li>
+                    <li><a href="#">Tab Two</a></li>
+                    <li><a href="#">Tab Three</a></li>
+                    <li><a href="#">Tab Four</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="input-group input-group-md">
+                <form method="get" action="" onsubmit="search()" name="searchAuto">
+                    <label for="searchbox" class="hidden">Search terms</label>
+                    <input id="searchbox"
+                           type="text"
+                           class="form-control"
+                           ng-model="asyncSelected"
+                           typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+                           typeahead-template-url="bc-autosuggest-entry"
+                           typeahead-wait-ms="80"
+                           typeahead-editable="true"
+                           typeahead-on-select="search($item,$model,$label)">
+                </form>
+                <!-- /btn-group --> <span class="input-group-btn"><button class="btn btn-default" type="submit"><span
+                    class="glyphicon glyphicon-search"></span>
+            </button></span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- The template for an auto-suggest entry. -->
 <script type="text/ng-template" id="bc-autosuggest-entry">
@@ -24,99 +47,101 @@
     </a>
 </script>
 
-<!-- The primary results box. -->
-<div id="primary">
+<div id="all-results">
+    <!-- The primary results box. -->
+    <div id="primary">
 
-    <!-- Catalog -->
-    <div class="result-container" ng-class="{loading: ! catalog_results} ">
-        <h3>Catalog</h3>
+        <!-- Catalog -->
+        <div class="result-container" ng-class="{loading: ! catalog_results} ">
+            <h3>Catalog</h3>
 
-        <div class="more-results-link" ng-show="catalog_results">
-            <a href="{{catalog_results.search_link}}">
-                {{catalog_results.total_results}} results
-            </a>
+            <div class="more-results-link" ng-show="catalog_results">
+                <a href="{{catalog_results.search_link}}">
+                    {{catalog_results.total_results}} results
+                </a>
+            </div>
+
+            <ul ng-show="catalog_results">
+
+                <!-- Template for one catalog item. -->
+                <li ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
+                    <span class="creator" ng-if="result.creator">{{result.creator}}</span>
+                    <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
+                    <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- Secondary results box. -->s
+    <div id="secondary">
+
+        <!-- Articles -->
+        <div class="result-container" ng-class="{loading: ! articles_results}">
+            <h3>Primo Central</h3>
+
+            <div class="more-results-link" ng-show="catalog_results">
+                <a href="{{articles_results.search_link}}">
+                    {{articles_results.total_results}} results
+                </a>
+            </div>
+
+            <ul ng-show="articles_results">
+
+                <!-- Template for one article. -->
+                <li ng-repeat="result in articles_results.items"><a href="{{result.link}}"
+                                                                    class="title">{{result.title}}</a>
+                    <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
+                    <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
+                </li>
+
+            </ul>
         </div>
 
-        <ul ng-show="catalog_results">
+        <!-- Random results... -->
+        <div class="result-container outside" ng-class="{loading: ! dpla_results} ">
+            <h3>Outside BC</h3>
 
-            <!-- Template for one catalog item. -->
-            <li ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
-                <span class="creator" ng-if="result.creator">{{result.creator}}</span>
-                <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
-                <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
-            </li>
-
-        </ul>
-    </div>
-</div>
-
-<!-- Secondary results box. -->s
-<div id="secondary">
-
-    <!-- Articles -->
-    <div class="result-container" ng-class="{loading: ! articles_results}">
-        <h3>Primo Central</h3>
-
-        <div class="more-results-link" ng-show="catalog_results">
-            <a href="{{articles_results.search_link}}">
-                {{articles_results.total_results}} results
-            </a>
+            <div class="outside-result" ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
+                results</a> at the <strong>DPLA</strong></div>
         </div>
 
-        <ul ng-show="articles_results">
-
-            <!-- Template for one article. -->
-            <li ng-repeat="result in articles_results.items"><a href="{{result.link}}"
-                                                                class="title">{{result.title}}</a>
-                <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
-                <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
-            </li>
-
-        </ul>
     </div>
 
-    <!-- Random results... -->
-    <div class="result-container outside" ng-class="{loading: ! dpla_results} ">
-        <h3>Outside BC</h3>
 
-        <div class="outside-result" ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
-            results</a> at the <strong>DPLA</strong></div>
+    <!-- Tertiary results box.-->
+    <div id="tertiary">
+
+        <!-- Librarians -->
+        <div class="result-container librarians" ng-class="{loading: ! services_results} ">
+            <h3>Librarians</h3>
+
+            <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
+
+                <!-- Template for one librarian. -->
+                <li>
+                    <img src="{{result.image}}" alt="picture of {{result.name}}">
+                    <h4 class="librarian-name">{{result.name}}</h4>
+
+                    <div class="librarian-subject" ng-repeat="subject in result.subjects">{{subject.term}}</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Subject guides -->
+        <div class="result-container guides" ng-class="{loading: ! guides_results} ">
+            <h3>Subject guides</h3>
+
+            <ul ng-show="guides_results">
+
+                <!-- Template for one LibGuide. -->
+                <li ng-repeat="result in guides_results.guides">
+                    <div><a href="{{result.url}}">{{result.title}}</a></div>
+                    <div class="guide-description">{{result.description}}</div>
+                </li>
+            </ul>
+        </div>
+
     </div>
-
-</div>
-
-
-<!-- Tertiary results box.-->
-<div id="tertiary">
-
-    <!-- Librarians -->
-    <div class="result-container librarians" ng-class="{loading: ! services_results} ">
-        <h3>Librarians</h3>
-
-        <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
-
-            <!-- Template for one librarian. -->
-            <li>
-                <img src="{{result.image}}" alt="picture of {{result.name}}">
-                <h4 class="librarian-name">{{result.name}}</h4>
-
-                <div class="librarian-subject" ng-repeat="subject in result.subjects">{{subject.term}}</div>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Subject guides -->
-    <div class="result-container guides" ng-class="{loading: ! guides_results} ">
-        <h3>Subject guides</h3>
-
-        <ul ng-show="guides_results">
-
-            <!-- Template for one LibGuide. -->
-            <li ng-repeat="result in guides_results.guides">
-                <div><a href="{{result.url}}">{{result.title}}</a></div>
-                <div class="guide-description">{{result.description}}</div>
-            </li>
-        </ul>
-    </div>
-
 </div>
