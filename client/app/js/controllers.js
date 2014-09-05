@@ -15,7 +15,7 @@
 
                 if ($location.search().any) {
 
-                    base_url = '/search-services/';
+                    base_url = location.protocol + '//' + search_server + '/search-services/';
                     search = '?any=' + $location.search().any;
 
                     $scope.asyncSelected = $location.search().any;
@@ -60,7 +60,7 @@
                 $scope.getLocation = function (val) {
                     var truncate_length = 50;
 
-                    return $http.jsonp('/search-services/suggest?callback=JSON_CALLBACK&text=' + val).then(function (res) {
+                    return $http.jsonp(location.protocol + '//' + search_server  + '/search-services/suggest?callback=JSON_CALLBACK&text=' + val).then(function (res) {
 
                         // Autopopulate first item
                         var first_item = document.getElementById('searchbox').value;
