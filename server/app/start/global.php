@@ -122,11 +122,16 @@ $app->bind(
 
 $app->bind(
     'Doctrine\Common\Cache\Cache',
-    function () {
-        $redis = new Redis();
-        $redis->connect($_ENV['REDIS_HOST']);
-        $cache = new \Doctrine\Common\Cache\RedisCache();
-        $cache->setRedis($redis);
+    function ($app) {
+        if (isset($_ENV['REDIS_HOST'])) {
+            $redis = new Redis();
+            $redis->connect($_ENV['REDIS_HOST']);
+            $cache = new \Doctrine\Common\Cache\RedisCache();
+            $cache->setRedis($redis);
+        } else {
+            $cache = new \Doctrine\Common\Cache\ArrayCache();
+        }
+
         return $cache;
     }
 );
