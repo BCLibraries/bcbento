@@ -13,19 +13,32 @@
                 // Add new services here.
                 search_services = ['catalog', 'articles', 'dpla', 'services', 'guides'];
 
-                if ($location.search().any) {
+                // Always update once on load.
+                update_results();
 
-                    base_url = location.protocol + '//' + search_server + '/search-services/';
-                    search = '?any=' + $location.search().any;
+                // Update when a new search term is entered.
+                $scope.$on('$locationChangeSuccess', function () {
+                    update_results();
+                });
 
-                    $scope.asyncSelected = $location.search().any;
+                function update_results() {
 
-                    for (var i = 0; i < search_services.length; i++) {
-                        fetch(search_services[i]);
-                    }
-                } else {
-                    for (var i = 0; i < search_services.length; i++) {
-                        $scope[search_services[i] + '_results'] = [];
+                    if ($location.search().any) {
+
+                        set_loading_status();
+
+                        base_url = location.protocol + '//' + search_server + '/search-services/';
+                        search = '?any=' + $location.search().any;
+
+                        $scope.asyncSelected = $location.search().any;
+
+                        for (var i = 0; i < search_services.length; i++) {
+                            fetch(search_services[i]);
+                        }
+                    } else {
+                        for (var i = 0; i < search_services.length; i++) {
+                            $scope[search_services[i] + '_results'] = [];
+                        }
                     }
                 }
 
@@ -49,15 +62,20 @@
                         }
                     );
                 }
+
+                function set_loading_status() {
+                    for (var i = 0; i < search_services.length; i++) {
+                        $scope[search_services[i] + '_results'] = false;
+                    }
+                }
             }])
         .controller('AutoComplete', ['$scope', '$http', '$location', '$window',
             function ($scope, $http, $location, $window) {
-                $scope.search = function ($item, $model, $label) {
+                $scope.search = function ($item) {
                     $scope.asyncSelected = $item.text;
 
                     if ($window.location.href.indexOf('search') > -1) {
                         $location.search('any=' + $item.text);
-                        console.log($location);
                     } else {
                         $window.location.href = '/search?any=' + $item.text;
                     }
