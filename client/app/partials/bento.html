@@ -4,7 +4,7 @@
     <h2>Begin Your Search Here</h2>
 
     <!-- SOME SEARCH BAR I FOUND -->
-    <div id="newsearch" class="row" ng-app="myApp" ng-controller="AutoComplete" stlye="clear:both">
+    <div id="newsearch" class="row" data-ng-app="myApp" data-ng-controller="AutoComplete">
         <div class="row">
             <div class="col-xs-12">
                 <ul id="myTab" class="nav nav-tabs test">
@@ -22,12 +22,12 @@
                     <input id="searchbox"
                            type="text"
                            class="form-control"
-                           ng-model="asyncSelected"
-                           typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
-                           typeahead-template-url="bc-autosuggest-entry"
-                           typeahead-wait-ms="80"
-                           typeahead-editable="true"
-                           typeahead-on-select="search($item,$model,$label)">
+                           data-ng-model="asyncSelected"
+                           data-typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+                           data-typeahead-template-url="bc-autosuggest-entry"
+                           data-typeahead-wait-ms="80"
+                           data-typeahead-editable="true"
+                           data-typeahead-on-select="search($item,$model,$label)">
                 </form>
                 <!-- /btn-group --> <span class="input-group-btn"><button class="btn btn-default" type="submit"><span
                     class="glyphicon glyphicon-search"></span>
@@ -41,9 +41,9 @@
 <script type="text/ng-template" id="bc-autosuggest-entry">
     <a>
         <span class="typeahead-label"
-              bind-html-unsafe="match.model.label | typeaheadHighlight:query"></span>
+              data-bind-html-unsafe="match.model.label | typeaheadHighlight:query"></span>
         <span class="typeahead-subject"
-              bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
+              data-bind-html-unsafe="match.model.payload.type | typeaheadHighlight:query"></span>
     </a>
 </script>
 
@@ -52,22 +52,22 @@
     <div id="primary">
 
         <!-- Catalog -->
-        <div class="result-container" ng-class="{loading: ! catalog_results} ">
+        <div class="result-container" data-ng-class="{loading: ! catalog_results} ">
             <h3>Catalog</h3>
 
-            <div class="more-results-link" ng-show="catalog_results">
+            <div class="more-results-link" data-ng-show="catalog_results">
                 <a href="{{catalog_results.search_link}}">
                     {{catalog_results.total_results}} results
                 </a>
             </div>
 
-            <ul ng-show="catalog_results">
+            <ul data-ng-show="catalog_results">
 
                 <!-- Template for one catalog item. -->
-                <li ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
-                    <span class="creator" ng-if="result.creator">{{result.creator}}</span>
-                    <span class="creator" ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
-                    <span class="publisher" ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
+                <li data-ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
+                    <span class="creator" data-ng-if="result.creator">{{result.creator}}</span>
+                    <span class="creator" data-ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
+                    <span class="publisher" data-ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
                 </li>
 
             </ul>
@@ -78,32 +78,32 @@
     <div id="secondary">
 
         <!-- Articles -->
-        <div class="result-container" ng-class="{loading: ! articles_results}">
+        <div class="result-container" data-ng-class="{loading: ! articles_results}">
             <h3>Primo Central</h3>
 
-            <div class="more-results-link" ng-show="catalog_results">
+            <div class="more-results-link" data-ng-show="catalog_results">
                 <a href="{{articles_results.search_link}}">
                     {{articles_results.total_results}} results
                 </a>
             </div>
 
-            <ul ng-show="articles_results">
+            <ul data-ng-show="articles_results">
 
                 <!-- Template for one article. -->
-                <li ng-repeat="result in articles_results.items"><a href="{{result.link}}"
+                <li data-ng-repeat="result in articles_results.items"><a href="{{result.link}}"
                                                                     class="title">{{result.title}}</a>
-                    <span class="creator" ng-if="result.creator[0]">{{result.creator[0]}}</span>
-                    <span class="publisher" ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
+                    <span class="creator" data-ng-if="result.creator[0]">{{result.creator[0]}}</span>
+                    <span class="publisher" data-ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
                 </li>
 
             </ul>
         </div>
 
         <!-- Random results... -->
-        <div class="result-container outside" ng-class="{loading: ! dpla_results} ">
+        <div class="result-container outside" data-ng-class="{loading: ! dpla_results} ">
             <h3>Outside BC</h3>
 
-            <div class="outside-result" ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
+            <div class="outside-result" data-ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
                 results</a> at the <strong>DPLA</strong></div>
         </div>
 
@@ -114,29 +114,29 @@
     <div id="tertiary">
 
         <!-- Librarians -->
-        <div class="result-container librarians" ng-class="{loading: ! services_results} ">
+        <div class="result-container librarians" data-ng-class="{loading: ! services_results} ">
             <h3>Librarians</h3>
 
-            <ul ng-show="services_results" ng-repeat="result in services_results.librarians">
+            <ul data-ng-show="services_results" data-ng-repeat="result in services_results.librarians">
 
                 <!-- Template for one librarian. -->
                 <li>
                     <img src="{{result.image}}" alt="picture of {{result.name}}">
                     <h4 class="librarian-name">{{result.name}}</h4>
 
-                    <div class="librarian-subject" ng-repeat="subject in result.subjects">{{subject.term}}</div>
+                    <div class="librarian-subject" data-ng-repeat="subject in result.subjects">{{subject.term}}</div>
                 </li>
             </ul>
         </div>
 
         <!-- Subject guides -->
-        <div class="result-container guides" ng-class="{loading: ! guides_results} ">
+        <div class="result-container guides" data-ng-class="{loading: ! guides_results} ">
             <h3>Subject guides</h3>
 
-            <ul ng-show="guides_results">
+            <ul data-ng-show="guides_results">
 
                 <!-- Template for one LibGuide. -->
-                <li ng-repeat="result in guides_results.guides">
+                <li data-ng-repeat="result in guides_results.guides">
                     <div><a href="{{result.url}}">{{result.title}}</a></div>
                     <div class="guide-description">{{result.description}}</div>
                 </li>
