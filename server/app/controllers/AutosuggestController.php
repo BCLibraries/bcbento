@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Common\Cache\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
@@ -18,26 +19,47 @@ class AutosuggestController extends BaseController
      * @var Illuminate\Http\Request
      */
     private $_request;
+    /**
+     * @var Doctrine\Common\Cache\Cache
+     */
+    private $_cache;
 
     public function __construct(
         Elasticsearch\Client $elastic_search,
         Response $response,
-        Request $request
-    ) {
+        Request $request,
+        Cache $cache
+    )
+    {
         $this->_elastic_search = $elastic_search;
         $this->_response = $response;
         $this->_request = $request;
+        $this->_cache = $cache;
     }
 
     public function suggest()
     {
         $input = $this->_request->get('text');
 
+        $cache_key = $this->_typeaheadKey($input);
+
+        if ($this->_cache->contains($cache_key)) {
+            $result = $this->_cache->fetch($cache_key);
+        } else {
+            $result = $this->_fetchSuggestions($input);
+            $this->_cache->save($cache_key, $result, 86400);
+        }
+
+        return $this->_response->json($result)->setCallback(Input::get('callback'));
+    }
+
+    public function _fetchSuggestions($input)
+    {
         $params = [
             'index' => 'autocomp',
-            'body'  => [
+            'body' => [
                 'ac' => [
-                    'text'       => $input,
+                    'text' => $input,
                     'completion' => [
                         'field' => 'name_suggest'
                     ]
@@ -45,9 +67,11 @@ class AutosuggestController extends BaseController
             ]
         ];
 
-        $result = $this->_elastic_search->suggest($params);
-
-        return $this->_response->json($result)->setCallback(Input::get('callback'));
+        return $this->_elastic_search->suggest($params);
     }
 
+    private function _typeaheadKey($text)
+    {
+        return 'typeahead-key:' . $text;
+    }
 }
