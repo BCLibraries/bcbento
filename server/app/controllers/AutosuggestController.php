@@ -37,9 +37,9 @@ class AutosuggestController extends BaseController
         $this->_cache = $cache;
     }
 
-    public function suggest()
+    public function suggest($term = '')
     {
-        $input = $this->_request->get('text');
+        $input = $term ? $term : $this->_request->get('text');
 
         $cache_key = $this->_typeaheadKey($input);
 
