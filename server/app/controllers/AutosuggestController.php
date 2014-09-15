@@ -72,6 +72,6 @@ class AutosuggestController extends BaseController
 
     private function _typeaheadKey($text)
     {
-        return 'typeahead-key:' . $text;
+        return 'typeahead-key:' . sha1($text);
     }
 }

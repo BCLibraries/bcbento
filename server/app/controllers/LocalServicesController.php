@@ -293,6 +293,6 @@ class LocalServicesController extends BaseController
 
     protected function _cache_key($term)
     {
-        return 'SEARCH_TERMS_' . $term;
+        return 'search-terms:' . sha1($term);
     }
 }
