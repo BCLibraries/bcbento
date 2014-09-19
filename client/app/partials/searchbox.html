@@ -1,39 +1,15 @@
-<div id="block_search">
-    <h2>Begin Your Search Here</h2>
-
-    <!-- SOME SEARCH BAR I FOUND -->
-    <div id="newsearch" class="row" data-ng-app="myApp" data-ng-controller="AutoComplete">
-        <div class="row">
-            <div class="col-xs-12">
-                <ul id="myTab" class="nav nav-tabs test">
-                    <li class="active"><a href="#">Tab One</a></li>
-                    <li><a href="#">Tab Two</a></li>
-                    <li><a href="#">Tab Three</a></li>
-                    <li><a href="#">Tab Four</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="input-group input-group-md">
-                <form method="get" action="" onsubmit="search()" name="searchAuto">
-                    <label for="searchbox" class="hidden">Search terms</label>
-                    <input id="searchbox"
-                           type="text"
-                           class="form-control"
-                           data-ng-model="asyncSelected"
-                           data-typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
-                           data-typeahead-template-url="bc-autosuggest-entry"
-                           data-typeahead-wait-ms="80"
-                           data-typeahead-editable="true"
-                           data-typeahead-on-select="search($item,$model,$label)">
-                </form>
-                <!-- /btn-group --> <span class="input-group-btn"><button class="btn btn-default" type="submit"><span
-                    class="glyphicon glyphicon-search"></span>
-            </button></span>
-            </div>
-        </div>
-    </div>
-</div>
+<form method="get" action="" onsubmit="search()" name="searchAuto"  data-ng-controller="AutoComplete" class="bcbento-typeahead">
+    <label for="searchbox" class="hidden">Search terms</label>
+    <input id="searchbox"
+           type="text"
+           class="form-control"
+           data-ng-model="asyncSelected"
+           data-typeahead="suggestion as suggestion.text for suggestion in getLocation($viewValue)| filter:$viewValue | limitTo:5"
+           data-typeahead-template-url="bc-autosuggest-entry"
+           data-typeahead-wait-ms="80"
+           data-typeahead-editable="true"
+           data-typeahead-on-select="search($item,$model,$label)">
+</form>
 
 <!-- The template for an auto-suggest entry. -->
 <script type="text/ng-template" id="bc-autosuggest-entry">

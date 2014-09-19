@@ -72,7 +72,7 @@
 ----------------------------*/
 
 /** Script default styles. **/
-#newsearch .dropdown-menu {
+.bcbento-typeahead .dropdown-menu {
     width: 100%;
     position: absolute;
     top: 100%;
@@ -93,14 +93,14 @@
     background-clip: padding-box;
 }
 
-#newsearch  .dropdown-menu li a {
+.bcbento-typeahead  .dropdown-menu li a {
     display: block;
     padding: 3px 20px;
     color: #333333;
     white-space: nowrap;
 }
 
-#newsearch .dropdown-menu .active a,#newsearch  .dropdown-menu .active a:hover,#newsearch .dropdown-menu .active a:focus {
+.bcbento-typeahead .dropdown-menu .active a,#newsearch  .dropdown-menu .active a:hover,#newsearch .dropdown-menu .active a:focus {
     color: #ffffff;
     text-decoration: none;
     background-color: #428bca;
