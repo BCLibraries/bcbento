@@ -65,10 +65,10 @@
     <div id="tertiary">
 
         <!-- Librarians -->
-        <div class="result-container librarians" data-ng-class="{loading: ! services_results} ">
+        <div class="result-container librarians" data-ng-class="{loading: ! librarians_results} ">
             <h3>Librarians</h3>
 
-            <ul data-ng-show="services_results" data-ng-repeat="result in services_results.librarians">
+            <ul data-ng-show="librarians_results" data-ng-repeat="result in librarians_results">
 
                 <!-- Template for one librarian. -->
                 <li>
@@ -83,11 +83,10 @@
         <!-- Subject guides -->
         <div class="result-container guides" data-ng-class="{loading: ! guides_results} ">
             <h3>Subject guides</h3>
-
             <ul data-ng-show="guides_results">
 
                 <!-- Template for one LibGuide. -->
-                <li data-ng-repeat="result in guides_results.guides">
+                <li data-ng-repeat="result in guides_results">
                     <div><a href="{{result.url}}">{{result.title}}</a></div>
                     <div class="guide-description">{{result.description}}</div>
                 </li>

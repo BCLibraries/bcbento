@@ -1,51 +1,21 @@
 <?php
-/**
- * Laravel - A PHP Framework For Web Artisans
- *
- * @package  Laravel
- * @author   Taylor Otwell <taylorotwell@gmail.com>
- */
 
-/*
-|--------------------------------------------------------------------------
-| Register The Auto Loader
-|--------------------------------------------------------------------------
-|
-| Composer provides a convenient, automatically generated class loader
-| for our application. We just need to utilize it! We'll require it
-| into the script here so that we do not have to worry about the
-| loading of any our classes "manually". Feels great to relax.
-|
-*/
+require_once('../vendor/autoload.php');
 
-require __DIR__.'/../bootstrap/autoload.php';
+$config = require('../config/.env.production.php');
 
-require __DIR__.'/../vendor/3ft9/dpla/tfn/dpla.php';
+$app = new \Slim\Slim($config);
 
-/*
-|--------------------------------------------------------------------------
-| Turn On The Lights
-|--------------------------------------------------------------------------
-|
-| We need to illuminate PHP development, so let's turn on the lights.
-| This bootstraps the framework and gets it ready for use, then it
-| will load up this application so that we can run it and send
-| the responses back to the browser and delight these users.
-|
-*/
+require_once('../factories.php');
+require_once('../routes.php');
+require_once('../errors.php');
 
-$app = require_once __DIR__.'/../bootstrap/start.php';
-
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can simply call the run method,
-| which will execute the request and send the response back to
-| the client's browser allowing them to enjoy the creative
-| and wonderful application we have whipped up for them.
-|
-*/
-
+$app->response->headers->set('Content-Type', 'application/json');
 $app->run();
+
+function runRoute(\Slim\Slim $app, $service)
+{
+    $result = $service->fetch($app->request->params('any'));
+    $payload = $app->request->params('callback') . '(' . json_encode($result) . ')';
+    $app->response->setBody($payload);
+}

@@ -12,3 +12,4 @@ server/.env.*
 Thumbs.db
 no-version
 bc-combined-js*
+.env.*
