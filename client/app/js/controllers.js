@@ -71,13 +71,23 @@
             }])
         .controller('AutoComplete', ['$scope', '$http', '$location', '$window',
             function ($scope, $http, $location, $window) {
-                $scope.search = function ($item) {
+                $scope.select = function ($item) {
                     $scope.asyncSelected = $item.text;
 
                     if ($window.location.href.indexOf('search') > -1) {
                         $location.search('any=' + $item.text);
                     } else {
                         $window.location.href = '/search?any=' + $item.text;
+                    }
+                };
+
+                $scope.search = function ($item) {
+                    var text = $('#searchbox').val();
+
+                    if ($window.location.href.indexOf('search') > -1) {
+                        $location.search('any=' + text);
+                    } else {
+                        $window.location.href = '/search?any=' + text;
                     }
                 };
 

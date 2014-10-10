@@ -1,4 +1,5 @@
-<form method="get" action="" onsubmit="search()" name="searchAuto"  data-ng-controller="AutoComplete" class="bcbento-typeahead">
+<form method="get" name="searchAuto" data-ng-controller="AutoComplete" class="bcbento-typeahead"
+      data-ng-submit="search($item,$model,$label)">
     <label for="searchbox" class="hidden">Search terms</label>
     <input id="searchbox"
            type="text"
@@ -9,6 +10,11 @@
            data-typeahead-wait-ms="80"
            data-typeahead-editable="true"
            data-typeahead-on-select="search($item,$model,$label)">
+    <!-- /btn-group -->
+    <span class="input-group-btn"><button class="btn btn-default" type="submit"><span
+            class="glyphicon glyphicon-search"></span>
+    </button>
+    </span>
 </form>
 
 <!-- The template for an auto-suggest entry. -->
