@@ -55,5 +55,6 @@ $app->librarians = function () use ($app) {
 };
 
 $app->dpla = function () use ($app) {
+    require_once __DIR__.'/vendor/3ft9/dpla/tfn/DPLA.php';
     return new \BCLib\BCBento\DPLAService(new \TFN\DPLA($app->config('DPLA_KEY')));
 };
