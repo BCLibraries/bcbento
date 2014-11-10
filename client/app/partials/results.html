@@ -15,12 +15,20 @@
             <ul data-ng-show="catalog_results">
 
                 <!-- Template for one catalog item. -->
-                <li data-ng-repeat="result in catalog_results.items"><a href="http://{{result.link}}" class="title">{{result.title}}</a>
-                    <span class="creator" data-ng-if="result.creator">{{result.creator}}</span>
-                    <span class="creator" data-ng-if="! result.creator">{{result.contributors[0].truncate(100)}}</span>
-                    <span class="publisher" data-ng-if="result.publisher">{{result.publisher}} {{result.date}}</span>
-                </li>
+                <li data-ng-repeat="result in catalog_results.items" class="catalog-result"  data-ng-class-odd="'odd'">
+                    <div class="cover-image" ><img src="{{result.covers[0]}}"></div>
+                    <a href="http://{{result.link}}" class="title">{{result.title}}</a>
 
+                    <div class="catalog-metadata">
+                        <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
+                        <div class="creator"
+                             data-ng-if="! result.creator">{{result.contributors[0].truncate(100)}}
+                        </div>
+                        <div class="publisher"
+                             data-ng-if="result.publisher">{{result.publisher}} {{result.date}}
+                        </div>
+                        <div class="type">{{result.type}}</div>
+                    </div>
             </ul>
         </div>
     </div>
@@ -41,7 +49,7 @@
             <ul data-ng-show="articles_results">
 
                 <!-- Template for one article. -->
-                <li data-ng-repeat="result in articles_results.items"><a href="{{result.link}}"
+                <li data-ng-repeat="result in articles_results.items"  data-ng-class-odd="'odd'"><a href="{{result.link}}"
                                                                          class="title">{{result.title}}</a>
                     <span class="creator" data-ng-if="result.creator[0]">{{result.creator[0]}}</span>
                     <span class="publisher" data-ng-if="result.part_of[0]">{{result.part_of[0]}}</span>

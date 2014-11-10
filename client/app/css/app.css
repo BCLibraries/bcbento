@@ -1,3 +1,7 @@
+* {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
 #bentoboxresults {
 
 }
@@ -214,4 +218,36 @@
     text-align: right;
 }
 
+/** Covers **/
+.cover-image {
+    height: 90px;
+    float: right;
+    margin-right: 1em;
+}
+
+.cover-image img {
+    height: 100%;
+}
+
+.result-container li {
+    overflow: hidden;
+    clear: both;
+    margin-bottom: 1em;
+}
+
+.result-container .title {
+    display: block;
+}
+
+.catalog-metadata {
+    font-size: .9em;
+}
+
+.type {
+    color: #666;
+}
+
+.odd {
+    background-color: #f3f3f3;
+}
 /** End results. **/
