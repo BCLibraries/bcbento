@@ -24,7 +24,7 @@ class CatalogService extends AbstractPrimoService
     {
         $query = $this->getQuery($keyword);
         $result = $this->primo->search($query);
-        return $this->buildCatalogResponse($result, $keyword);
+        return $this->buildResponse($result, $keyword);
     }
 
     /**
