@@ -15,8 +15,8 @@
             <ul data-ng-show="catalog_results">
 
                 <!-- Template for one catalog item. -->
-                <li data-ng-repeat="result in catalog_results.items" class="catalog-result"  data-ng-class-odd="'odd'">
-                    <div class="cover-image" ><img src="{{result.covers[0]}}"></div>
+                <li data-ng-repeat="result in catalog_results.items" class="catalog-result" data-ng-class-odd="'odd'">
+                    <div class="cover-image"><img src="{{result.covers[0]}}"></div>
                     <a href="http://{{result.link}}" class="title">{{result.title}}</a>
 
                     <div class="catalog-metadata">
@@ -28,6 +28,9 @@
                              data-ng-if="result.publisher">{{result.publisher}} {{result.date}}
                         </div>
                         <div class="type">{{result.type}}</div>
+                        <div class="avail" data-ng-repeat="avail in result.avail">{{avail.call_number}}
+                            {{avail.availability}}
+                        </div>
                     </div>
             </ul>
         </div>
@@ -38,7 +41,7 @@
 
         <!-- Articles -->
         <div class="result-container" data-ng-class="{loading: ! articles_results}">
-            <h3>Primo Central</h3>
+            <h3>Articles</h3>
 
             <div class="more-results-link" data-ng-show="catalog_results">
                 <a href="{{articles_results.search_link}}">
@@ -49,10 +52,11 @@
             <ul data-ng-show="articles_results">
 
                 <!-- Template for one article. -->
-                <li data-ng-repeat="result in articles_results.items"  data-ng-class-odd="'odd'"><a href="{{result.link}}"
-                                                                         class="title">{{result.title}}</a>
-                    <span class="creator" data-ng-if="result.creator[0]">{{result.creator[0]}}</span>
-                    <span class="publisher" data-ng-if="result.part_of[0]">{{result.part_of[0]}}</span>
+                <li data-ng-repeat="result in articles_results.items" data-ng-class-odd="'odd'"><a
+                        href="{{result.link}}"
+                        class="title">{{result.title}}</a>
+                    <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
+                    <div class="publisher" data-ng-if="result.part_of">{{result.part_of}}</div>
                 </li>
 
             </ul>

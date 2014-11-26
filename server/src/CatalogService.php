@@ -2,6 +2,7 @@
 
 namespace BCLib\BCBento;
 
+use BCLib\PrimoServices\Availability\ClientFactory;
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
 
@@ -45,7 +46,11 @@ class CatalogService extends AbstractPrimoService
         $response->total_results = $result->total_results;
         $response->search_link = $this->searchCatalogDeepLink($keyword);
 
+        $client_factory = new ClientFactory();
+        $rta = $client_factory->buildAlmaClient('alma.exlibrisgroup.com', '01BC_INST');
+        $rta->checkAvailability($result->results);
         $items = [];
+
         foreach ($result->results as $item) {
             $deep_link = $this->primo->createDeepLink();
 
@@ -54,6 +59,14 @@ class CatalogService extends AbstractPrimoService
             }
 
             $type = $this->displayType($item);
+
+            $availabilities = [];
+
+            foreach ($item->components as $comp) {
+                foreach ($comp->availability as $avail) {
+                    $availabilities[] = $avail;
+                }
+            }
 
             $items[] = [
                 'id'           => $item->id,
@@ -65,7 +78,8 @@ class CatalogService extends AbstractPrimoService
                 'link'         => $deep_link->link($item->id),
                 'covers'       => $item->cover_images,
                 'isbn'         => $item->isbn,
-                'type'         => $type
+                'type'         => $type,
+                'avail'        => $availabilities
             ];
 
         }

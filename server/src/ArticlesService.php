@@ -22,7 +22,7 @@ class ArticlesService extends AbstractPrimoService
         $response_array = [];
 
         foreach ($result->results as $result) {
-            $id_array = $result->field('//prim:search/prim:recordid');
+            $id_array = $result->field('search/recordid');
             $id = isset($id_array[0]) ? $id_array[0] : '';
 
             $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
@@ -34,10 +34,10 @@ class ArticlesService extends AbstractPrimoService
                 'title'     => $result->title,
                 'date'      => $result->date,
                 'publisher' => $result->publisher,
-                'creator'   => $result->field('//prim:display/prim:creator'),
+                'creator'   => $result->field('display/creator'),
                 'link'      => $deep_link,
-                'source'    => $result->field('//prim:display/prim:source'),
-                'part_of'   => $result->field('//prim:display/prim:ispartof')
+                'source'    => $result->field('display/source'),
+                'part_of'   => $result->field('display/ispartof')
             ];
 
         }
