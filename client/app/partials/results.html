@@ -28,9 +28,12 @@
                              data-ng-if="result.publisher">{{result.publisher}} {{result.date}}
                         </div>
                         <div class="type">{{result.type}}</div>
-                        <div class="avail" data-ng-repeat="avail in result.avail">{{avail.call_number}}
-                            {{avail.availability}}
-                        </div>
+                        <ul class="available-items">
+                            <li class="item-info" data-ng-repeat="avail in result.avail">
+                                <span class="library">{{ avail.library }}</span> <span class="callno">{{avail.call_number}}</span>
+                                <span class="availability">{{avail.availability}}</span>
+                            </li>
+                        </ul>
                     </div>
             </ul>
         </div>
@@ -55,6 +58,7 @@
                 <li data-ng-repeat="result in articles_results.items" data-ng-class-odd="'odd'"><a
                         href="{{result.link}}"
                         class="title">{{result.title}}</a>
+
                     <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
                     <div class="publisher" data-ng-if="result.part_of">{{result.part_of}}</div>
                 </li>
@@ -84,7 +88,7 @@
 
                 <!-- Template for one librarian. -->
                 <li>
-                    <img src="{{result.image}}" alt="picture of {{result.name}}">
+                    <img src="//{{result.image}}" alt="picture of {{result.name}}">
                     <h4 class="librarian-name">{{result.name}}</h4>
 
                     <div class="librarian-subject" data-ng-repeat="subject in result.subjects">{{subject.term}}</div>

@@ -6,10 +6,12 @@ use BCLib\PrimoServices\BriefSearchResult;
 
 class ArticlesService extends AbstractPrimoService
 {
+    private $results_to_send = 5;
+
     public function getQuery($keyword)
     {
         return $this->query_builder->keyword($keyword)->getQuery()
-            ->articles()->bulkSize(3);
+            ->articles()->bulkSize($this->results_to_send * 4);
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
@@ -21,9 +23,18 @@ class ArticlesService extends AbstractPrimoService
 
         $response_array = [];
 
+        $current_result = 0;
+
         foreach ($result->results as $result) {
+
+            // Skip non-fulltext records
+            if ($result->field('delivery/fulltext') === 'no_fulltext') {
+                continue;
+            }
+
+
             $id_array = $result->field('search/recordid');
-            $id = isset($id_array[0]) ? $id_array[0] : '';
+            $id = isset($id_array) ? $id_array : '';
 
             $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
             $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
@@ -39,6 +50,12 @@ class ArticlesService extends AbstractPrimoService
                 'source'    => $result->field('display/source'),
                 'part_of'   => $result->field('display/ispartof')
             ];
+
+            if ($current_result >= $this->results_to_send) {
+                break;
+            }
+
+            $current_result++;
 
         }
         $response->items = $response_array;
