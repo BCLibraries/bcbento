@@ -6,7 +6,8 @@ $paths = [
     '/articles',
     '/librarians',
     '/guides',
-    '/dpla'
+    '/dpla',
+    '/worldcat'
 ];
 
 buildRoutes($paths, $app);

@@ -11,7 +11,7 @@
                 var base_url, search, search_services;
 
                 // Add new services here.
-                search_services = ['catalog', 'articles', 'dpla', 'librarians', 'guides'];
+                search_services = ['catalog', 'articles', 'dpla', 'librarians', 'guides', 'worldcat'];
 
                 // Always update once on load.
                 update_results();
