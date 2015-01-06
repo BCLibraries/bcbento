@@ -16,7 +16,7 @@
 
                 <!-- Template for one catalog item. -->
                 <li data-ng-repeat="result in catalog_results.items" class="catalog-result" data-ng-class-odd="'odd'">
-                    <div class="cover-image"><img src="{{result.covers[0]}}"></div>
+                    <div class="cover-image" data-ng-if="result.covers[0]"><img src="{{result.covers[0]}}"></div>
                     <a href="http://{{result.link}}" class="title">{{result.title}}</a>
 
                     <div class="catalog-metadata">
@@ -34,6 +34,9 @@
                                 <span class="availability">{{avail.availability}}</span>
                             </li>
                         </ul>
+                        <span data-ng-if="result.electronic">Electronic version available</span>
+                        <span data-ng-if="result.physical">Physical version available</span>
+
                     </div>
             </ul>
         </div>
@@ -61,6 +64,8 @@
 
                     <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
                     <div class="publisher" data-ng-if="result.part_of">{{result.part_of}}</div>
+                    <div class="source" data-ng-if="! result.part_of">{{result.source}}</div>
+                    <div class="type">{{result.dis}}</div>
                 </li>
 
             </ul>
@@ -71,7 +76,8 @@
             <ul data-ng-show="worldcat_results">
                 <li data-ng-repeat="result in worldcat_results" data-ng-class-odd="'odd'">
                     <a class="title" href="{{result.url}}">{{result.name}}</a>
-                    <div class="creator">{{result.creator}}</div>
+
+                    <div class="creator">{{result.creator}}</div> {{result.type}}
                 </li>
             </ul>
 

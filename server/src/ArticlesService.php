@@ -2,11 +2,26 @@
 
 namespace BCLib\BCBento;
 
+use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
 
 class ArticlesService extends AbstractPrimoService
 {
     private $results_to_send = 5;
+
+    private $type_map = [
+        'book'                => 'Book',
+        'video'               => 'Video',
+        'journal'             => 'Journal',
+        'government_document' => 'Government document',
+        'database'            => 'Database',
+        'image'               => 'Image',
+        'audio_music'         => 'Musical recording',
+        'article'             => 'Article',
+        'newspaper_article'   => 'Newspaper article',
+        'review'              => 'Review',
+        'other'               => ''
+    ];
 
     public function getQuery($keyword)
     {
@@ -32,7 +47,6 @@ class ArticlesService extends AbstractPrimoService
                 continue;
             }
 
-
             $id_array = $result->field('search/recordid');
             $id = isset($id_array) ? $id_array : '';
 
@@ -48,7 +62,9 @@ class ArticlesService extends AbstractPrimoService
                 'creator'   => $result->field('display/creator'),
                 'link'      => $deep_link,
                 'source'    => $result->field('display/source'),
-                'part_of'   => $result->field('display/ispartof')
+                'part_of'   => $result->field('display/ispartof'),
+                'type'      => $this->displayType($result),
+                'real_type' => $result->type
             ];
 
             if ($current_result >= $this->results_to_send) {
@@ -67,6 +83,16 @@ class ArticlesService extends AbstractPrimoService
         return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
         'institution=BCL&vid=bclib&onCampus=true&group=GUEST&tab=pci_only&query=any,contains,' .
         $keyword . '&loc=adaptor%2Cprimo_central_multiple_fe';
+    }
+
+    protected function displayType(BibRecord $item)
+    {
+        if (isset($this->type_map[$item->type])) {
+            $display_type = $this->type_map[$item->type];
+        } else {
+            $display_type = $item->type;
+        }
+        return $display_type;
     }
 
 }

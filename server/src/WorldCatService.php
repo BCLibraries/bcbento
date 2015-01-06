@@ -18,6 +18,19 @@ class WorldCatService implements ServiceInterface
 
     const CACHE_ID = 'worldcat-discovery-token';
 
+    private $type_map = [
+        'schema:Book'         => 'Book',
+        'schema:VideoObject'  => 'Video',
+        'schema:Periodical'   => 'Journal',
+        'government_document' => 'Government document',
+        'database'            => 'Database',
+        'image'               => 'Image',
+        'schema:MusicAlbum'   => 'Musical recording',
+        'schema:CreativeWork' => '',
+        'data'                => 'Data',
+        'other'               => ''
+    ];
+
     /**
      * @var \OCLC\Auth\AccessToken
      */
@@ -116,7 +129,7 @@ class WorldCatService implements ServiceInterface
     {
         $response = new \stdClass();
         $response->name = (string) $work->getName();
-        $response->type = (string) $work->getType();
+        $response->type = (string) $this->displayType($work);
         $response->url = (string) $work->getUri();
 
         $response->url = str_replace('www.worldcat.org', 'bc.worldcat.org', $response->url);
@@ -135,5 +148,16 @@ class WorldCatService implements ServiceInterface
     private function formatCreator(Thing $creator)
     {
         return $creator->getName();
+    }
+
+    protected function displayType(CreativeWork $work)
+    {
+        $original_type = $work->type();
+        if (isset($this->type_map[$original_type])) {
+            $display_type = $this->type_map[$original_type];
+        } else {
+            $display_type = $original_type;
+        }
+        return $display_type;
     }
 }

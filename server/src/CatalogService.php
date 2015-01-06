@@ -18,6 +18,7 @@ class CatalogService extends AbstractPrimoService
         'image'               => 'Image',
         'audio_music'         => 'Musical recording',
         'realia'              => '',
+        'data'                => 'Data',
         'other'               => ''
     ];
 
@@ -45,30 +46,40 @@ class CatalogService extends AbstractPrimoService
 
         $response->total_results = $result->total_results;
         $response->search_link = $this->searchCatalogDeepLink($keyword);
+        $response->items = [];
 
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('alma.exlibrisgroup.com', '01BC_INST');
         $rta->checkAvailability($result->results);
-        $items = [];
+
+        $deep_link = $this->primo->createDeepLink();
 
         foreach ($result->results as $item) {
-            $deep_link = $this->primo->createDeepLink();
-
             if (empty($item->cover_images)) {
                 $item->cover_images = [''];
             }
 
-            $type = $this->displayType($item);
-
             $availabilities = [];
 
+            $avail_electronic = false;
+            $avail_physical = false;
+
             foreach ($item->components as $comp) {
+
+                if (in_array($comp->delivery_category, ['Alma-E', 'Online Resource'])) {
+                    $avail_electronic = true;
+                } elseif ($comp->delivery_category == 'Alma-P') {
+                    $avail_physical = true;
+                }
+
+                array_merge($availabilities, $comp->availability);
+
                 foreach ($comp->availability as $avail) {
                     $availabilities[] = $avail;
                 }
             }
 
-            $items[] = [
+            $response->items[] = [
                 'id'           => $item->id,
                 'title'        => $item->title,
                 'date'         => $item->date,
@@ -78,12 +89,14 @@ class CatalogService extends AbstractPrimoService
                 'link'         => $deep_link->link($item->id),
                 'covers'       => $item->cover_images,
                 'isbn'         => $item->isbn,
-                'type'         => $type,
-                'avail'        => $availabilities
+                'type'         => $this->displayType($item),
+                'avail'        => $availabilities,
+                'toc'          => $this->tableOfContents($item),
+                'electronic'   => $avail_electronic,
+                'physical'     => $avail_physical
             ];
 
         }
-        $response->items = $items;
         return $response;
     }
 
@@ -96,13 +109,28 @@ class CatalogService extends AbstractPrimoService
 
     protected function displayType(BibRecord $item)
     {
-
-
         if (isset($this->type_map[$item->type])) {
             $display_type = $this->type_map[$item->type];
         } else {
             $display_type = $item->type;
         }
         return $display_type;
+    }
+
+    protected function tableOfContents(BibRecord $item)
+    {
+        $toc_out = [];
+        $source_toc = $item->field('search/toc');
+
+        if (!is_array($source_toc)) {
+            $source_toc = [$source_toc];
+        }
+
+        foreach ($source_toc as $field505) {
+            $parts = explode(' -- ', $field505);
+            $toc_out = array_merge($toc_out, $parts);
+        }
+
+        return $toc_out;
     }
 }
