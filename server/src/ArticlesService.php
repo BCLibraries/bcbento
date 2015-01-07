@@ -8,6 +8,7 @@ use BCLib\PrimoServices\BriefSearchResult;
 class ArticlesService extends AbstractPrimoService
 {
     private $results_to_send = 5;
+    private $current_article;
 
     private $type_map = [
         'book'                => 'Book',
@@ -32,49 +33,10 @@ class ArticlesService extends AbstractPrimoService
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         $response = new \stdClass();
-
+        $this->current_article = 0;
         $response->total_results = $result->total_results;
         $response->search_link = $this->searchArticlesDeepLink($keyword);
-
-        $response_array = [];
-
-        $current_result = 0;
-
-        foreach ($result->results as $result) {
-
-            // Skip non-fulltext records
-            if ($result->field('delivery/fulltext') === 'no_fulltext') {
-                continue;
-            }
-
-            $id_array = $result->field('search/recordid');
-            $id = isset($id_array) ? $id_array : '';
-
-            $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
-            $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
-            $deep_link .= '&docId=' . $result->id;
-
-            $response_array[] = [
-                'id'        => $id,
-                'title'     => $result->title,
-                'date'      => $result->date,
-                'publisher' => $result->publisher,
-                'creator'   => $result->field('display/creator'),
-                'link'      => $deep_link,
-                'source'    => $result->field('display/source'),
-                'part_of'   => $result->field('display/ispartof'),
-                'type'      => $this->displayType($result),
-                'real_type' => $result->type
-            ];
-
-            if ($current_result >= $this->results_to_send) {
-                break;
-            }
-
-            $current_result++;
-
-        }
-        $response->items = $response_array;
+        $response->items = array_map([$this, 'buildItem'], array_filter($result->results, [$this, 'filterResults']));
         return $response;
     }
 
@@ -95,4 +57,36 @@ class ArticlesService extends AbstractPrimoService
         return $display_type;
     }
 
+    protected function buildItem(BibRecord $result)
+    {
+        $id_array = $result->field('search/recordid');
+        $id = isset($id_array) ? $id_array : '';
+
+        $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
+        $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
+        $deep_link .= '&docId=' . $result->id;
+
+        return [
+            'id'        => $id,
+            'title'     => $result->title,
+            'date'      => $result->date,
+            'publisher' => $result->publisher,
+            'creator'   => $result->field('display/creator'),
+            'link'      => $deep_link,
+            'source'    => $result->field('display/source'),
+            'part_of'   => $result->field('display/ispartof'),
+            'type'      => $this->displayType($result),
+            'real_type' => $result->type
+        ];
+    }
+
+    protected function filterResults(BibRecord $result)
+    {
+        if ($this->current_article == $this->results_to_send) {
+            return false;
+        } else {
+            $this->current_article++;
+            return $result->field('delivery/fulltext') !== 'no_fulltext';
+        }
+    }
 }
