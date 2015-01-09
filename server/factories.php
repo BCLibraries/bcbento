@@ -35,7 +35,7 @@ $app->elasticsearch = function () use ($app) {
 };
 
 $app->typeahead = function () use ($app) {
-    return new Typeahead($app->elasticsearch, $app->redis);
+    return new Typeahead($app->elasticsearch);
 };
 
 $app->articles = function () use ($app) {
@@ -47,11 +47,11 @@ $app->catalog = function () use ($app) {
 };
 
 $app->guides = function () use ($app) {
-    return new GuidesService($app->elasticsearch, $app->redis);
+    return new GuidesService($app->elasticsearch);
 };
 
 $app->librarians = function () use ($app) {
-    return new LibrariansService($app->elasticsearch, $app->redis);
+    return new LibrariansService($app->elasticsearch);
 };
 
 $app->dpla = function () use ($app) {

@@ -2,7 +2,6 @@
 
 namespace BCLib\BCBento;
 
-use Doctrine\Common\Cache\Cache;
 use Elasticsearch\Client;
 
 abstract class AbstractLocalService implements ServiceInterface
@@ -12,17 +11,11 @@ abstract class AbstractLocalService implements ServiceInterface
      */
     protected $elastic_search;
 
-    /**
-     * @var \Doctrine\Common\Cache\Cache
-     */
-    protected $cache;
-
     protected $index;
 
-    public function __construct(Client $elastic_search, Cache $cache)
+    public function __construct(Client $elastic_search)
     {
         $this->elastic_search = $elastic_search;
-        $this->cache = $cache;
     }
 
     public function fetch($keyword)
@@ -47,10 +40,6 @@ abstract class AbstractLocalService implements ServiceInterface
 
     protected function getRelevantTerms($keyword)
     {
-        $cache_key = $this->cacheKey($keyword);
-        if ($this->cache->contains($cache_key)) {
-            return $this->cache->fetch($cache_key);
-        }
         $params = [];
         $params['index'] = 'records';
         $params['body'] = [
@@ -100,8 +89,6 @@ abstract class AbstractLocalService implements ServiceInterface
         foreach ($response['facets'] as $facet) {
             $facet_array[] = $facet['terms'];
         }
-
-        $this->cache->save($cache_key, $facet_array, 60 * 60 * 24);
 
         return $facet_array;
     }

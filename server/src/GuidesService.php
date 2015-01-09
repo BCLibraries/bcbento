@@ -9,9 +9,9 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 {
     const MIN_GUIDE_SCORE = '.3';
 
-    public function __construct(Client $elastic_search, Cache $cache)
+    public function __construct(Client $elastic_search)
     {
-        parent::__construct($elastic_search, $cache);
+        parent::__construct($elastic_search);
         $this->index = 'guides';
     }
 
