@@ -8,12 +8,12 @@ use Elasticsearch\Client;
 abstract class AbstractLocalService implements ServiceInterface
 {
     /**
-     * @var ElasticSearch\Client
+     * @var \ElasticSearch\Client
      */
     protected $elastic_search;
 
     /**
-     * @var Doctrine\Common\Cache\Cache
+     * @var \Doctrine\Common\Cache\Cache
      */
     protected $cache;
 
