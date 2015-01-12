@@ -37,7 +37,6 @@ foreach ($paths as $path => $ttl) {
     )->ttl = $ttl;
 }
 
-$app->response->headers->set('Content-Type', 'application/json');
 $app->add(new Cache($app->redis));
 $app->add(new JSONPWrapper());
 $app->run();
