@@ -16,7 +16,6 @@ class Cache extends Middleware
         $this->cache = $cache;
     }
 
-
     public function call()
     {
         $key = $this->getKey();
@@ -31,7 +30,7 @@ class Cache extends Middleware
         $this->next->call();
 
         if ($response->status() === 200) {
-            $this->cache->save($key, $response->body());
+            $this->cache->save($key, $response->body(), $this->app->router()->getCurrentRoute()->ttl);
         }
     }
 
@@ -43,5 +42,4 @@ class Cache extends Middleware
         $key = $this->app->request()->getResourceUri() . "?" . http_build_query($query_keys);
         return $key;
     }
-
 }
