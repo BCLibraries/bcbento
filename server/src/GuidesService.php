@@ -2,7 +2,6 @@
 
 namespace BCLib\BCBento;
 
-use Doctrine\Common\Cache\Cache;
 use Elasticsearch\Client;
 
 class GuidesService extends AbstractLocalService implements ServiceInterface

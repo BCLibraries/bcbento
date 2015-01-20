@@ -2,7 +2,7 @@
 
 namespace BCLib\BCBento;
 
-use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\Cache as DoctrineCache;
 use OCLC\Auth\WSKey;
 use WorldCat\Discovery\Bib;
 use WorldCat\Discovery\BibSearchResults;
@@ -46,7 +46,7 @@ class WorldCatService implements ServiceInterface
     private $institution_id;
     private $institution_code;
 
-    public function __construct($key, $secret, $institution_id, $institution_code, Cache $cache)
+    public function __construct($key, $secret, $institution_id, $institution_code, DoctrineCache $cache)
     {
         $this->cache = $cache;
         $this->key = $key;
