@@ -101,7 +101,6 @@ class WorldCatService implements ServiceInterface
                 echo $error->getErrorMessage() . "<br>\n";
                 return true;
             default:
-                echo "HERER!!!!\n";
                 throw new \Exception($error->getErrorMessage(), $error->getErrorCode());
         }
         return false;
