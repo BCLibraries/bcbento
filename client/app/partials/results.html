@@ -29,18 +29,7 @@
             </ul>
         </div>
 
-        <div class="result-container worldcat" data-ng-class="{loading: ! worldcat_results}">
-            <h3>At other libraries</h3>
-            <ul data-ng-show="worldcat_results">
-                <li data-ng-repeat="result in worldcat_results" data-ng-class-odd="'odd'">
-                    <a class="title" href="{{result.url}}">{{result.name}}</a>
 
-                    <div class="creator">{{result.creator}}</div>
-                    {{result.type}}
-                </li>
-            </ul>
-
-        </div>
 
     </div>
 
