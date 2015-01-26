@@ -18,11 +18,11 @@
 }
 
 #bentoboxresults #primary {
-    width: 45%;
+    width: 40%;
 }
 
 #bentoboxresults #secondary {
-    width: 30%;
+    width: 35%;
     clear: left;
 }
 
@@ -259,10 +259,6 @@
 
 #bentoboxresults .type {
     color: #666;
-}
-
-#bentoboxresults .odd {
-    background-color: #f3f3f3;
 }
 
 /** End results. **/

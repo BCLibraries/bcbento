@@ -36,7 +36,7 @@ class CatalogService extends AbstractPrimoService
     protected function getQuery($keyword)
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(10);
+            ->local('BCL')->bulkSize(6);
         return $query;
     }
 

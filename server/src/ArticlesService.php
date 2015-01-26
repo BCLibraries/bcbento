@@ -4,10 +4,11 @@ namespace BCLib\BCBento;
 
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
+use BCLib\PrimoServices\QueryTerm;
 
 class ArticlesService extends AbstractPrimoService
 {
-    private $results_to_send = 5;
+    private $results_to_send = 3;
     private $current_article;
 
     private $type_map = [
@@ -26,8 +27,10 @@ class ArticlesService extends AbstractPrimoService
 
     public function getQuery($keyword)
     {
-        return $this->query_builder->keyword($keyword)->getQuery()
-            ->articles()->bulkSize($this->results_to_send * 4);
+        $term = new QueryTerm();
+        $term->set('facet_tlevel','exact','online_resources_PC_TN');
+        return $this->query_builder->keyword($keyword)->getQuery()->addTerm($term)
+            ->articles()->bulkSize($this->results_to_send);
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
@@ -36,7 +39,7 @@ class ArticlesService extends AbstractPrimoService
         $this->current_article = 0;
         $response->total_results = $result->total_results;
         $response->search_link = $this->searchArticlesDeepLink($keyword);
-        $response->items = array_map([$this, 'buildItem'], array_filter($result->results, [$this, 'filterResults']));
+        $response->items = array_map([$this, 'buildItem'], $result->results);
         return $response;
     }
 
@@ -78,15 +81,5 @@ class ArticlesService extends AbstractPrimoService
             'type'      => $this->displayType($result),
             'real_type' => $result->type
         ];
-    }
-
-    protected function filterResults(BibRecord $result)
-    {
-        if ($this->current_article == $this->results_to_send) {
-            return false;
-        } else {
-            $this->current_article++;
-            return $result->field('delivery/fulltext') !== 'no_fulltext';
-        }
     }
 }
