@@ -16,48 +16,20 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 
     public function buildQuery($keyword, array $taxonomy_terms)
     {
-        // Increase to make lower-level taxonomy results comparatively more valuable.
-        $level_boost_multiple = 10;
-
-        // Increase to use more matched taxonomy terms.
-        $terms_to_use = 3;
-
         $keyword_query = [
             'query_string' => [
                 'query' => $keyword
             ]
         ];
 
-        $level_boost = 1;
-        $should = [];
         $must = [];
-        foreach ($taxonomy_terms as $taxonomy_term) {
-            $i = 0;
-            while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
-                $should[] = [
-                    'match_phrase' => [
-                        'taxonomy' => [
-                            'query' => $taxonomy_term[$i]['term'],
-                            'boost' => $taxonomy_term[$i]['total'] * $level_boost
-                        ]
-                    ]
-                ];
-                $i++;
-            }
-            $level_boost *= $level_boost_multiple;
-        }
+        $should = $this->buildTaxonomySubQueries($taxonomy_terms);
 
         if (count($taxonomy_terms)) {
             $should[] = $keyword_query;
         } else {
             $must[] = $keyword_query;
         }
-
-        $must[] = [
-            "match" => [
-                "group" => "LibGuides v1"
-            ]
-        ];
 
         $query = [
             'query' => [
@@ -105,5 +77,35 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
         }
 
         return $results;
+    }
+
+    protected function buildTaxonomySubQueries(array $taxonomy_terms)
+    {
+        // Increase to make lower-level taxonomy results comparatively more valuable.
+        $level_boost_multiple = 10;
+
+        // Increase to use more matched taxonomy terms.
+        $terms_to_use = 3;
+
+        $level_boost = 1;
+
+        $taxonomy_queries = [];
+        foreach ($taxonomy_terms as $taxonomy_term) {
+            $i = 0;
+            while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
+                $taxonomy_queries[] = [
+                    'match_phrase' => [
+                        'taxonomy' => [
+                            'query' => $taxonomy_term[$i]['term'],
+                            'boost' => $taxonomy_term[$i]['total']
+                        ]
+                    ]
+                ];
+                $i++;
+            }
+            $level_boost *= $level_boost_multiple;
+        }
+
+        return $taxonomy_queries;
     }
 }
