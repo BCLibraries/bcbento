@@ -22,8 +22,15 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
         // Increase to use more matched taxonomy terms.
         $terms_to_use = 3;
 
+        $keyword_query = [
+            'query_string' => [
+                'query' => $keyword
+            ]
+        ];
+
         $level_boost = 1;
         $should = [];
+        $must = [];
         foreach ($taxonomy_terms as $taxonomy_term) {
             $i = 0;
             while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
@@ -39,26 +46,34 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
             }
             $level_boost *= $level_boost_multiple;
         }
-        $should[] = [
-            'match' => [
-                '_all' => [
-                    'query' => $keyword
-                ]
+
+        if (count($taxonomy_terms)) {
+            $should[] = $keyword_query;
+        } else {
+            $must[] = $keyword_query;
+        }
+
+        $must[] = [
+            "match" => [
+                "group" => "LibGuides v1"
             ]
         ];
 
-        return [
+        $query = [
             'query' => [
-                'bool' => [
-                    'should' => $should,
-                    'must' => [
-                        "match" => [
-                            "group" => "LibGuides v1"
-                        ]
-                    ]
-                ]
+                'bool' => []
             ]
         ];
+
+        if (count($should)) {
+            $query['query']['bool']['should'] = $should;
+        }
+
+        if (count($must)) {
+            $query['query']['bool']['must'] = $must;
+        }
+
+        return $query;
     }
 
     public function buildResponse(array $subject_guides)

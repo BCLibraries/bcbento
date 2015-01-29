@@ -87,7 +87,9 @@ abstract class AbstractLocalService implements ServiceInterface
 
         $facet_array = [];
         foreach ($response['facets'] as $facet) {
-            $facet_array[] = $facet['terms'];
+            if (count($facet['terms'])) {
+                $facet_array[] = $facet['terms'];
+            }
         }
 
         return $facet_array;
