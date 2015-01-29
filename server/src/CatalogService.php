@@ -95,6 +95,10 @@ class CatalogService extends AbstractPrimoService
             $item->cover_images = [''];
         }
 
+        $item->cover_images = array_map([$this, 'getMediumCoverImage'], $item->cover_images);
+        $item->cover_images = array_filter($item->cover_images, [$this, 'removeAmazonCoverImages']);
+        $item->cover_images = array_values($item->cover_images);
+
         return [
             'id'           => $item->id,
             'title'        => $item->title,
@@ -122,5 +126,27 @@ class CatalogService extends AbstractPrimoService
         }
 
         return $availabilities;
+    }
+
+    /**
+     * Replace small Syndetics thumbs with medium-sized
+     *
+     * @param $image_url
+     * @return string
+     */
+    private function getMediumCoverImage($image_url)
+    {
+        return str_replace('/SC.JPG', '/MC.JPG', $image_url);
+    }
+
+    /**
+     * Don't use Amazon images
+     *
+     * @param $image_url
+     * @return bool
+     */
+    private function removeAmazonCoverImages($image_url)
+    {
+        return (!strpos($image_url, 'amazon.com'));
     }
 }
