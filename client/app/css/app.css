@@ -1,9 +1,9 @@
-#bentoboxresults {
+#all-results {
     box-sizing: border-box;
 }
 
 /** Accessible hide class. **/
-#bentoboxresults .hidden {
+#all-results .hidden {
     position: absolute;
     left: -10000px;
     top: auto;
@@ -13,58 +13,58 @@
 }
 
 /** Full screen. **/
-#bentoboxresults #primary, #bentoboxresults #secondary, #bentoboxresults #tertiary {
+#all-results #primary, #all-results #secondary, #all-results #tertiary {
     float: left;
 }
 
-#bentoboxresults #primary {
+#all-results #primary {
     width: 40%;
 }
 
-#bentoboxresults #secondary {
+#all-results #secondary {
     width: 35%;
     clear: left;
 }
 
-#bentoboxresults #tertiary {
+#all-results #tertiary {
     width: 25%;
 }
 
-#bentoboxresults #primary .result-container h3, #bentoboxresults #secondary .result-container h3 {
+#all-results #primary .result-container h3, #all-results #secondary .result-container h3 {
     float: left;
     width: 60%;
 }
 
 /* Medium break */
 @media screen and (max-width: 1020px) and (min-width: 767px) {
-    #bentoboxresults #primary {
+    #all-results #primary {
         width: 50%;
     }
 
-    #bentoboxresults  #secondary {
+    #all-results  #secondary {
         width: 50%;
     }
 
-    #bentoboxresults #tertiary {
+    #all-results #tertiary {
         width: 100%;
     }
 }
 
 /* Small break. */
 @media screen and (max-width: 766px) {
-    #bentoboxresults  #primary {
+    #all-results  #primary {
         width: 100%;
     }
 
-    #bentoboxresults  #secondary {
+    #all-results  #secondary {
         width: 100%;
     }
 
-    #bentoboxresults #tertiary {
+    #all-results #tertiary {
         width: 100%;
     }
 
-    #bentoboxresults  .result-container {
+    #all-results  .result-container {
         min-height: 0;
     }
 }
@@ -147,55 +147,55 @@
 
 /** Start results stuff **/
 
-#bentoboxresults .loading {
+#all-results .loading {
     background: #fff url(../img/loading-circle.gif) no-repeat center center;
 }
 
-#bentoboxresults .result-container {
+#all-results .result-container {
     min-height: 200px;
     padding: 0 2em 0 0;
     background-color: #fff;
 }
 
-#bentoboxresults .result-container ul {
+#all-results .result-container ul {
     padding: 0;
     margin: 0;
     clear: left;
 }
 
-#bentoboxresults .result-container ul li {
+#all-results .result-container ul li {
     list-style: none;
     margin-bottom: 1em;
     font-size: .92857em;
 }
 
-#bentoboxresults .result-container li .title, .result-container li a {
+#all-results .result-container li .title, .result-container li a {
     text-decoration: none;
     color: #0075b0;
     font-weight: bold;
 }
 
-#bentoboxresults .result-container .creator {
+#all-results .result-container .creator {
     display: block;
     color: #666;
 }
 
-#bentoboxresults .result-container .publisher {
+#all-results .result-container .publisher {
     display: block;
     color: #888;
 }
 
-#bentoboxresults .outside-result a, #bentoboxresults .more-results-link a {
+#all-results .outside-result a, #all-results .more-results-link a {
     text-decoration: none;
     color: #0075b0;
 }
 
-#bentoboxresults .outside-result {
+#all-results .outside-result {
     clear: left;
 }
 
 /** Librarian/Subject guide results. **/
-#bentoboxresults h4 {
+#all-results h4 {
     margin: 0;
 }
 
@@ -211,13 +211,13 @@
     padding-left: .5em
 }
 
-#bentoboxresults .librarian-subject, #bentoboxresults .guide-description {
+#all-results .librarian-subject, #all-results .guide-description {
     color: #666;
 }
 /** End Librarian result. **/
 
 /** More results link **/
-#bentoboxresults .more-results-link {
+#all-results .more-results-link {
     float: left;
     width: 40%;
     margin-top: 1.64em;
@@ -226,7 +226,7 @@
 }
 
 /** Covers **/
-#bentoboxresults .cover-image {
+#all-results .cover-image {
     float: left;
     width: 20%;
     min-height: 60px;
@@ -234,30 +234,30 @@
     background-position-x: 38%;
 }
 
-#bentoboxresults .cover-image img {
+#all-results .cover-image img {
     max-width: 80%;
 }
 
-#bentoboxresults .result-container li {
+#all-results .result-container li {
     overflow: hidden;
     clear: both;
     margin-bottom: 1em;
 }
 
-#bentoboxresults .result-container .title {
+#all-results .result-container .title {
     display: block;
 }
 
-#bentoboxresults .catalog-text {
+#all-results .catalog-text {
     float: left;
     width: 80%;
 }
 
-#bentoboxresults .catalog-metadata {
+#all-results .catalog-metadata {
     font-size: .9em;
 }
 
-#bentoboxresults .type {
+#all-results .type {
     color: #666;
 }
 
