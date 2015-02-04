@@ -106,7 +106,7 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => $this->primo->createDeepLink()->link($item->id),
+            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),

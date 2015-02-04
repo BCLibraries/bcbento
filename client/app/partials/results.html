@@ -14,11 +14,12 @@
             </div>
 
             <ul data-ng-show="articles_results">
-
-                <!-- Template for one article. -->
-                <li data-ng-repeat="result in articles_results.items" data-ng-class-odd="'odd'"><a
-                        href="{{result.link}}"
-                        class="title">{{result.title}}</a>
+                <li data-ng-repeat="result in articles_results.items" data-ng-class-odd="'odd'"  ng-init="checked=true">
+                    <!-- Template for one article. -->
+                    <ng-include src="'partials/result-title.html'"></ng-include>
+                    <div ng-show="result.display_tools" class="result-tools">
+                        <p>Placeholder for result tools (email, SMS, etc).</p>
+                    </div>
 
                     <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
                     <div class="publisher" data-ng-if="result.part_of">{{result.part_of}}</div>
@@ -82,7 +83,6 @@
         </div>
 
 
-
     </div>
 
     <!-- The primary results box. -->
@@ -106,7 +106,10 @@
                         <img src="{{result.covers[0]}}" data-ng-if="result.covers[0]">
                     </div>
                     <div class="catalog-text">
-                        <a href="http://{{result.link}}" class="title">{{result.title}}</a>
+                        <ng-include src="'partials/result-title.html'"></ng-include>
+                        <div ng-show="result.display_tools" class="result-tools">
+                            <p>Placeholder for result tools (email, SMS, etc).</p>
+                        </div>
 
                         <div class="catalog-metadata">
                             <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
