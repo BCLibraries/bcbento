@@ -1,0 +1,35 @@
+<li class="bento-result" data-ng-class-odd="'odd'">
+    <div class="cover-image">
+        <img src="{{result.covers[0]}}" data-ng-if="result.covers[0]">
+    </div>
+
+    <div class="catalog-text">
+
+        <ng-include src="'partials/result-title.html'"></ng-include>
+
+        <div ng-show="result.display_tools" class="result-tools">
+            <p>Placeholder for result tools (email, SMS, etc).</p>
+        </div>
+
+        <div class="catalog-metadata">
+            <div class="creator" data-ng-if="result.creator">
+                {{result.creator}}
+            </div>
+            <div class="creator" data-ng-if="! result.creator">
+                {{result.contributors[0].truncate(100)}}
+            </div>
+            <div class="publisher" data-ng-if="result.publisher">
+                {{result.publisher}} {{result.date}}
+            </div>
+            <div class="type">{{result.type}}</div>
+            <ul class="available-items">
+                <li class="item-info" data-ng-repeat="avail in result.avail">
+                    <span class="library">{{ avail.library }}</span>
+                    <span class="callno">{{avail.call_number}}</span>
+                    <span class="availability">{{avail.availability}}</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</li>

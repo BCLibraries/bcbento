@@ -1,0 +1,24 @@
+<div class="result-container" data-ng-class="">
+    <h3>Libraries Web site</h3>
+
+    <div class="more-results-link" data-ng-show="web_results">
+        <a href="{{web_results.search_link}}">
+            {{web_results.total_results}} results
+        </a>
+    </div>
+
+    <ul data-ng-show="web_results">
+
+        <!-- Template for one article. -->
+        <li data-ng-repeat="result in web_results.items" data-ng-class-odd="'odd'"><a
+                href="{{result.link}}"
+                class="title">{{result.title}}</a>
+
+            <div class="creator" data-ng-if="result.creator">{{result.creator}}</div>
+            <div class="publisher" data-ng-if="result.part_of">{{result.part_of}}</div>
+            <div class="source" data-ng-if="! result.part_of">{{result.source}}</div>
+            <div class="type">{{result.dis}}</div>
+        </li>
+
+    </ul>
+</div>

@@ -1,0 +1,30 @@
+<div class="result-container" data-ng-class="{loading: ! catalog_results} ">
+    <h3>Catalog</h3>
+
+    <div class="more-results-link" data-ng-show="catalog_results.items">
+        <a href="{{catalog_results.search_link}}">
+            {{catalog_results.total_results}} results
+        </a>
+    </div>
+
+    <ul data-ng-show="catalog_results" id="catalog-results">
+        <ng-include data-ng-repeat="result in catalog_results.items" src="'partials/catalog-single-result.html'"></ng-include>
+    </ul>
+
+    <div data-ng-if="catalog_results.items.length == 0">
+        <p>No matching results were found in the BC Libraries.</p>
+
+        <div class="result-container worldcat" data-ng-show="worldcat_results" data-ng-class="{loading: ! worldcat_results}">
+            <p>The following results were found in other libraries through <a href="http://bc.worldcat.org">WorldCat</a>:
+            </p>
+            <ul data-ng-show="worldcat_results">
+                <li data-ng-repeat="result in worldcat_results" data-ng-class-odd="'odd'">
+                    <a class="title" href="{{result.url}}">{{result.name}}</a>
+                    <div class="creator">{{result.creator}}</div>
+                    {{result.type}}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
