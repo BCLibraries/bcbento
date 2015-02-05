@@ -224,16 +224,18 @@
 }
 
 /** Covers **/
+
 #all-results .cover-image {
-    float: left;
-    width: 15%;
-    min-height: 60px;
-    background: url("../img/icon-book.png") no-repeat;
-    background-position-x: 38%;
+    width: 20%;
+    float: right;
 }
 
-#all-results .cover-image img {
-    max-width: 80%;
+/** end covers **/
+
+#all-results .catalog-text.hascover {
+    width: 80%;
+    float: right;
+    padding-right: 1em
 }
 
 #all-results .result-container li {
@@ -257,11 +259,6 @@
 
 #all-results .open-result-tools:focus {
     outline: none;
-}
-
-#all-results .catalog-text {
-    float: left;
-    width: 85%;
 }
 
 #all-results .catalog-metadata {

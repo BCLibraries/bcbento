@@ -1,15 +1,10 @@
 <li class="bento-result" data-ng-class-odd="'odd'">
-    <div class="cover-image">
-        <img src="{{result.covers[0]}}" data-ng-if="result.covers[0]">
-    </div>
 
-    <div class="catalog-text">
+    <img src="{{result.covers[0]}}" data-ng-if="result.covers[0]" class="cover-image">
+
+    <div class="catalog-text" data-ng-class="{hascover: result.covers[0]}">
 
         <ng-include src="'partials/result-title.html'"></ng-include>
-
-        <div ng-show="result.display_tools" class="result-tools">
-            <p>Placeholder for result tools (email, SMS, etc).</p>
-        </div>
 
         <div class="catalog-metadata">
             <div class="creator" data-ng-if="result.creator">
@@ -30,6 +25,5 @@
                 </li>
             </ul>
         </div>
-
     </div>
 </li>
