@@ -19,7 +19,7 @@
                 {{result.contributors[0].truncate(100)}}
             </div>
             <div class="publisher" data-ng-if="result.publisher">
-                {{result.publisher}} {{result.date}}
+                {{result.publisher}} {{result.date | stripAACR2Punctuation }}
             </div>
             <div class="type">{{result.type}}</div>
             <ul class="available-items">

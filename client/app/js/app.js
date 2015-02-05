@@ -7,6 +7,7 @@
         'ngAnimate',
         'myApp.controllers',
         'myApp.directives',
+        'myApp.filters',
         'ui.bootstrap'
     ]).
         config(function ($routeProvider, $locationProvider) {
