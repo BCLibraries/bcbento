@@ -30,11 +30,6 @@
     width: 25%;
 }
 
-#all-results #primary .result-container h3, #all-results #secondary .result-container h3 {
-    float: left;
-    width: 60%;
-}
-
 /* Medium break */
 @media screen and (max-width: 1020px) and (min-width: 767px) {
     #all-results #primary {
@@ -144,6 +139,15 @@
 
 /** Start results stuff **/
 
+#all-results #primary .result-container h3, #all-results #secondary .result-container h3 {
+    display: inline-block
+}
+
+/** More results link **/
+#all-results .more-results-link {
+    display: inline-block;
+}
+
 #all-results .loading {
     background: #fff url(../img/loading-circle.gif) no-repeat center center;
 }
@@ -163,7 +167,6 @@
 #all-results .result-container ul li {
     list-style: none;
     margin-bottom: 1em;
-    font-size: .92857em;
 }
 
 #all-results .result-container li .title, .result-container li a {
@@ -213,15 +216,6 @@
 }
 
 /** End Librarian result. **/
-
-/** More results link **/
-#all-results .more-results-link {
-    float: left;
-    width: 40%;
-    margin-top: 1.64em;
-    font-size: .9em;
-    text-align: right;
-}
 
 /** Covers **/
 
