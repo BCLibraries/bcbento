@@ -99,10 +99,13 @@ class CatalogService extends AbstractPrimoService
         $item->cover_images = array_filter($item->cover_images, [$this, 'removeAmazonCoverImages']);
         $item->cover_images = array_values($item->cover_images);
 
+        $date = $item->field('addata/date');
+        $date = is_array($date) ? $date[0] : $date;
+
         return [
             'id'           => $item->id,
             'title'        => $item->title,
-            'date'         => $item->date,
+            'date'         => $date,
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,

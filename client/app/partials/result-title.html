@@ -2,6 +2,8 @@
     {{result.title | limitTo : 120}}{{ result.title.length > 120 ? '&hellip;' :''}}
 </a>
 
+{{ result.date | stripAACR2Punctuation }}
+
 <!-- Down caret icon -->
 <svg src="img/caret-bottom.svg" class="open-result-tools" tabindex="0" role="button"
      data-ng-click="result.display_tools = !result.display_tools"
