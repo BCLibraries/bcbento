@@ -11,7 +11,7 @@
                 var base_url, search, search_services;
 
                 // Add new services here.
-                search_services = ['catalog', 'articles', 'dpla', 'librarians', 'guides', 'worldcat'];
+                search_services = ['catalog', 'articles', 'dpla', 'librarians', 'guides'];
 
                 // Always update once on load.
                 update_results();
@@ -54,6 +54,11 @@
                                     data.items[i].title = element.textContent;
                                 }
                             }
+
+                            if (search_service == 'catalog' && data.items.length == 0) {
+                                fetch('worldcat');
+                            }
+
                             $scope[search_service + '_results'] = data;
                         }
                     ).error(
