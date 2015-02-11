@@ -19,17 +19,17 @@
 }
 
 #all-results #primary {
-    width: 38%;
-    margin-right: 6%;
+    width: 30%;
+    margin-right: 10%;
 }
 
 #all-results #secondary {
-    width: 26%;
-    margin-right: 6%;
+    width: 30%;
+    margin-right: 10%;
 }
 
 #all-results #tertiary {
-    width: 24%;
+    width: 20%;
 }
 
 /** End layout **/

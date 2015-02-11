@@ -2,6 +2,6 @@
 <div class="result-container outside" data-ng-class="{loading: ! dpla_results} ">
     <h3>Outside BC</h3>
 
-    <div class="outside-result" data-ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total}}
+    <div class="outside-result" data-ng-show="dpla_results"><a href="{{dpla_results.link}}">{{dpla_results.total | number}}
         results</a> at the <strong>DPLA</strong></div>
 </div>
