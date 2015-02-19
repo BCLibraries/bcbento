@@ -37,6 +37,20 @@ class Typeahead implements ServiceInterface
             ]
         ];
 
-        return $this->_elastic_search->suggest($params);
+        $suggestions = $this->_elastic_search->suggest($params);
+
+        $results = [];
+
+        if (! isset($suggestions['ac'][0])) {
+            return $results;
+        }
+
+        foreach ($suggestions['ac'][0]['options'] as $term) {
+            $results[] = [
+            'value' => $term['text'],
+            'type' => $term['payload']['type']
+            ];
+        }
+        return $results;
     }
 }

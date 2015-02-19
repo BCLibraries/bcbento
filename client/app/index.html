@@ -16,7 +16,12 @@
 <body>
 
 <div id="newsearch">
-    <div data-searchbox></div>
+    <div data-searchbox>
+        <form method="get" action="/search">
+            <input type="text" id="typeahead" name="any">
+            <input type="submit">
+        </form>
+    </div>
 </div>
 
 <div id="bentoboxresults">
@@ -46,7 +51,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/typeahead.bundle.min.js"></script>
 <script src="js/search.js"></script>
+<script src="js/bcbento-typeahead.js"></script>
 
 
 <!-- Search result templates -->

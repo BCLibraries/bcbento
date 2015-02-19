@@ -20,6 +20,8 @@ $(document).ready(function () {
             var html = Mustache.to_html(source, data);
             $('#' + service + '-results').removeClass('loading');
             $('#' + service + '-results').append(html);
+        }).fail(function (xhr, status) {
+            $('#' + service + '-results').removeClass('loading');
         });
     }
 
