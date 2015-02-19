@@ -56,10 +56,14 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 
         foreach ($subject_guides['hits']['hits'] as $hit) {
 
-            $title = htmlspecialchars_decode($hit['_source']['name']);
+            if (isset($hit['_source']['name'])) {
+                $title = htmlspecialchars_decode($hit['_source']['name']);
 
-            if (isset($seen[$title])) {
-                continue;
+                if (isset($seen[$title])) {
+                    continue;
+                }
+            } else {
+                $title = $hit['_source']['title'];
             }
 
             if ($hit['_score'] < GuidesService::MIN_GUIDE_SCORE) {
