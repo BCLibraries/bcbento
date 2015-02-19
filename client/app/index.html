@@ -7,40 +7,179 @@
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Asap:400,700,700italic,400italic" type="text/css">
     <link rel="stylesheet" href="css/local.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
 
 <body>
 
-<!-- Search box -->
 <div id="newsearch">
     <div data-searchbox></div>
 </div>
 
 <div id="bentoboxresults">
-    <div data-results></div>
+
+    <div id="all-results">
+
+        <!-- Secondary results box. -->
+        <div id="secondary">
+            <div id="articles-results" class="result-container"></div>
+        </div>
+
+        <!-- The primary results box. -->
+        <div id="primary">
+            <div id="catalog-results" class="result-container"></div>
+        </div>
+
+        <!-- Tertiary results box.-->
+        <div id="tertiary">
+            <div id="librarians-results" class="result-container librarians"></div>
+            <div id="guides-results" class="result-container guides"></div>
+            <ng-include src="'partials/extra-results.html'"></ng-include>
+        </div>
+
+    </div>
+
 </div>
 
-<!--DEPLOY SCRIPT TARGET -->
-
-<script>
-    var search_server = 'localhost';
-</script>
-<script src="js/angular.min.js"></script>
-<!--DEV-->
-<script src="js/angular-animate.min.js"></script>
-<!--DEV-->
-<script src="js/angular-route.min.js"></script>
-<!--DEV-->
-<script src="js/ui-bootstrap-custom-tpls-0.10.0.min.js"></script>
-<!--DEV-->
-<script src="js/app.js"></script>
-<!--DEV-->
-<script src="js/controllers.js"></script>
-<!--DEV-->
-<script src="js/directives.js"></script>
-<!--DEV-->
-<script src="js/filters.js"></script>
-<!--DEV-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/search.js"></script>
+
+
+<!-- Search result templates -->
+<script id="librarians-template" type="text/x-template">
+    <h3>Librarians</h3>
+    <ul>
+        {{#.}}
+        <li>
+            <img src="//{{image}}" alt="picture of {{name}}">
+
+            <div class="librarian-info">
+                <h4 class="librarian-name">{{name}}</h4>
+                {{#subjects}}
+                <div class="librarian-subject">{{term}}</div>
+                {{/subjects}}
+            </div>
+        </li>
+        {{/.}}
+    </ul>
+</script>
+
+<script id="guides-template" type="text/x-template">
+    <h3>Subject guides</h3>
+    <ul>
+        {{#.}}
+        <li>
+            <div><a href="{{url}}">{{title}}</a></div>
+            <div class="guide-description">{{description}}</div>
+        </li>
+        {{/.}}
+    </ul>
+
+</script>
+
+<script id="catalog-template" type="text/x-template">
+    <h3>Catalog</h3>
+
+    <div class="more-results-link">
+        <a href="{{search_link}}">
+            see all {{total_results}} results&hellip;
+        </a>
+    </div>
+
+    <ul id="catalog-results">
+
+        {{#items}}
+        <li class="bento-result">
+            {{#covers.0}}
+            <img src="{{.}}" class="cover-image">
+            {{/covers.0}}
+
+            <div class="catalog-text" {{#covers.0}} class="hascover" {{
+            /covers.0}}>
+
+            <a href="{{link}}" class="title">
+                {{title}}
+            </a>
+
+            {{date}}
+
+            <img src="caret.png">
+
+            <div class="catalog-metadata">
+                {{#creator}}
+                <div class="creator">
+                    {{creator}}
+                </div>
+                {{/creator}}
+
+                {{^creator}}
+                <div class="creator">
+                    {{contributors.0}}
+                </div>
+                {{/creator}}
+
+                {{^creator}}
+                {{^contributor}}
+                <div class="publisher">
+                    {{publisher}} {{date}}
+                </div>
+                {{/contributor}}
+                {{/creator}}
+
+                <div class="type">{{type}}</div>
+                <ul class="available-items">
+                    {{#avail}}
+                    <li class="item-info">
+                        <span class="library">{{library}}</span>
+                        <span class="callno">{{call_number}}</span>
+                        <span class="availability">{{availability}}</span>
+                    </li>
+                    {{/avail}}
+                </ul>
+            </div>
+            </div>
+        </li>
+        {{/items}}
+    </ul>
+
+</script>
+
+<script id="articles-template" type="text/x-template">
+    <h3>Articles</h3>
+
+    <div class="more-results-link">
+        <a href="{{search_link}}">
+            see all {{total_results}} results&hellip;
+        </a>
+    </div>
+
+    <ul>
+        {{#items}}
+        <li>
+
+            <a href="{{link}}" class="title">
+                {{title}}
+            </a>
+
+            {{date}}
+
+            <div class="result-tools">
+                <p>Placeholder for result tools (email, SMS, etc).</p>
+            </div>
+
+            <div class="creator">{{creator}}</div>
+            <div class="publisher">{{part_of}}</div>
+            <div class="source">{{source}}</div>
+            <div class="type">{{type}}</div>
+        </li>
+        {{/items}}
+    </ul>
+</script>
+
+
 </body>
 </html>
