@@ -52,6 +52,7 @@ $(document).ready(function () {
     search(search_string);
 
     function search(keyword) {
+        $('#typeahead').typeahead('close');
         for (var i = 0; i < services.length; i++) {
             callSearchService(services[i], keyword);
         }
