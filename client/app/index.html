@@ -49,14 +49,15 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="js/typeahead.bundle.min.js"></script>
+<script src="js/handlebars-v3.0.0.js"></script>
 <script src="js/search.js"></script>
 
 
 <!-- Search result templates -->
 <script id="librarians-template" type="text/x-template">
+    <h3>Librarians</h3>
     <ul>
         {{#.}}
         <li>
@@ -91,7 +92,7 @@
 
     <div class="more-results-link">
         <a href="{{search_link}}">
-            see all {{total_results}} results&hellip;
+            see all {{total_results}} results…
         </a>
     </div>
 
@@ -99,52 +100,55 @@
 
         {{#items}}
         <li class="bento-result">
-            {{#covers.0}}
-            <img src="{{.}}" class="cover-image">
-            {{/covers.0}}
+            {{#if covers.[0]}}
+            <img src="{{covers.[0]}}" class="cover-image">
+            {{/if}}
 
-            <div class="catalog-text{{#covers.0}} has-cover{{/covers.0}}">
+            <div class="catalog-text{{#if covers.[0]}} has-cover{{/if}}">
 
-            <a href="{{link}}" class="title">
-                {{title}}
-            </a>
 
-            {{date}}
+                <a href="{{link}}" class="title">
+                    {{truncate '30' title}}
+                </a>
 
-            <img src="caret.png">
+                {{date}}
 
-            <div class="catalog-metadata">
-                {{#creator}}
-                <div class="creator">
-                    {{creator}}
+                <span class="down-caret">&#9660;</span>
+
+                <div class="catalog-metadata">
+                    {{#if creator}}
+                    <div class="creator">
+                        {{truncate '40' creator}}
+                    </div>
+                    {{/if}}
+
+                    {{^creator}}
+                    {{#if contributors.[0]}}
+                    <div class="creator">
+                        {{truncate '40' contributors.[0]}}
+                    </div>
+                    {{/if}}
+                    {{/creator}}
+
+                    {{^creator}}
+                    {{^contributor}}
+                    <div class="publisher">
+                        {{publisher}} {{date}}
+                    </div>
+                    {{/contributor}}
+                    {{/creator}}
+
+                    <div class="type">{{type}}</div>
+                    <ul class="available-items">
+                        {{#avail}}
+                        <li class="item-info">
+                            <span class="library">{{library}}</span>
+                            <span class="callno">{{call_number}}</span>
+                            <span class="availability">{{availability}}</span>
+                        </li>
+                        {{/avail}}
+                    </ul>
                 </div>
-                {{/creator}}
-
-                {{^creator}}
-                <div class="creator">
-                    {{contributors.0}}
-                </div>
-                {{/creator}}
-
-                {{^creator}}
-                {{^contributor}}
-                <div class="publisher">
-                    {{publisher}} {{date}}
-                </div>
-                {{/contributor}}
-                {{/creator}}
-
-                <div class="type">{{type}}</div>
-                <ul class="available-items">
-                    {{#avail}}
-                    <li class="item-info">
-                        <span class="library">{{library}}</span>
-                        <span class="callno">{{call_number}}</span>
-                        <span class="availability">{{availability}}</span>
-                    </li>
-                    {{/avail}}
-                </ul>
-            </div>
             </div>
         </li>
         {{/items}}
@@ -157,7 +161,7 @@
 
     <div class="more-results-link">
         <a href="{{search_link}}">
-            see all {{total_results}} results&hellip;
+            see all {{total_results}} results…
         </a>
     </div>
 
@@ -166,7 +170,7 @@
         <li>
 
             <a href="{{link}}" class="title">
-                {{title}}
+                {{truncate '100' title}}
             </a>
 
             {{date}}
@@ -175,7 +179,9 @@
                 <p>Placeholder for result tools (email, SMS, etc).</p>
             </div>
 
-            <div class="creator">{{creator}}</div>
+            {{#if creator}}
+            <div class="creator">{{truncate '80' creator}}</div>
+            {{/if}}
             <div class="publisher">{{part_of}}</div>
             <div class="source">{{source}}</div>
             <div class="type">{{type}}</div>

@@ -20,11 +20,22 @@ $(document).ready(function () {
         });
     }
 
+    Handlebars.registerHelper('truncate', function (max_length, text) {
+        var too_long, s_;
+        too_long = text.length > max_length;
+        if (too_long) {
+            s_ = text.substr(0, max_length - 1);
+            s_ = s_.substr(0, s_.lastIndexOf(' ')) + '…';
+        } else {
+            s_ = text;
+        }
+        return s_;
+    });
+
     search(search_string);
 
     var engine = new Bloodhound({
-        name: 'animals',
-        local: [{val: 'dog'}, {val: 'pig'}, {val: 'moose'}],
+        name: 'holmes-typeahead',
         remote: {
             url: '/search-services/typeahead?any=%QUERY&callback=?',
             rateLimitWait: 100,
@@ -75,7 +86,8 @@ $(document).ready(function () {
                 cache: true,
                 success: function (data, status, xhr) {
                     var source = $('#' + service + '-template').html();
-                    var html = Mustache.to_html(source, data);
+                    var template = Handlebars.compile(source);
+                    var html = template(data);
                     $('#' + service + '-results').removeClass('loading').append(html);
                 },
                 error: function (xhr, status) {
