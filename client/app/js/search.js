@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var search_string, engine, services, templates, source;
+    var search_string, engine, services, templates, source, loading_timers;
 
     services = [
         'catalog',
@@ -10,6 +10,8 @@ $(document).ready(function () {
     ];
 
     templates = [];
+
+    loading_timers = [];
 
     search_string = getParameterByName('any');
 
@@ -83,8 +85,13 @@ $(document).ready(function () {
     }
 
     function callSearchService(service, keyword) {
+        var $target = $('#' + service + '-results');
 
-        $('#' + service + '-results').empty().addClass('loading');
+        $target.empty();
+        loading_timers[service] = setTimeout(function () {
+            $target.addClass('loading');
+        }, 150);
+
         $.ajax({
                 type: 'GET',
                 url: '/search-services/' + service + '?any=' + keyword,
@@ -92,10 +99,12 @@ $(document).ready(function () {
                 cache: true,
                 success: function (data, status, xhr) {
                     var html = templates[service](data);
-                    $('#' + service + '-results').removeClass('loading').append(html);
+                    clearTimeout(loading_timers[service]);
+                    $target.removeClass('loading').append(html);
                 },
                 error: function (xhr, status) {
-                    $('#' + service + '-results').removeClass('loading');
+                    clearTimeout(loading_timers[service]);
+                    $target.removeClass('loading');
                 }
             }
         );
