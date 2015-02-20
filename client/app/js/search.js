@@ -1,5 +1,27 @@
 $(document).ready(function () {
 
+    var search_string = getParameterByName('any');
+
+    if (!!window.history && history.pushState) {
+
+        history.replaceState({search_string: search_string});
+
+        window.onpopstate = function (event) {
+            search(event.state.search_string);
+        };
+
+        $('#bcbento-search').submit(function () {
+            var search_string = $('#typeahead').val();
+            var state = {search_string: search_string};
+            search_string = search_string.replace(/\s/g, '+');
+            history.pushState(state, null, '?any=' + search_string);
+            search(search_string);
+            return false;
+        });
+    }
+
+    search(search_string);
+
     var engine = new Bloodhound({
         name: 'animals',
         local: [{val: 'dog'}, {val: 'pig'}, {val: 'moose'}],
@@ -27,30 +49,40 @@ $(document).ready(function () {
         }
     });
 
-    $('#typeahead').typeahead('val', getParameterByName('any'))
+    function search(keyword) {
+        var services = [
+            'catalog',
+            'articles',
+            'librarians',
+            'guides'
+        ];
 
-    var services = [
-        'catalog',
-        'articles',
-        'librarians',
-        'guides'
-    ];
+        for (var i = 0; i < services.length; i++) {
+            callService(services[i], keyword);
+        }
 
-    for (var i = 0; i < services.length; i++) {
-        callService(services[i]);
+        $('#typeahead').typeahead('val', keyword.replace(/\+/g, ' '));
     }
 
-    function callService(service) {
-        $('#' + service + '-results').addClass('loading');
+    function callService(service, keyword) {
+        $('#' + service + '-results').empty().addClass('loading');
 
-        var url = '/search-services/' + service + '?any=' + getParameterByName('any') + '&callback=?';
-        $.getJSON(url, function (data, status, xhr) {
-            var source = $('#' + service + '-template').html();
-            var html = Mustache.to_html(source, data);
-            $('#' + service + '-results').removeClass('loading').append(html);
-        }).fail(function (xhr, status) {
-            $('#' + service + '-results').removeClass('loading');
-        });
+        var url = '/search-services/' + service + '?any=' + keyword;
+        $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'jsonp',
+                cache: true,
+                success: function (data, status, xhr) {
+                    var source = $('#' + service + '-template').html();
+                    var html = Mustache.to_html(source, data);
+                    $('#' + service + '-results').removeClass('loading').append(html);
+                },
+                error: function (xhr, status) {
+                    $('#' + service + '-results').removeClass('loading');
+                }
+            }
+        );
     }
 
     function getParameterByName(name) {

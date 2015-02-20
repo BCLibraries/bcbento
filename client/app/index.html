@@ -17,7 +17,7 @@
 
 <div id="newsearch">
     <div data-searchbox>
-        <form method="get" action="/search">
+        <form method="get" action="/search" id="bcbento-search">
             <input type="text" id="typeahead" name="any">
             <input type="submit">
         </form>
@@ -57,7 +57,6 @@
 
 <!-- Search result templates -->
 <script id="librarians-template" type="text/x-template">
-    <h3>Librarians</h3>
     <ul>
         {{#.}}
         <li>
