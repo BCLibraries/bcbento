@@ -1,6 +1,17 @@
 $(document).ready(function () {
 
-    var search_string = getParameterByName('any');
+    var search_string, engine, services, templates, source;
+
+    services = [
+        'catalog',
+        'articles',
+        'librarians',
+        'guides'
+    ];
+
+    templates = [];
+
+    search_string = getParameterByName('any');
 
     if (!!window.history && history.pushState) {
 
@@ -12,9 +23,8 @@ $(document).ready(function () {
 
         $('#bcbento-search').submit(function () {
             var search_string = $('#typeahead').val();
-            var state = {search_string: search_string};
             search_string = search_string.replace(/\s/g, '+');
-            history.pushState(state, null, '?any=' + search_string);
+            history.pushState({search_string: search_string}, null, '?any=' + search_string);
             search(search_string);
             return false;
         });
@@ -32,9 +42,14 @@ $(document).ready(function () {
         return s_;
     });
 
+    for (var i = 0; i < services.length; i++) {
+        source = $('#' + services[i] + '-template').html();
+        templates[services[i]] = Handlebars.compile(source);
+    }
+
     search(search_string);
 
-    var engine = new Bloodhound({
+    engine = new Bloodhound({
         name: 'holmes-typeahead',
         remote: {
             url: '/search-services/typeahead?any=%QUERY&callback=?',
@@ -61,33 +76,22 @@ $(document).ready(function () {
     });
 
     function search(keyword) {
-        var services = [
-            'catalog',
-            'articles',
-            'librarians',
-            'guides'
-        ];
-
         for (var i = 0; i < services.length; i++) {
-            callService(services[i], keyword);
+            callSearchService(services[i], keyword);
         }
-
         $('#typeahead').typeahead('val', keyword.replace(/\+/g, ' '));
     }
 
-    function callService(service, keyword) {
-        $('#' + service + '-results').empty().addClass('loading');
+    function callSearchService(service, keyword) {
 
-        var url = '/search-services/' + service + '?any=' + keyword;
+        $('#' + service + '-results').empty().addClass('loading');
         $.ajax({
                 type: 'GET',
-                url: url,
+                url: '/search-services/' + service + '?any=' + keyword,
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
-                    var source = $('#' + service + '-template').html();
-                    var template = Handlebars.compile(source);
-                    var html = template(data);
+                    var html = templates[service](data);
                     $('#' + service + '-results').removeClass('loading').append(html);
                 },
                 error: function (xhr, status) {
