@@ -3,6 +3,7 @@
 namespace BCLib\BCBento;
 
 use BCLib\PrimoServices\Availability\ClientFactory;
+use BCLib\PrimoServices\BibComponent;
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
 
@@ -110,6 +111,7 @@ class CatalogService extends AbstractPrimoService
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
             'link'         => "http://" . $this->primo->createDeepLink()->link($item->id),
+            'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
@@ -118,7 +120,11 @@ class CatalogService extends AbstractPrimoService
         ];
     }
 
-    protected function buildAvailability($components)
+    /**
+     * @param $components \BCLib\PrimoServices\BibComponent[]
+     * @return array
+     */
+    protected function buildAvailability(array $components)
     {
         $availabilities = [];
 
@@ -151,5 +157,24 @@ class CatalogService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url)
     {
         return (!strpos($image_url, 'amazon.com'));
+    }
+
+    private function buildLinksToResource(BibRecord $item)
+    {
+        $response = [];
+
+        $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];
+        $link_to_rsrc = is_array($link_to_rsrc) ? $link_to_rsrc : [$link_to_rsrc];
+
+        foreach ($link_to_rsrc as $link) {
+            list($url, $text) = explode('$$D', $link);
+            $url = str_replace('$$U', '', $url);
+            $response[] = [
+                'url'  => $url,
+                'text' => $text
+            ];
+        }
+
+        return $response;
     }
 }
