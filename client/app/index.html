@@ -53,7 +53,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="js/typeahead.bundle.min.js"></script>
 <script src="js/search.js"></script>
-<script src="js/bcbento-typeahead.js"></script>
 
 
 <!-- Search result templates -->
@@ -105,8 +104,7 @@
             <img src="{{.}}" class="cover-image">
             {{/covers.0}}
 
-            <div class="catalog-text" {{#covers.0}} class="hascover" {{
-            /covers.0}}>
+            <div class="catalog-text{{#covers.0}} has-cover{{/covers.0}}">
 
             <a href="{{link}}" class="title">
                 {{title}}
