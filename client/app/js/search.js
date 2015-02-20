@@ -59,9 +59,11 @@ $(document).ready(function () {
     }
 
     function callSearchService(service, keyword) {
-        var $target = $('#' + service + '-results');
+        var $target, $heading;
+        $target = $('#' + service + '-results');
+        $heading = $('#' + service + '-results h3');
+        $heading.nextAll().remove();
 
-        $target.empty();
         loading_timers[service] = setTimeout(function () {
             $target.addClass('loading');
         }, 150);
@@ -74,7 +76,8 @@ $(document).ready(function () {
                 success: function (data, status, xhr) {
                     var html = templates[service](data);
                     clearTimeout(loading_timers[service]);
-                    $target.removeClass('loading').append(html);
+                    $target.removeClass('loading');
+                    $heading.after(html);
                 },
                 error: function (xhr, status) {
                     clearTimeout(loading_timers[service]);

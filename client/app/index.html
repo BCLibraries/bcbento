@@ -30,19 +30,26 @@
 
         <!-- Secondary results box. -->
         <div id="secondary">
-            <div id="articles-results" class="result-container"></div>
+            <div id="articles-results" class="result-container">
+                <h3>Articles</h3>
+            </div>
         </div>
 
         <!-- The primary results box. -->
         <div id="primary">
-            <div id="catalog-results" class="result-container"></div>
+            <div id="catalog-results" class="result-container">
+                <h3>Catalog</h3>
+            </div>
         </div>
 
         <!-- Tertiary results box.-->
         <div id="tertiary">
-            <div id="librarians-results" class="result-container librarians"></div>
-            <div id="guides-results" class="result-container guides"></div>
-            <ng-include src="'partials/extra-results.html'"></ng-include>
+            <div id="librarians-results" class="result-container librarians">
+                <h3>Librarians</h3>
+            </div>
+            <div id="guides-results" class="result-container guides">
+                <h3>Subject guides</h3>
+            </div>
         </div>
 
     </div>
@@ -58,7 +65,6 @@
 
 <!-- Search result templates -->
 <script id="librarians-template" type="text/x-template">
-    <h3>Librarians</h3>
     <ul>
         {{#.}}
         <li>
@@ -76,7 +82,6 @@
 </script>
 
 <script id="guides-template" type="text/x-template">
-    <h3>Subject guides</h3>
     <ul>
         {{#.}}
         <li>
@@ -89,7 +94,6 @@
 </script>
 
 <script id="catalog-template" type="text/x-template">
-    <h3>Catalog</h3>
 
     <div class="more-results-link">
         <a href="{{search_link}}">
@@ -113,9 +117,7 @@
                 </a>
 
                 {{date}}
-
-                <span class="down-caret">&#9660;</span>
-
+                
                 <div class="catalog-metadata">
                     {{#if creator}}
                     <div class="creator">
@@ -158,8 +160,6 @@
 </script>
 
 <script id="articles-template" type="text/x-template">
-    <h3>Articles</h3>
-
     <div class="more-results-link">
         <a href="{{search_link}}">
             see all {{total_results}} results…
@@ -175,10 +175,6 @@
             </a>
 
             {{date}}
-
-            <div class="result-tools">
-                <p>Placeholder for result tools (email, SMS, etc).</p>
-            </div>
 
             {{#if creator}}
             <div class="creator">{{truncate '80' creator}}</div>

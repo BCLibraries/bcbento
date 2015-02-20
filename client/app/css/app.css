@@ -217,9 +217,9 @@
 }
 
 .result-tools {
-    background:#f2f2f6;
+    background: #f2f2f6;
     height: 40px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 /** Result tools opening animation **/
@@ -227,7 +227,7 @@
 .result-tools.ng-hide-add, .result-tools.ng-hide-remove {
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
-    display:block!important;
+    display: block !important;
 }
 
 .result-tools.ng-hide-add.ng-hide-add-active,
@@ -241,7 +241,6 @@
 }
 
 /** end result tools animation **/
-
 
 .tt-query {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -262,9 +261,9 @@
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
 .tt-suggestion {
@@ -282,7 +281,6 @@
 .tt-suggestion p {
     margin: 0;
 }
-
 
 .tt-suggestion {
     cursor: pointer;
