@@ -105,9 +105,6 @@
 
         {{#items}}
         <li class="bento-result">
-            {{#if covers.[0]}}
-            <img src="{{covers.[0]}}" class="cover-image">
-            {{/if}}
 
             <div class="catalog-text{{#if covers.[0]}} has-cover{{/if}}">
 
@@ -117,7 +114,7 @@
                 </a>
 
                 {{date}}
-                
+
                 <div class="catalog-metadata">
                     {{#if creator}}
                     <div class="creator">
@@ -153,6 +150,11 @@
                     </ul>
                 </div>
             </div>
+
+            {{#if covers.[0]}}
+            <img src="{{covers.[0]}}" class="cover-image">
+            {{/if}}
+
         </li>
         {{/items}}
     </ul>

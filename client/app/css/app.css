@@ -178,12 +178,12 @@
 
 #all-results .cover-image {
     width: 20%;
-    float: right;
+    float: left;
 }
 
 #all-results .catalog-text.has-cover {
     width: 80%;
-    float: right;
+    float: left;
     padding-right: 1em
 }
 
