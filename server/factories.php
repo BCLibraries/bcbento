@@ -43,7 +43,7 @@ $app->articles = function () use ($app) {
 };
 
 $app->catalog = function () use ($app) {
-    return new CatalogService($app->primo, $app->qb);
+    return new CatalogService($app->primo, $app->qb, $app->worldcat);
 };
 
 $app->guides = function () use ($app) {

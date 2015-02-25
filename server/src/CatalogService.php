@@ -3,9 +3,10 @@
 namespace BCLib\BCBento;
 
 use BCLib\PrimoServices\Availability\ClientFactory;
-use BCLib\PrimoServices\BibComponent;
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
+use BCLib\PrimoServices\PrimoServices;
+use BCLib\PrimoServices\QueryBuilder;
 
 class CatalogService extends AbstractPrimoService
 {
@@ -23,11 +24,15 @@ class CatalogService extends AbstractPrimoService
         'other'               => ''
     ];
 
-    public function searchCatalog($keyword)
+    /**
+     * @var WorldCatService
+     */
+    private $worldcat;
+
+    public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
     {
-        $query = $this->getQuery($keyword);
-        $result = $this->primo->search($query);
-        return $this->buildResponse($result, $keyword);
+        parent::__construct($primo, $query_builder);
+        $this->worldcat = $worldcat;
     }
 
     /**
@@ -43,6 +48,10 @@ class CatalogService extends AbstractPrimoService
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
+        if ($result->total_results == 0) {
+            return $this->worldcat->fetch($keyword);
+        }
+
         $response = new \stdClass();
 
         $response->total_results = $result->total_results;

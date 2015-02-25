@@ -114,12 +114,16 @@ class WorldCatService implements ServiceInterface
 
     private function formatResult(BibSearchResults $results)
     {
-        $response = [];
+        $wc_results = [];
         foreach ($results->getSearchResults() as $book) {
-            $response[] = $this->formatCreativeWork($book);
-            if (count($response) >= self::MAX_RESPONSE_ITEMS) {
+            $wc_results[] = $this->formatCreativeWork($book);
+            if (count($wc_results) >= self::MAX_RESPONSE_ITEMS) {
                 break;
             }
+        }
+        $response = ['total_results' => 0];
+        if (count($wc_results) > 0) {
+            $response['worldcat_results'] = $wc_results;
         }
         return $response;
     }
