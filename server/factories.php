@@ -4,7 +4,7 @@ use BCLib\BCBento\ArticlesService;
 use BCLib\BCBento\CatalogService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
-use BCLib\BCBento\Typeahead;
+use BCLib\BCBento\TypeaheadService;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -35,7 +35,7 @@ $app->elasticsearch = function () use ($app) {
 };
 
 $app->typeahead = function () use ($app) {
-    return new Typeahead($app->elasticsearch);
+    return new TypeaheadService($app->elasticsearch);
 };
 
 $app->articles = function () use ($app) {

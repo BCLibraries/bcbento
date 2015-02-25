@@ -4,7 +4,7 @@ namespace BCLib\BCBento;
 
 use Elasticsearch\Client;
 
-class Typeahead implements ServiceInterface
+class TypeaheadService implements ServiceInterface
 {
 
     /**
