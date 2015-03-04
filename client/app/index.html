@@ -142,9 +142,9 @@
                     <ul class="available-items">
                         {{#avail}}
                         <li class="item-info">
+                            <span class="availability">{{availability}}</span>
                             <span class="library">{{library}}</span>
                             <span class="callno">{{call_number}}</span>
-                            <span class="availability">{{availability}}</span>
                         </li>
                         {{/avail}}
                     </ul>
@@ -160,12 +160,24 @@
     </ul>
 
     {{#if worldcat_results}}
+    <div class="worldcat-results">
+        <p>The following items were found at other libraries:</p>
+        <ul>
+            {{#worldcat_results}}
+            <li>
+                <a href="{{url}}" class="title">
+                    {{truncate '100' name}}
+                </a>
 
+                <div class="creator">
+                    {{truncate '40' creator}}
+                </div>
+            </li>
+            {{/worldcat_results}}
+        </ul>
+    </div>
     {{/if}}
 
-    {{#worldcat_results}}
-    WC!!!
-    {{/worldcat_results}}
 
 </script>
 

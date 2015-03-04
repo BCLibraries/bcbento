@@ -5,6 +5,7 @@ use BCLib\BCBento\CatalogService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\TypeaheadService;
+use BCLib\PrimoServices\DeepLink;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -16,6 +17,10 @@ $app->primo = function () use ($app) {
         $app->config('PRIMO_INSTITUTION'),
         $app->redis
     );
+};
+
+$app->deeplink = function () use ($app) {
+    return new DeepLink($app->config('PRIMO_HOST'), $app->config('PRIMO_INSTITUTION'));
 };
 
 $app->qb = function () use ($app) {

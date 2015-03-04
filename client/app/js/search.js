@@ -51,6 +51,8 @@ $(document).ready(function () {
 
     search(search_string);
 
+    $('#typeahead').val(search_string);
+
     function search(keyword) {
         $('#typeahead').typeahead('close');
         for (var i = 0; i < services.length; i++) {

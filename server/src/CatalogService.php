@@ -2,6 +2,7 @@
 
 namespace BCLib\BCBento;
 
+use BCLib\PrimoServices\Availability\Availability;
 use BCLib\PrimoServices\Availability\ClientFactory;
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
@@ -29,6 +30,12 @@ class CatalogService extends AbstractPrimoService
      */
     private $worldcat;
 
+    private $libary_use_only_locations = [
+        'Reference No Loan',
+        'Reading Room Use Only',
+        'Reference Folio No Loan'
+    ];
+    
     public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
     {
         parent::__construct($primo, $query_builder);
@@ -124,7 +131,7 @@ class CatalogService extends AbstractPrimoService
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
-            'avail'        => $this->buildAvailability($item->components),
+            'avail'        => $this->buildAvailabilities($item->components),
             'toc'          => $this->tableOfContents($item)
         ];
     }
@@ -133,17 +140,34 @@ class CatalogService extends AbstractPrimoService
      * @param $components \BCLib\PrimoServices\BibComponent[]
      * @return array
      */
-    protected function buildAvailability(array $components)
+    protected function buildAvailabilities(array $components)
     {
         $availabilities = [];
 
         foreach ($components as $comp) {
             foreach ($comp->availability as $avail) {
-                $availabilities[] = $avail;
+                $availabilities[] = $this->buildAvailability($avail);;
             }
         }
 
         return $availabilities;
+    }
+
+    /**
+     * @param $avail
+     * @return \stdClass
+     */
+    protected function buildAvailability(Availability $avail)
+    {
+        $avail_object = new \stdClass();
+        $avail_object->availability = $avail->availability;
+        $avail_object->library = $avail->library;
+        $avail_object->call_number = $avail->call_number;
+        $avail_object->on_shelf = ($avail->availability === 'available');
+        $avail_object->check_avail = ($avail->availability === 'check availability');
+        $avail_object->in_library_only = (in_array($avail->location, $this->libary_use_only_locations));
+        $avail_object->full = $avail;
+        return $avail_object;
     }
 
     /**
