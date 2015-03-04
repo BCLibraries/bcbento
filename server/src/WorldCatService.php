@@ -16,7 +16,7 @@ class WorldCatService implements ServiceInterface
 
     const MAX_RESPONSE_ITEMS = 3;
 
-    const CACHE_ID = 'worldcat-discovery-token';
+    const TOKEN_CACHE_ID = 'worldcat-discovery-token';
 
     private $type_map = [
         'schema:Book'         => 'Book',
@@ -57,6 +57,12 @@ class WorldCatService implements ServiceInterface
 
     public function fetch($keyword)
     {
+        $cache_id = $this->requestCacheId($keyword);
+
+        if ($this->cache->contains($cache_id)) {
+            return $this->cache->fetch($cache_id);
+        }
+
         $still_searching = true;
         $num_tries = 0;
 
@@ -64,12 +70,12 @@ class WorldCatService implements ServiceInterface
 
         while ($still_searching && $num_tries < self::MAX_ACCESS_TOKEN_RETRIES) {
 
-            if (!$this->cache->contains(self::CACHE_ID)) {
+            if (!$this->cache->contains(self::TOKEN_CACHE_ID)) {
                 $this->access_code = $this->fetchAccessCode();
                 $ttl = $this->access_code->getExpiresIn() - 10;
-                $this->cache->save(self::CACHE_ID, $this->access_code, $ttl);
+                $this->cache->save(self::TOKEN_CACHE_ID, $this->access_code, $ttl);
             } else {
-                $this->access_code = $this->cache->fetch(self::CACHE_ID);
+                $this->access_code = $this->cache->fetch(self::TOKEN_CACHE_ID);
             }
 
             $bib = $this->search($keyword);
@@ -83,7 +89,11 @@ class WorldCatService implements ServiceInterface
             $num_tries++;
         }
 
-        return $this->formatResult($bib);
+        $result = $this->formatResult($bib);
+
+        $this->cache->save($cache_id, $result, 86400);
+
+        return $result;
     }
 
     private function fetchAccessCode()
@@ -162,5 +172,11 @@ class WorldCatService implements ServiceInterface
             $display_type = $original_type;
         }
         return $display_type;
+    }
+
+    private function requestCacheId($keyword)
+    {
+        $keyword = str_replace(' ', '+', $keyword);
+        return 'worldcat-discovery-result-' . $keyword;
     }
 }
