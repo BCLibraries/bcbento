@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e37b3925947de27ea0da84e0bd874220",
+    "hash": "7412d089d55b0e873f19325ee178c706",
     "packages": [
         {
             "name": "3ft9/dpla",
@@ -77,16 +77,16 @@
         },
         {
             "name": "bclibraries/primo-services",
-            "version": "0.2.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "650b03a68e4b2ba2d5d06b20e4c066a40e9f7344"
+                "reference": "abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/650b03a68e4b2ba2d5d06b20e4c066a40e9f7344",
-                "reference": "650b03a68e4b2ba2d5d06b20e4c066a40e9f7344",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2",
+                "reference": "abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2",
                 "shasum": ""
             },
             "require": {
@@ -114,10 +114,10 @@
             ],
             "description": "Access to Primo Web services",
             "support": {
-                "source": "https://github.com/BCLibraries/primo-services/tree/0.2.0",
+                "source": "https://github.com/BCLibraries/primo-services/tree/0.3.0",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2014-11-25 20:44:20"
+            "time": "2015-03-10 18:29:55"
         },
         {
             "name": "doctrine/cache",
@@ -190,16 +190,16 @@
         },
         {
             "name": "easyrdf/easyrdf",
-            "version": "0.9.0",
+            "version": "0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/njh/easyrdf.git",
-                "reference": "bb9fd99768d23af0c5b7b55cec5baddc201272b8"
+                "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/njh/easyrdf/zipball/bb9fd99768d23af0c5b7b55cec5baddc201272b8",
-                "reference": "bb9fd99768d23af0c5b7b55cec5baddc201272b8",
+                "url": "https://api.github.com/repos/njh/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
+                "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
                 "rdfa",
                 "sparql"
             ],
-            "time": "2014-11-07 18:02:16"
+            "time": "2015-02-27 09:45:49"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -401,16 +401,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.12.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f"
+                "reference": "c41c218e239b50446fd883acb1ecfd4b770caeae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
-                "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c41c218e239b50446fd883acb1ecfd4b770caeae",
+                "reference": "c41c218e239b50446fd883acb1ecfd4b770caeae",
                 "shasum": ""
             },
             "require": {
@@ -427,6 +427,7 @@
                 "phpunit/phpunit": "~4.0",
                 "raven/raven": "~0.5",
                 "ruflin/elastica": "0.90.*",
+                "swiftmailer/swiftmailer": "~5.3",
                 "videlalvaro/php-amqplib": "~2.4"
             },
             "suggest": {
@@ -443,7 +444,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12.x-dev"
+                    "dev-master": "1.13.x-dev"
                 }
             },
             "autoload": {
@@ -469,7 +470,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-12-29 21:29:35"
+            "time": "2015-03-05 01:12:12"
         },
         {
             "name": "packfire/php5.3-compat",
@@ -969,16 +970,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "2.5.0",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/codeguy/Slim.git",
-                "reference": "04958a10ed95bc7bc97568e573877d4f9b62db48"
+                "url": "https://github.com/slimphp/Slim.git",
+                "reference": "20a02782f76830b67ae56a5c08eb1f563c351a37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim/zipball/04958a10ed95bc7bc97568e573877d4f9b62db48",
-                "reference": "04958a10ed95bc7bc97568e573877d4f9b62db48",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/20a02782f76830b67ae56a5c08eb1f563c351a37",
+                "reference": "20a02782f76830b67ae56a5c08eb1f563c351a37",
                 "shasum": ""
             },
             "require": {
@@ -1011,21 +1012,21 @@
                 "rest",
                 "router"
             ],
-            "time": "2014-12-09 19:59:29"
+            "time": "2015-03-08 18:41:17"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "40ff70cadea3785d83cac1c8309514b36113064e"
+                "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/40ff70cadea3785d83cac1c8309514b36113064e",
-                "reference": "40ff70cadea3785d83cac1c8309514b36113064e",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f75989f3ab2743a82fe0b03ded2598a2b1546813",
+                "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813",
                 "shasum": ""
             },
             "require": {
@@ -1069,21 +1070,21 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-05 14:28:40"
+            "time": "2015-02-01 16:10:57"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -1116,7 +1117,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 15:33:07"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "worldcat/discovery",

@@ -15,7 +15,8 @@ $app->primo = function () use ($app) {
     return new PrimoServices(
         $app->config('PRIMO_HOST'),
         $app->config('PRIMO_INSTITUTION'),
-        $app->redis
+        $app->redis,
+        '4.9'
     );
 };
 
