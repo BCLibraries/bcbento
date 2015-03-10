@@ -194,6 +194,7 @@ class CatalogService extends AbstractPrimoService
 
     private function buildLinksToResource(BibRecord $item)
     {
+        return [];
         $response = [];
 
         $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];

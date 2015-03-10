@@ -50,7 +50,7 @@ abstract class AbstractLocalService implements ServiceInterface
                     'fields'           => [
                         "title^10",
                         "author^5",
-                        "subject^3",
+                        "subjects^3",
                         "description",
                         "issn",
                         "isbn"
@@ -59,7 +59,7 @@ abstract class AbstractLocalService implements ServiceInterface
                 ]
             ],
             'from'   => 0,
-            'size'   => 0,
+            'size'   => 10,
             'sort'   => [],
             'facets' => [
                 'LCCDep1' => [
