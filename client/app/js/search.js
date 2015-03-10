@@ -4,17 +4,13 @@
 $(document).ready(function () {
     'use strict';
 
-    var search_string, services, templates, source, loading_timers, i;
+    var search_string, services, templates, source, loading_timers, i, max;
 
-    function search(keyword) {
-        var $typeahead = $('#typeahead');
-        $typeahead.typeahead('close');
-        for (i = 0; i < services.length; i++) {
-            callSearchService(services[i], keyword);
-        }
-        $typeahead.typeahead('val', keyword.replace(/\+/g, ' '));
-    }
-
+    /**
+     * Call a single search service
+     * @param service the name of the service
+     * @param keyword the
+     */
     function callSearchService(service, keyword) {
         var $target, $heading;
         $target = $('#' + service + '-results');
@@ -45,12 +41,41 @@ $(document).ready(function () {
         );
     }
 
+    /**
+     * Search all services
+     * @param keyword
+     */
+    function search(keyword) {
+        var $typeahead = $('#typeahead');
+        $typeahead.typeahead('close');
+        for (i = 0, max = services.length; i < max; i += 1) {
+            callSearchService(services[i], keyword);
+        }
+        $typeahead.typeahead('val', keyword.replace(/\+/g, ' '));
+    }
+
+    /**
+     * Get a parameter from the query string
+     * @param name
+     * @returns {string}
+     */
     function getQueryStringParam(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    };
+    }
+
+    /**
+     * Render the search results
+     * @param services
+     */
+    function renderSearchResults(services) {
+        for (i = 0, max = services.length; i < max; i += 1) {
+            source = $('#' + services[i] + '-template').html();
+            templates[services[i]] = Handlebars.compile(source);
+        }
+    }
 
     services = [
         'catalog',
@@ -94,13 +119,8 @@ $(document).ready(function () {
         return string;
     });
 
-    for (i = 0; i < services.length; i++) {
-        source = $('#' + services[i] + '-template').html();
-        templates[services[i]] = Handlebars.compile(source);
-    }
-
+    renderSearchResults(services);
     search(search_string);
-
     $('#typeahead').val(search_string);
 
 });

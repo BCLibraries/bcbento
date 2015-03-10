@@ -1,5 +1,10 @@
+/*jslint browser:true */
+/*globals $, Handlebars, Bloodhound */
+
 $(document).ready(function () {
-    engine = new Bloodhound({
+    'use strict';
+
+    var engine = new Bloodhound({
         name: 'holmes-typeahead',
         remote: {
             url: '/search-services/typeahead?any=%QUERY&callback=?',
