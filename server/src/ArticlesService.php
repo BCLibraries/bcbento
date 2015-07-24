@@ -30,7 +30,7 @@ class ArticlesService extends AbstractPrimoService
         $term = new QueryTerm();
         $term->set('facet_tlevel','exact','online_resources_PC_TN');
         return $this->query_builder->keyword($keyword)->getQuery()->addTerm($term)
-            ->articles()->bulkSize($this->results_to_send);
+            ->articles()->bulkSize($this->results_to_send)->onCampus(true);
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
@@ -46,7 +46,7 @@ class ArticlesService extends AbstractPrimoService
     protected function searchArticlesDeepLink($keyword)
     {
         return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
-        'institution=BCL&vid=bclib&onCampus=true&group=GUEST&tab=pci_only&query=any,contains,' .
+        'institution=BCL&vid=bclib&onCampus=false&group=GUEST&tab=pci_only&query=any,contains,' .
         $keyword . '&loc=adaptor%2Cprimo_central_multiple_fe';
     }
 
