@@ -26,12 +26,12 @@ class TypeaheadService implements ServiceInterface
     public function _fetchSuggestions($input)
     {
         $params = [
-            'index' => 'autocomp',
+            'index' => 'autocomplete',
             'body'  => [
                 'ac' => [
                     'text'       => $input,
                     'completion' => [
-                        'field' => 'name_suggest'
+                        'field' => 'suggest'
                     ]
                 ]
             ]
@@ -47,7 +47,7 @@ class TypeaheadService implements ServiceInterface
 
         foreach ($suggestions['ac'][0]['options'] as $term) {
             $results[] = [
-            'value' => $term['text'],
+            'value' => rtrim($term['text'],' /\\.'),
             'type' => $term['payload']['type']
             ];
         }

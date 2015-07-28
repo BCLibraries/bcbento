@@ -41,7 +41,7 @@ abstract class AbstractLocalService implements ServiceInterface
     protected function getRelevantTerms($keyword)
     {
         $params = [];
-        $params['index'] = 'records';
+        $params['index'] = 'catalog';
         $params['body'] = [
             'query'  => [
                 'query_string' => [
@@ -64,19 +64,19 @@ abstract class AbstractLocalService implements ServiceInterface
             'facets' => [
                 'LCCDep1' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep1',
+                        'key_field'    => 'tax1',
                         'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep2' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep2',
+                        'key_field'    => 'tax2',
                         'value_script' => 'doc.score'
                     ]
                 ],
                 'LCCDep3' => [
                     'terms_stats' => [
-                        'key_field'    => 'LCCDep3',
+                        'key_field'    => 'tax3',
                         'value_script' => 'doc.score'
                     ]
                 ]

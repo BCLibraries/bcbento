@@ -22,6 +22,7 @@ class ArticlesService extends AbstractPrimoService
         'article'             => 'Article',
         'newspaper_article'   => 'Newspaper article',
         'review'              => 'Review',
+        'reference_entry'     => 'Reference entry',
         'other'               => ''
     ];
 
