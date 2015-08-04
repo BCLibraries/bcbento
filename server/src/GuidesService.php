@@ -6,7 +6,9 @@ use Elasticsearch\Client;
 
 class GuidesService extends AbstractLocalService implements ServiceInterface
 {
-    const MIN_GUIDE_SCORE = '.3';
+    const MIN_GUIDE_SCORE = '.01';
+
+    public $max_boost = 0;
 
     public function __construct(Client $elastic_search)
     {
@@ -16,17 +18,28 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 
     public function buildQuery($keyword, array $taxonomy_terms)
     {
-        $keyword_query = [
-            'query_string' => [
-                'query' => $keyword
-            ]
-        ];
-
         $must = [];
         $should = $this->buildTaxonomySubQueries($taxonomy_terms);
 
+        $keyword_query = [
+            'query_string' => [
+                'query' => $keyword,
+                'boost' => $this->max_boost / 10
+            ]
+        ];
+
+        $phrase_match_query = [
+            'match_phrase' => [
+                'taxonomy' => [
+                    'query' => $keyword,
+                    'boost' => $this->max_boost * 10
+                ]
+            ]
+        ];
+
         if (count($taxonomy_terms)) {
             $should[] = $keyword_query;
+            $should[] = $phrase_match_query;
         } else {
             $must[] = $keyword_query;
         }
@@ -86,7 +99,7 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
     protected function buildTaxonomySubQueries(array $taxonomy_terms)
     {
         // Increase to make lower-level taxonomy results comparatively more valuable.
-        $level_boost_multiple = 10;
+        $level_boost_multiple = 5;
 
         // Increase to use more matched taxonomy terms.
         $terms_to_use = 3;
@@ -97,11 +110,12 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
         foreach ($taxonomy_terms as $taxonomy_term) {
             $i = 0;
             while ($i < $terms_to_use && isset($taxonomy_term[$i])) {
+                $boost = $this->calcuateBoost($taxonomy_term[$i], $level_boost);
                 $taxonomy_queries[] = [
                     'match_phrase' => [
                         'taxonomy' => [
                             'query' => $taxonomy_term[$i]['term'],
-                            'boost' => $taxonomy_term[$i]['total']
+                            'boost' => $boost
                         ]
                     ]
                 ];
@@ -109,7 +123,13 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
             }
             $level_boost *= $level_boost_multiple;
         }
-
         return $taxonomy_queries;
+    }
+
+    private function calcuateBoost($taxonomy_term, $level_boost)
+    {
+        $boost = $taxonomy_term['total']  * $level_boost;
+        $this->max_boost = $boost > $this->max_boost ? $boost : $this->max_boost;
+        return $boost;
     }
 }
