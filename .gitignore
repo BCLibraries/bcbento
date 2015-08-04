@@ -8,6 +8,7 @@ server/bootstrap/compiled.php
 server/vendor
 server/composer.phar
 server/.env.*
+server/lib*.json
 .DS_Store
 Thumbs.db
 no-version
