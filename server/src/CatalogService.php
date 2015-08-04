@@ -35,7 +35,7 @@ class CatalogService extends AbstractPrimoService
         'Reading Room Use Only',
         'Reference Folio No Loan'
     ];
-    
+
     public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
     {
         parent::__construct($primo, $query_builder);
@@ -49,7 +49,7 @@ class CatalogService extends AbstractPrimoService
     protected function getQuery($keyword)
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(6);
+            ->local('BCL')->bulkSize(4);
         return $query;
     }
 
@@ -119,6 +119,8 @@ class CatalogService extends AbstractPrimoService
         $date = $item->field('addata/date');
         $date = is_array($date) ? $date[0] : $date;
 
+        $getit = $this->getItLink($item);
+
         return [
             'id'           => $item->id,
             'title'        => $item->title,
@@ -132,6 +134,7 @@ class CatalogService extends AbstractPrimoService
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
             'avail'        => $this->buildAvailabilities($item->components),
+            'getit'        => $getit,
             'toc'          => $this->tableOfContents($item)
         ];
     }
@@ -168,6 +171,23 @@ class CatalogService extends AbstractPrimoService
         $avail_object->in_library_only = (in_array($avail->location, $this->libary_use_only_locations));
         $avail_object->full = $avail;
         return $avail_object;
+    }
+
+    /**
+     * @param BibRecord $item
+     * @return bool
+     */
+    protected function getItLink(BibRecord $item)
+    {
+        $getit = false;
+        $i = 0;
+        while (isset($item->getit[$i]) && ! $getit) {
+            if ($item->getit[$i]->category === 'Alma-E') {
+                $getit = $item->getit[$i]->getit_1;
+            }
+            $i++;
+        }
+        return $getit;
     }
 
     /**
