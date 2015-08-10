@@ -10,9 +10,9 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 
     public $max_boost = 0;
 
-    public function __construct(Client $elastic_search)
+    public function __construct(Client $elastic_search, $es_version)
     {
-        parent::__construct($elastic_search);
+        parent::__construct($elastic_search, $es_version);
         $this->index = 'guides';
     }
 
@@ -129,7 +129,7 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
 
     private function calcuateBoost($taxonomy_term, $level_boost)
     {
-        $boost = $taxonomy_term['total']  * $level_boost;
+        $boost = $taxonomy_term['total'] * $level_boost;
         $this->max_boost = $boost > $this->max_boost ? $boost : $this->max_boost;
         return $boost;
     }

@@ -1,7 +1,9 @@
 <?php
 
 use BCLib\BCBento\ArticlesService;
+use BCLib\BCBento\BestBetsService;
 use BCLib\BCBento\CatalogService;
+use BCLib\BCBento\DPLAService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\TypeaheadService;
@@ -52,17 +54,23 @@ $app->catalog = function () use ($app) {
     return new CatalogService($app->primo, $app->qb, $app->worldcat);
 };
 
-$app->guides = function () use ($app) {
-    return new GuidesService($app->elasticsearch);
+$app->guides = function () use ($app) {;
+    return new GuidesService(
+        $app->elasticsearch,
+        $app->config('ELASTICSEARCH_VERSION')
+    );
 };
 
 $app->librarians = function () use ($app) {
-    return new LibrariansService($app->elasticsearch);
+    return new LibrariansService(
+        $app->elasticsearch,
+        $app->config('ELASTICSEARCH_VERSION')
+    );
 };
 
 $app->dpla = function () use ($app) {
     require_once __DIR__ . '/vendor/3ft9/dpla/tfn/DPLA.php';
-    return new \BCLib\BCBento\DPLAService(new \TFN\DPLA($app->config('DPLA_KEY')));
+    return new DPLAService(new \TFN\DPLA($app->config('DPLA_KEY')));
 };
 
 $app->worldcat = function () use ($app) {
@@ -73,4 +81,8 @@ $app->worldcat = function () use ($app) {
         $app->config('WORLDCAT_INST_CODE'),
         $app->redis
     );
+};
+
+$app->bets = function () use ($app) {
+    return new BestBetsService($app->elasticsearch);
 };

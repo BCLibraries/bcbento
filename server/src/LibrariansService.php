@@ -9,9 +9,9 @@ class LibrariansService extends AbstractLocalService implements ServiceInterface
 
     const MIN_LIBRARIAN_SCORE = '.1';
 
-    public function __construct(Client $elastic_search)
+    public function __construct(Client $elastic_search, $es_version)
     {
-        parent::__construct($elastic_search);
+        parent::__construct($elastic_search, $es_version);
         $this->index = 'librarians';
     }
 

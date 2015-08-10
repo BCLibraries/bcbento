@@ -15,9 +15,12 @@ abstract class AbstractLocalService implements ServiceInterface
 
     protected $index;
 
-    public function __construct(Client $elastic_search)
+    protected $es_version;
+
+    public function __construct(Client $elastic_search, $es_version)
     {
         $this->elastic_search = $elastic_search;
+        $this->es_version = $es_version;
     }
 
     public function fetch($keyword)
@@ -42,6 +45,8 @@ abstract class AbstractLocalService implements ServiceInterface
 
     protected function getRelevantTerms($keyword)
     {
+        $score_script = ($this->es_version < '1.3.2') ? 'doc.score' : '_score';
+
         $params = [];
         $params['index'] = 'catalog';
         $params['body'] = [
@@ -67,19 +72,19 @@ abstract class AbstractLocalService implements ServiceInterface
                 'LCCDep1' => [
                     'terms_stats' => [
                         'key_field'    => 'tax1',
-                        'value_script' => '_score'
+                        'value_script' => $score_script
                     ]
                 ],
                 'LCCDep2' => [
                     'terms_stats' => [
                         'key_field'    => 'tax2',
-                        'value_script' => '_score'
+                        'value_script' => $score_script
                     ]
                 ],
                 'LCCDep3' => [
                     'terms_stats' => [
                         'key_field'    => 'tax3',
-                        'value_script' => '_score'
+                        'value_script' => $score_script
                     ]
                 ]
             ]
