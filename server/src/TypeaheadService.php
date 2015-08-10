@@ -41,14 +41,15 @@ class TypeaheadService implements ServiceInterface
 
         $results = [];
 
-        if (! isset($suggestions['ac'][0])) {
+        if (!isset($suggestions['ac'][0])) {
             return $results;
         }
 
         foreach ($suggestions['ac'][0]['options'] as $term) {
             $results[] = [
-            'value' => rtrim($term['text'],' /\\.'),
-            'type' => $term['payload']['type']
+                'value' => rtrim($term['text'], ' /\\.'),
+                'type'  => '',
+                'all'   => $term
             ];
         }
         return $results;
