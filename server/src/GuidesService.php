@@ -6,7 +6,7 @@ use Elasticsearch\Client;
 
 class GuidesService extends AbstractLocalService implements ServiceInterface
 {
-    const MIN_GUIDE_SCORE = '.01';
+    const MIN_GUIDE_SCORE = '.1';
 
     public $max_boost = 0;
 
@@ -22,9 +22,11 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
         $should = $this->buildTaxonomySubQueries($taxonomy_terms);
 
         $keyword_query = [
-            'query_string' => [
-                'query' => $keyword,
-                'boost' => $this->max_boost / 10
+            'match' => [
+                'title' => [
+                    'query' => $keyword,
+                    'boost' => $this->max_boost
+                ]
             ]
         ];
 
@@ -32,14 +34,13 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
             'match_phrase' => [
                 'taxonomy' => [
                     'query' => $keyword,
-                    'boost' => $this->max_boost * 10
+                    'boost' => $this->max_boost
                 ]
             ]
         ];
 
         if (count($taxonomy_terms)) {
             $should[] = $keyword_query;
-            $should[] = $phrase_match_query;
         } else {
             $must[] = $keyword_query;
         }
@@ -102,7 +103,7 @@ class GuidesService extends AbstractLocalService implements ServiceInterface
         $level_boost_multiple = 5;
 
         // Increase to use more matched taxonomy terms.
-        $terms_to_use = 3;
+        $terms_to_use = 2;
 
         $level_boost = 1;
 

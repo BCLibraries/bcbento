@@ -3,6 +3,8 @@
 namespace BCLib\BCBento;
 
 use Elasticsearch\Client;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 abstract class AbstractLocalService implements ServiceInterface
 {
@@ -65,19 +67,19 @@ abstract class AbstractLocalService implements ServiceInterface
                 'LCCDep1' => [
                     'terms_stats' => [
                         'key_field'    => 'tax1',
-                        'value_script' => 'doc.score'
+                        'value_script' => '_score'
                     ]
                 ],
                 'LCCDep2' => [
                     'terms_stats' => [
                         'key_field'    => 'tax2',
-                        'value_script' => 'doc.score'
+                        'value_script' => '_score'
                     ]
                 ],
                 'LCCDep3' => [
                     'terms_stats' => [
                         'key_field'    => 'tax3',
-                        'value_script' => 'doc.score'
+                        'value_script' => '_score'
                     ]
                 ]
             ]
@@ -98,5 +100,15 @@ abstract class AbstractLocalService implements ServiceInterface
     protected function cacheKey($term)
     {
         return 'search-terms:' . sha1($term);
+    }
+
+    protected function logQuery()
+    {
+        $logger = new Logger('eslog');
+        $logger->pushHandler(new StreamHandler('/usr/local/var/log/bcbento/bcbento.log', Logger::INFO));
+
+
+        $dump = $this->elastic_search->transport->getConnection()->getLastRequestInfo()['request']['body'];
+        $logger->info($dump);
     }
 }
