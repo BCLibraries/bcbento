@@ -71,16 +71,15 @@ $app->get(
     function () use ($app) {
         $json = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/libguides.json');
         $guides = json_decode($json, true);
-        $guides = [];
         $elasticsearch = new \Elasticsearch\Client(['hosts' => [$app->config('ELASTICSEARCH_HOST')]]);
         foreach ($guides as $guide) {
             $params = [];
             $params['id'] = $guide['id'];
             unset($guide['id']);
             $params['body'] = $guide;
-            $params['index'] = 'libguides';
+            $params['index'] = 'guides';
             $params['type'] = 'guide';
-        //    $elasticsearch->index($params);
+            $elasticsearch->index($params);
         }
 
     }
