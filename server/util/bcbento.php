@@ -67,6 +67,18 @@ $app->get(
 );
 
 $app->get(
+    '/download/databases',
+    function () use ($app) {
+        $client = new \Guzzle\Http\Client();
+        $result = $client->get(
+            'http://lgapi.libapps.com/1.1/assets?site_id=94&key=a8d4316f3140239e36f101209d9f1b36&asset_types[]=10&asset_types[]=6'
+        )->send()->getBody(true);
+        $result_obj = json_decode($result);
+        echo json_encode($result_obj, JSON_PRETTY_PRINT);
+    }
+);
+
+$app->get(
     '/load/portals',
     function () use ($app) {
         $json = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/libguides.json');
