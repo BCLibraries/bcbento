@@ -29,7 +29,7 @@ class ArticlesService extends AbstractPrimoService
     public function getQuery($keyword)
     {
         $term = new QueryTerm();
-        $term->set('facet_tlevel','exact','online_resources_PC_TN');
+        $term->set('facet_tlevel', 'exact', 'online_resources_PC_TN');
         return $this->query_builder->keyword($keyword)->getQuery()->addTerm($term)
             ->articles()->bulkSize($this->results_to_send)->onCampus(true);
     }
@@ -68,7 +68,7 @@ class ArticlesService extends AbstractPrimoService
 
         $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
         $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
-        $deep_link .= '&docId=' . $result->id;
+        $deep_link .= '&docId=' . $result->id . '&tab=pci_only';
 
         return [
             'id'        => $id,
