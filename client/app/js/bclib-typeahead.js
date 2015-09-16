@@ -27,7 +27,8 @@ $(document).ready(function () {
             suggestion: function (result) {
                 var display = truncate(result.value,80);
                 //result.value = display.replace(/&hellip;$/,'');
-                return '<div><span class="summary">' + display + '</span><span class="full">' + result.value + '</span></div>';
+                result.value.replace(/…$/,'');
+                return '<div><span class="summary">' + display + '</span></div>';
             },
             header: '<h3>Search suggestions</h3>'
         }

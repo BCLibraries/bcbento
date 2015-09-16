@@ -47,11 +47,23 @@ $(document).ready(function () {
      */
     function search(keyword) {
         var $typeahead = $('#typeahead');
+        setTitle(keyword);
         $typeahead.typeahead('close');
         for (i = 0, max = services.length; i < max; i += 1) {
             callSearchService(services[i], keyword);
         }
         $typeahead.typeahead('val', keyword.replace(/\+/g, ' '));
+    }
+
+    /**
+     * Set page title
+     * @param keyword
+     */
+    function setTitle(keyword) {
+        var display_keyword = keyword.replace(/\+/g, ' ');
+        if (keyword) {
+            document.title = 'Search BC Libraries for "' + truncate(display_keyword, 40) + '"';
+        }
     }
 
     /**
@@ -77,6 +89,21 @@ $(document).ready(function () {
         }
     }
 
+
+    /**
+     * Truncate string and add ellipses
+     * @param str
+     * @param length
+     * @returns string
+     */
+    function truncate(str, length) {
+        var too_long, s_;
+        too_long = str.length > length;
+        s_ = too_long ? str.substr(0, length - 1) : str;
+        s_ = too_long ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
+        return too_long ? s_ + '…' : s_;
+    }
+
     services = [
         'catalog',
         'articles',
@@ -92,7 +119,7 @@ $(document).ready(function () {
 
     if (!!window.history && history.pushState) {
 
-        history.replaceState({search_string: search_string});
+        history.replaceState({search_string: search_string}, document.title);
 
         window.onpopstate = function (event) {
             search(event.state.search_string);
