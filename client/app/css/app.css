@@ -273,14 +273,6 @@
     background-color: #430000;
 }
 
-.tt-suggestion .full {
-    display: none;
-}
-
-.tt-suggestion.tt-cursor .summary {
-    display: none;
-}
-
 .tt-suggestion.tt-cursor .full {
     display: inline;
 }
