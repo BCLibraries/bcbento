@@ -4,10 +4,14 @@
 $(document).ready(function () {
     'use strict';
 
-    var engine = new Bloodhound({
+    var engine, api_version;
+
+    api_version = '0.0.7';
+
+    engine = new Bloodhound({
         name: 'holmes-typeahead',
         remote: {
-            url: '/search-services/typeahead?any=%QUERY&callback=?',
+            url: '/search-services/v' + api_version + '/typeahead?any=%QUERY&callback=?',
             rateLimitWait: 100,
             rateLimitBy: 'throttle'
         },
@@ -25,9 +29,8 @@ $(document).ready(function () {
         templates: {
             empty: '',
             suggestion: function (result) {
-                var display = truncate(result.value,80);
-                //result.value = display.replace(/&hellip;$/,'');
-                result.value.replace(/…$/,'');
+                var display = truncate(result.value, 80);
+                result.value = result.value.replace(/…$/, '');
                 return '<div><span class="summary">' + display + '</span></div>';
             },
             header: '<h3>Search suggestions</h3>'

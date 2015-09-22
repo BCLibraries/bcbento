@@ -4,7 +4,9 @@
 $(document).ready(function () {
     'use strict';
 
-    var search_string, services, templates, source, loading_timers, i, max;
+    var search_string, services, templates, source, loading_timers, i, max, api_version;
+
+    api_version = '0.0.7';
 
     /**
      * Call a single search service
@@ -24,7 +26,7 @@ $(document).ready(function () {
         $.ajax(
             {
                 type: 'GET',
-                url: '/search-services/' + service + '?any=' + keyword,
+                url: '/search-services/v' + api_version + '/' + service + '?any=' + keyword,
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
