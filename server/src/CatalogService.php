@@ -30,7 +30,7 @@ class CatalogService extends AbstractPrimoService
      */
     private $worldcat;
 
-    private $libary_use_only_locations = [
+    private $library_use_only_locations = [
         'Reference No Loan',
         'Reading Room Use Only',
         'Reference Folio No Loan'
@@ -121,6 +121,8 @@ class CatalogService extends AbstractPrimoService
 
         $getit = $this->getItLink($item);
 
+        $tab = $getit ? 'viewOnlineTab' : 'requestTab';
+
         return [
             'id'           => $item->id,
             'title'        => $item->title,
@@ -128,7 +130,7 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id),
+            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id)."&tabs=$tab",
             'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
@@ -168,7 +170,7 @@ class CatalogService extends AbstractPrimoService
         $avail_object->call_number = $avail->call_number;
         $avail_object->on_shelf = ($avail->availability === 'available');
         $avail_object->check_avail = ($avail->availability === 'check availability');
-        $avail_object->in_library_only = (in_array($avail->location, $this->libary_use_only_locations));
+        $avail_object->in_library_only = (in_array($avail->location, $this->library_use_only_locations));
         $avail_object->full = $avail;
         return $avail_object;
     }
@@ -183,6 +185,8 @@ class CatalogService extends AbstractPrimoService
         $i = 0;
         while (isset($item->getit[$i]) && ! $getit) {
             if ($item->getit[$i]->category === 'Alma-E') {
+                $getit = $item->getit[$i]->getit_1;
+            } else if ($item->getit[$i]->category === 'Online Resource') {
                 $getit = $item->getit[$i]->getit_1;
             }
             $i++;
