@@ -25,12 +25,20 @@ class CatalogService extends AbstractPrimoService
         'other'               => ''
     ];
 
+    private $lib_map = [
+        'TML'   => 'Theology and Ministry Library',
+        'ERC'   => 'Educational Resource Center',
+        'ONL'   => 'O\'Neill Library',
+        'BURNS' => 'Burns Library',
+        'BAPST' => 'Bapst Library'
+    ];
+
     /**
      * @var WorldCatService
      */
     private $worldcat;
 
-    private $library_use_only_locations = [
+    private $lib_use_only_locations = [
         'Reference No Loan',
         'Reading Room Use Only',
         'Reference Folio No Loan'
@@ -130,7 +138,7 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id)."&tabs=$tab",
+            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . "&tabs=$tab",
             'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
@@ -164,15 +172,21 @@ class CatalogService extends AbstractPrimoService
      */
     protected function buildAvailability(Availability $avail)
     {
-        $avail_object = new \stdClass();
-        $avail_object->availability = $avail->availability;
-        $avail_object->library = $avail->library;
-        $avail_object->call_number = $avail->call_number;
-        $avail_object->on_shelf = ($avail->availability === 'available');
-        $avail_object->check_avail = ($avail->availability === 'check availability');
-        $avail_object->in_library_only = (in_array($avail->location, $this->library_use_only_locations));
-        $avail_object->full = $avail;
-        return $avail_object;
+        $avail_obj = new \stdClass();
+        $avail_obj->availability = $avail->availability;
+        $avail_obj->library = $avail->library;
+        $avail_obj->call_number = $avail->call_number;
+        $avail_obj->on_shelf = ($avail->availability === 'available');
+        $avail_obj->check_avail = ($avail->availability === 'check availability');
+        $avail_obj->in_library_only = (in_array($avail->location, $this->lib_use_only_locations));
+        if (isset($avail->library, $this->lib_map)) {
+            $avail_obj->lib_display = $this->lib_map[$avail->library];
+        } else {
+            $avail_obj->lib_display = $avail->library;
+        }
+        $avail_obj->lib_display .= ' ' . $avail->location;
+        $avail_obj->full = $avail;
+        return $avail_obj;
     }
 
     /**
@@ -183,11 +197,13 @@ class CatalogService extends AbstractPrimoService
     {
         $getit = false;
         $i = 0;
-        while (isset($item->getit[$i]) && ! $getit) {
+        while (isset($item->getit[$i]) && !$getit) {
             if ($item->getit[$i]->category === 'Alma-E') {
                 $getit = $item->getit[$i]->getit_1;
-            } else if ($item->getit[$i]->category === 'Online Resource') {
-                $getit = $item->getit[$i]->getit_1;
+            } else {
+                if ($item->getit[$i]->category === 'Online Resource') {
+                    $getit = $item->getit[$i]->getit_1;
+                }
             }
             $i++;
         }
