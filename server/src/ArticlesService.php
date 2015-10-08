@@ -72,14 +72,14 @@ class ArticlesService extends AbstractPrimoService
 
         return [
             'id'        => $id,
-            'title'     => $result->title,
-            'date'      => $result->date,
-            'publisher' => $result->publisher,
-            'creator'   => $result->field('display/creator'),
+            'title'     => strip_tags($result->title),
+            'date'      => strip_tags($result->date),
+            'publisher' => strip_tags($result->publisher),
+            'creator'   => strip_tags($result->field('display/creator')),
             'link'      => $deep_link,
-            'source'    => $result->field('display/source'),
-            'part_of'   => $result->field('display/ispartof'),
-            'type'      => $this->displayType($result),
+            'source'    => strip_tags($result->field('display/source')),
+            'part_of'   => strip_tags($result->field('display/ispartof')),
+            'type'      => strip_tags($this->displayType($result)),
             'real_type' => $result->type
         ];
     }
