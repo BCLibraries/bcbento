@@ -47,7 +47,7 @@ class TypeaheadService implements ServiceInterface
 
         foreach ($suggestions['ac'][0]['options'] as $term) {
             $results[] = [
-                'value' => rtrim($term['text'], ' /\\.'),
+                'value' => rtrim($term['text'], ' ,:/\\.'),
                 'type'  => '',
                 'all'   => $term
             ];

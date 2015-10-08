@@ -32,7 +32,7 @@ $paths = [
 foreach ($paths as $path => $ttl) {
     $service_name = ltrim($path, '/');
     $app->get(
-        $path,
+        '/:version' . $path,
         function () use ($app, $service_name, $path) {
             $service = $app->$service_name;
             $app->response->setBody(json_encode($service->fetch($app->request->params('any'))));
