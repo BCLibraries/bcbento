@@ -1,10 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "7412d089d55b0e873f19325ee178c706",
+    "content-hash": "b63e302b1c9a140e374de1f91ffc0e94",
     "packages": [
         {
             "name": "3ft9/dpla",
@@ -77,16 +78,16 @@
         },
         {
             "name": "bclibraries/primo-services",
-            "version": "0.3.0",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2"
+                "reference": "309c048eb534374871c3af586835c4f52d25974c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2",
-                "reference": "abdbea7ae9ab6a6cbc765ad2a0d28318211ad9f2",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/309c048eb534374871c3af586835c4f52d25974c",
+                "reference": "309c048eb534374871c3af586835c4f52d25974c",
                 "shasum": ""
             },
             "require": {
@@ -114,10 +115,10 @@
             ],
             "description": "Access to Primo Web services",
             "support": {
-                "source": "https://github.com/BCLibraries/primo-services/tree/0.3.0",
+                "source": "https://github.com/BCLibraries/primo-services/tree/0.3.2",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2015-03-10 18:29:55"
+            "time": "2015-09-24 20:04:55"
         },
         {
             "name": "doctrine/cache",
@@ -255,12 +256,12 @@
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/elasticsearch/elasticsearch-php.git",
+                "url": "https://github.com/elastic/elasticsearch-php.git",
                 "reference": "fd304b1c12778c9eab9b1c1a9e07d791f40bd56d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elasticsearch/elasticsearch-php/zipball/fd304b1c12778c9eab9b1c1a9e07d791f40bd56d",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/fd304b1c12778c9eab9b1c1a9e07d791f40bd56d",
                 "reference": "fd304b1c12778c9eab9b1c1a9e07d791f40bd56d",
                 "shasum": ""
             },
@@ -887,12 +888,12 @@
             "version": "v1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Pimple.git",
+                "url": "https://github.com/silexphp/Pimple.git",
                 "reference": "ae11e57e8c2bb414b2ff93396dbbfc0eb92feb94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/ae11e57e8c2bb414b2ff93396dbbfc0eb92feb94",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/ae11e57e8c2bb414b2ff93396dbbfc0eb92feb94",
                 "reference": "ae11e57e8c2bb414b2ff93396dbbfc0eb92feb94",
                 "shasum": ""
             },

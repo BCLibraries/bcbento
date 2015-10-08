@@ -82,7 +82,7 @@
 </script>
 
 <script id="guides-template" type="text/x-template">
-    <ul>
+    <ul class="bento-results">
         {{#.}}
         <li>
             <div><a href="{{url}}">{{title}}</a></div>
@@ -101,7 +101,7 @@
         </a>
     </div>
 
-    <ul id="catalog-results">
+    <ul id="catalog-results bento-results">
 
         {{#items}}
         <li class="bento-result">
@@ -141,13 +141,19 @@
                     <div class="type">{{type}}</div>
                     <ul class="available-items">
                         {{#avail}}
-                        <li class="item-info">
-                            <span class="availability">{{availability}}</span>
-                            <span class="library">{{library}}</span>
+                        <li class="item-info {{#unless on_shelf}}unavailable{{/unless}}" >
+                            <span class="library">{{lib_display}}</span>
+                            {{#if in_library_only }}
+                            <span class="location">{{full/location}}</span>
+                            {{/if}}
                             <span class="callno">{{call_number}}</span>
+                            <span class="availability">{{availability}}</span>
                         </li>
                         {{/avail}}
                     </ul>
+                    {{#if getit}}
+                    <div class="available-online"><a href="{{link}}">Available online</a></div>
+                    {{/if}}
                 </div>
             </div>
 
@@ -188,7 +194,7 @@
         </a>
     </div>
 
-    <ul>
+    <ul class="bento-results">
         {{#items}}
         <li>
 
