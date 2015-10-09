@@ -43,7 +43,7 @@ foreach ($paths as $path => $ttl) {
      * @todo deprecate and remove fix for un-versioned API calls.
      */
     $app->get(
-        "/search-services/$service_name",
+        "/$service_name",
         function () use ($app, $service_name, $path) {
             $service = $app->$service_name;
             $app->response->setBody(json_encode($service->fetch($app->request->params('any'))));

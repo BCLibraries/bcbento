@@ -30,7 +30,8 @@ class CatalogService extends AbstractPrimoService
         'ERC'   => 'Educational Resource Center',
         'ONL'   => 'O\'Neill Library',
         'BURNS' => 'Burns Library',
-        'BAPST' => 'Bapst Library'
+        'BAPST' => 'Bapst Library',
+        'LAW'   => 'Law School Library'
     ];
 
     /**
@@ -179,7 +180,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->on_shelf = ($avail->availability === 'available');
         $avail_obj->check_avail = ($avail->availability === 'check availability');
         $avail_obj->in_library_only = (in_array($avail->location, $this->lib_use_only_locations));
-        if (isset($avail->library, $this->lib_map)) {
+        if (isset($avail->library,  $this->lib_map[$avail->library])) {
             $avail_obj->lib_display = $this->lib_map[$avail->library];
         } else {
             $avail_obj->lib_display = $avail->library;
