@@ -22,10 +22,12 @@ class CatalogService extends AbstractPrimoService
         'audio_music'         => 'Musical recording',
         'realia'              => '',
         'data'                => 'Data',
+        'dissertation'        => 'Thesis',
         'other'               => ''
     ];
 
     private $lib_map = [
+        'ARCH'  => 'Burns Archives',
         'TML'   => 'Theology and Ministry Library',
         'ERC'   => 'Educational Resource Center',
         'ONL'   => 'O\'Neill Library',
@@ -128,9 +130,11 @@ class CatalogService extends AbstractPrimoService
         $date = $item->field('addata/date');
         $date = is_array($date) ? $date[0] : $date;
 
+        $availabilities = $this->buildAvailabilities($item->components);
+
         $getit = $this->getItLink($item);
 
-        $tab = $getit ? 'viewOnlineTab' : 'requestTab';
+        $tab = $this->buildTabParameter($getit, $availabilities);
 
         return [
             'id'           => $item->id,
@@ -139,12 +143,12 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . "&tabs=$tab",
+            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . $tab,
             'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
-            'avail'        => $this->buildAvailabilities($item->components),
+            'avail'        => $availabilities,
             'getit'        => $getit,
             'toc'          => $this->tableOfContents($item)
         ];
@@ -180,7 +184,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->on_shelf = ($avail->availability === 'available');
         $avail_obj->check_avail = ($avail->availability === 'check availability');
         $avail_obj->in_library_only = (in_array($avail->location, $this->lib_use_only_locations));
-        if (isset($avail->library,  $this->lib_map[$avail->library])) {
+        if (isset($avail->library, $this->lib_map[$avail->library])) {
             $avail_obj->lib_display = $this->lib_map[$avail->library];
         } else {
             $avail_obj->lib_display = $avail->library;
@@ -209,6 +213,24 @@ class CatalogService extends AbstractPrimoService
             $i++;
         }
         return $getit;
+    }
+
+    /**
+     * @param $getit
+     * @param $availabilities
+     * @return string
+     */
+    protected function buildTabParameter($getit, array $availabilities)
+    {
+        $in_burns = false;
+
+        foreach ($availabilities as $avail) {
+            if (strpos($avail->library, 'BURNS') !== false || strpos($avail->library, 'ARCH') !== false) {
+                return '';
+            }
+        }
+
+        return $getit ? '"&tabs=viewOnlineTab' : '"&tabs=requestTab';
     }
 
     /**
