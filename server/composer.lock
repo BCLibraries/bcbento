@@ -78,16 +78,16 @@
         },
         {
             "name": "bclibraries/primo-services",
-            "version": "0.3.2",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "309c048eb534374871c3af586835c4f52d25974c"
+                "reference": "f29d9837e09c7aae9f8fc6573074fb85bd78184b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/309c048eb534374871c3af586835c4f52d25974c",
-                "reference": "309c048eb534374871c3af586835c4f52d25974c",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/f29d9837e09c7aae9f8fc6573074fb85bd78184b",
+                "reference": "f29d9837e09c7aae9f8fc6573074fb85bd78184b",
                 "shasum": ""
             },
             "require": {
@@ -115,10 +115,10 @@
             ],
             "description": "Access to Primo Web services",
             "support": {
-                "source": "https://github.com/BCLibraries/primo-services/tree/0.3.2",
+                "source": "https://github.com/BCLibraries/primo-services/tree/0.5.0",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2015-09-24 20:04:55"
+            "time": "2015-11-09 19:47:03"
         },
         {
             "name": "doctrine/cache",
@@ -1021,12 +1021,12 @@
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/EventDispatcher.git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
                 "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f75989f3ab2743a82fe0b03ded2598a2b1546813",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/f75989f3ab2743a82fe0b03ded2598a2b1546813",
                 "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813",
                 "shasum": ""
             },
