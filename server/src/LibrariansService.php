@@ -75,6 +75,7 @@ class LibrariansService extends AbstractLocalService implements ServiceInterface
             $source = $hit['_source'];
 
             $librarian = [
+                'id'       => $hit['_id'],
                 'name'     => $source['first_name'] . ' ' . $source['last_name'],
                 'image'    => $this->buildImageUrl($source),
                 'email'    => $source['email'],

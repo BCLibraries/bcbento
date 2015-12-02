@@ -60,14 +60,14 @@ class CatalogService extends AbstractPrimoService
     protected function getQuery($keyword)
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(4)->dym();
+            ->local('BCL')->bulkSize(10)->dym();
         return $query;
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         if ($result->total_results == 0) {
-            //return $this->worldcat->fetch($keyword);
+            return $this->worldcat->fetch($keyword);
         }
 
         $response = new \stdClass();

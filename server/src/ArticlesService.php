@@ -8,7 +8,7 @@ use BCLib\PrimoServices\QueryTerm;
 
 class ArticlesService extends AbstractPrimoService
 {
-    private $results_to_send = 3;
+    private $results_to_send = 8;
     private $current_article;
 
     private $type_map = [
