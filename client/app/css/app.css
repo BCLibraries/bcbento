@@ -116,6 +116,7 @@
 
 #all-results .result-container {
     min-height: 200px;
+    clear: both;
 }
 
 #all-results .result-container ul {
@@ -150,6 +151,11 @@
 /** Librarian/Subject guide results. **/
 #all-results h4 {
     margin: 0;
+}
+
+#librarians-results > ul > li {
+    min-height: 125px;
+    margin-bottom: 1em;
 }
 
 .librarians img {
@@ -297,6 +303,11 @@
 
 #all-results .result-container ul li {
     list-style: none;
+    clear: both;
+    /* margin-bottom: 1em; */
+    /* padding-top: 1em; */
+    /* min-height: 125px; */
+    /* margin-bottom: 1em; */
 }
 
 #all-results .result-container ul li.item-info:before {

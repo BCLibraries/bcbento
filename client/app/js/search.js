@@ -15,28 +15,34 @@ $(document).ready(function () {
      */
     function callSearchService(service, keyword) {
         var $target, $heading;
-        $target = $('#' + service + '-results');
-        $heading = $('#' + service + '-results h3');
+
+        console.log(service);
+        $target = $('#' + service.name + '-results');
+        $heading = $('#' + service.name + '-results h3');
         $heading.nextAll().remove();
 
-        loading_timers[service] = setTimeout(function () {
+        loading_timers[service.name] = setTimeout(function () {
             $target.addClass('loading');
         }, 150);
 
         $.ajax(
             {
                 type: 'GET',
-                url: '/search-services/v' + api_version + '/' + service + '?any=' + keyword,
+                url: '/search-services/v' + api_version + '/' + service.name + '?any=' + keyword,
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
-                    var html = templates[service](data);
-                    clearTimeout(loading_timers[service]);
+                    service.postprocess(data);
+                    if (data.length > service.max_results) {
+                        data.splice(service.max_results, 100);
+                    }
+                    var html = templates[service.name](data);
+                    clearTimeout(loading_timers[service.name]);
                     $target.removeClass('loading');
                     $heading.after(html);
                 },
                 error: function (xhr, status) {
-                    clearTimeout(loading_timers[service]);
+                    clearTimeout(loading_timers[service.name]);
                     $target.removeClass('loading');
                 }
             }
@@ -86,8 +92,8 @@ $(document).ready(function () {
      */
     function renderSearchResults(services) {
         for (i = 0, max = services.length; i < max; i += 1) {
-            source = $('#' + services[i] + '-template').html();
-            templates[services[i]] = Handlebars.compile(source);
+            source = $('#' + services[i].name + '-template').html();
+            templates[services[i].name] = Handlebars.compile(source);
         }
     }
 
@@ -107,11 +113,36 @@ $(document).ready(function () {
     }
 
     services = [
-        'catalog',
-        'articles',
-        'librarians',
-        'guides'
+        {
+            name: 'catalog',
+            max_results: 4,
+            postprocess: emptyProcess
+        },
+        {
+            name: 'articles',
+            max_results: 4,
+            postprocess: emptyProcess
+        },
+        {
+            name: 'librarians',
+            max_results: 2,
+            postprocess: function (data) {
+                data.forEach(function (librarian) {
+                        librarian.display_subjects = librarian.subjects.sort().join(', ');
+                    }
+                );
+            }
+        },
+        {
+            name: 'guides',
+            max_results: 2,
+            postprocess: emptyProcess
+        }
     ];
+
+    function emptyProcess(result) {
+        return result;
+    }
 
     templates = [];
 

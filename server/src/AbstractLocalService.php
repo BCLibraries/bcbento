@@ -45,6 +45,8 @@ abstract class AbstractLocalService implements ServiceInterface
 
     protected function getRelevantTerms($keyword)
     {
+        $keyword = str_replace(':', '', $keyword);
+
         $score_script = ($this->es_version < '1.3.2') ? 'doc.score' : '_score';
 
         $params = [];
@@ -59,6 +61,7 @@ abstract class AbstractLocalService implements ServiceInterface
                         "author^5",
                         "subjects^3",
                         "description",
+                        "toc",
                         "issn",
                         "isbn"
                     ],

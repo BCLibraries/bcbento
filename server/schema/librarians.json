@@ -1,0 +1,46 @@
+{
+  "index": "librarians",
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "librarian": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "index": "no"
+        },
+        "phone": {
+          "type": "string",
+          "index": "no"
+        },
+        "library": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "room": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "image": {
+          "type": "string",
+          "index": "no"
+        },
+        "subjects": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "string"
+        },
+        "taxonomy": {
+          "type": "string",
+          "include_in_all": "no",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}

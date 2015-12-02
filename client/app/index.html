@@ -72,9 +72,10 @@
 
             <div class="librarian-info">
                 <h4 class="librarian-name">{{name}}</h4>
-                {{#subjects}}
-                <div class="librarian-subject">{{term}}</div>
-                {{/subjects}}
+
+                <div class="librarian-subject">
+                    Subject librarian for {{display_subjects}}
+                </div>
             </div>
         </li>
         {{/.}}
@@ -141,7 +142,7 @@
                     <div class="type">{{type}}</div>
                     <ul class="available-items">
                         {{#avail}}
-                        <li class="item-info {{#unless on_shelf}}unavailable{{/unless}}" >
+                        <li class="item-info {{#unless on_shelf}}unavailable{{/unless}}">
                             <span class="library">{{lib_display}}</span>
                             {{#if in_library_only }}
                             <span class="location">{{full/location}}</span>

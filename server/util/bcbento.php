@@ -79,6 +79,25 @@ $app->get(
 );
 
 $app->get(
+    '/load/librarians',
+    function () use ($app) {
+        $json = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/librarians.json');
+        $librarians = json_decode($json, true);
+        $elasticsearch = new \Elasticsearch\Client(['hosts' => [$app->config('ELASTICSEARCH_HOST')]]);
+        foreach ($librarians as $librarian) {
+            $params = [];
+            $params['id'] = $librarian['id'];
+            unset($librarian['id']);
+            $params['body'] = $librarian;
+            $params['index'] = 'librarians';
+            $params['type'] = 'librarian';
+            $elasticsearch->index($params);
+        }
+
+    }
+);
+
+$app->get(
     '/load/portals',
     function () use ($app) {
         $json = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/libguides.json');
