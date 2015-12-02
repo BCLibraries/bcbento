@@ -16,7 +16,6 @@ $(document).ready(function () {
     function callSearchService(service, keyword) {
         var $target, $heading;
 
-        console.log(service);
         $target = $('#' + service.name + '-results');
         $heading = $('#' + service.name + '-results h3');
         $heading.nextAll().remove();
@@ -55,6 +54,7 @@ $(document).ready(function () {
      */
     function search(keyword) {
         var $typeahead = $('#typeahead');
+        $('#didyoumean-holder').empty();
         setTitle(keyword);
         $typeahead.typeahead('close');
         for (i = 0, max = services.length; i < max; i += 1) {
@@ -116,7 +116,13 @@ $(document).ready(function () {
         {
             name: 'catalog',
             max_results: 4,
-            postprocess: emptyProcess
+            postprocess: function(data) {
+                var html;
+                source = $('#dym-template').html();
+                html = Handlebars.compile(source)(data);
+                $('#didyoumean-holder').append(html);
+                console.log('DYM');
+            }
         },
         {
             name: 'articles',

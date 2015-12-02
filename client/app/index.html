@@ -26,6 +26,8 @@
 
 <div id="bentoboxresults">
 
+    <div id="didyoumean-holder"></div>
+
     <div id="all-results">
 
         <!-- Secondary results box. -->
@@ -214,6 +216,15 @@
         </li>
         {{/items}}
     </ul>
+</script>
+
+<script id="dym-template" type="text/x-template">
+    {{#if dym}}
+    <div class="dym-notice">
+                    Did you mean <a href="">{{dym}}</a>?
+    </div>
+    {{/if}}
+
 </script>
 
 

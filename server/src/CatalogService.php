@@ -60,20 +60,21 @@ class CatalogService extends AbstractPrimoService
     protected function getQuery($keyword)
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(4);
+            ->local('BCL')->bulkSize(4)->dym();
         return $query;
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         if ($result->total_results == 0) {
-            return $this->worldcat->fetch($keyword);
+            //return $this->worldcat->fetch($keyword);
         }
 
         $response = new \stdClass();
 
         $response->total_results = $result->total_results;
         $response->search_link = $this->searchCatalogDeepLink($keyword);
+        $response->dym = $result->dym;
 
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('alma.exlibrisgroup.com', '01BC_INST');

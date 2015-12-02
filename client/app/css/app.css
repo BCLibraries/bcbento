@@ -326,6 +326,15 @@
     color: #999;
 }
 
-li.bento-result {
-    margin-bottom: 1.5em;
+.dym-notice {
+    display: inline-block;
+    zoom: 1;
+    background-color:lightyellow;
+    padding: .3em .5em;
+    border: 1px dotted gray;
+}
+
+div#didyoumean-holder {
+    text-align: center;
+    height: 1.5em;
 }
