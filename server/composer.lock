@@ -83,12 +83,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "379e84dd8c212bb5478fe265ca78c0d0bd8823f7"
+                "reference": "64b20264d87a72150ef4cdde290ec768e830ae9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/379e84dd8c212bb5478fe265ca78c0d0bd8823f7",
-                "reference": "379e84dd8c212bb5478fe265ca78c0d0bd8823f7",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/64b20264d87a72150ef4cdde290ec768e830ae9a",
+                "reference": "64b20264d87a72150ef4cdde290ec768e830ae9a",
                 "shasum": ""
             },
             "require": {
@@ -126,7 +126,7 @@
                 "source": "https://github.com/BCLibraries/primo-services/tree/master",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2015-12-02 04:00:45"
+            "time": "2015-12-16 19:53:19"
         },
         {
             "name": "doctrine/cache",
