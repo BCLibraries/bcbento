@@ -72,15 +72,29 @@ class ArticlesService extends AbstractPrimoService
 
         return [
             'id'        => $id,
-            'title'     => strip_tags($result->title),
-            'date'      => strip_tags($result->date),
-            'publisher' => strip_tags($result->publisher),
-            'creator'   => strip_tags($result->field('display/creator')),
+            'title'     => $this->stripTags($result->title),
+            'date'      => $this->stripTags($result->date),
+            'publisher' => $this->stripTags($result->publisher),
+            'creator'   => $this->stripTags($result->field('display/creator')),
             'link'      => $deep_link,
-            'source'    => strip_tags($result->field('display/source')),
-            'part_of'   => strip_tags($result->field('display/ispartof')),
-            'type'      => strip_tags($this->displayType($result)),
+            'source'    => $this->stripTags($result->field('display/source')),
+            'part_of'   => $this->stripTags($result->field('display/ispartof')),
+            'type'      => $this->stripTags($this->displayType($result)),
             'real_type' => $result->type
         ];
+    }
+
+    protected function stripTags($field)
+    {
+        if (is_array($field)) {
+            $result = array();
+            foreach ($field as $member) {
+                $result[] = strip_tags($member);
+            }
+        } else {
+            $result = strip_tags($field);
+        }
+        return $result;
+
     }
 }
