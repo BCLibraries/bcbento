@@ -19,13 +19,14 @@ $seconds_until_3am = secondsUntil3AM();
 
 $paths = [
 
-    '/typeahead'  => $seconds_until_3am,
-    '/catalog'    => 180,
-    '/articles'   => $seconds_until_3am,
-    '/librarians' => $seconds_until_3am,
-    '/guides'     => $seconds_until_3am,
-    '/dpla'       => $seconds_until_3am,
-    '/worldcat'   => $seconds_until_3am
+    '/typeahead'   => $seconds_until_3am,
+    '/catalog'     => 180,
+    '/articles'    => $seconds_until_3am,
+    '/librarians'  => $seconds_until_3am,
+    '/guides'      => $seconds_until_3am,
+    '/dpla'        => $seconds_until_3am,
+    '/worldcat'    => $seconds_until_3am,
+    '/springshare' => $seconds_until_3am,
 ];
 
 

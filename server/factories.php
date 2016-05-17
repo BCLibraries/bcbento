@@ -7,6 +7,7 @@ use BCLib\BCBento\DPLAService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\TypeaheadService;
+use BCLib\BCBento\SpringshareService;
 use BCLib\PrimoServices\DeepLink;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
@@ -85,4 +86,8 @@ $app->worldcat = function () use ($app) {
 
 $app->bets = function () use ($app) {
     return new BestBetsService($app->elasticsearch);
+};
+
+$app->springshare = function () use ($app) {
+    return new SpringshareService();
 };

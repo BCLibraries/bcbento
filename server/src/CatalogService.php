@@ -77,7 +77,7 @@ class CatalogService extends AbstractPrimoService
         $response->dym = $result->dym;
 
         $client_factory = new ClientFactory();
-        $rta = $client_factory->buildAlmaClient('alma.exlibrisgroup.com', '01BC_INST');
+        $rta = $client_factory->buildAlmaClient('bc.alma.exlibrisgroup.com', '01BC_INST');
         $rta->checkAvailability($result->results);
         $response->items = array_map([$this, 'buildItem'], $result->results);
 
