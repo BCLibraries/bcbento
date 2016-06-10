@@ -16,6 +16,9 @@ $(document).ready(function () {
     function callSearchService(service, keyword) {
         var $target, $heading;
 
+        // Workaround for question mark problems.
+        keyword = keyword.replace(/\?/, '');
+
         $target = $('#' + service.name + '-results');
         $heading = $('#' + service.name + '-results h3');
         $heading.nextAll().remove();
