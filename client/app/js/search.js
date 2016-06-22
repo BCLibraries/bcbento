@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     var search_string, services, templates, source, loading_timers, i, max, api_version;
 
-    api_version = '0.0.7';
+    api_version = '0.0.9.2';
 
     /**
      * Call a single search service
@@ -15,6 +15,7 @@ $(document).ready(function () {
      */
     function callSearchService(service, keyword) {
         var $target, $heading;
+        var submit_url;
 
         // Workaround for question mark problems.
         keyword = keyword.replace(/\?/, '');
@@ -27,10 +28,12 @@ $(document).ready(function () {
             $target.addClass('loading');
         }, 150);
 
+        submit_url = '/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword).replace('"', '%22');
+
         $.ajax(
             {
                 type: 'GET',
-                url: '/search-services/v' + api_version + '/' + service.name + '?any=' + keyword,
+                url: submit_url,
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
@@ -118,18 +121,17 @@ $(document).ready(function () {
     services = [
         {
             name: 'catalog',
-            max_results: 4,
-            postprocess: function(data) {
+            max_results: 8,
+            postprocess: function (data) {
                 var html;
                 source = $('#dym-template').html();
                 html = Handlebars.compile(source)(data);
                 $('#didyoumean-holder').append(html);
-                console.log('DYM');
             }
         },
         {
             name: 'articles',
-            max_results: 4,
+            max_results: 8,
             postprocess: emptyProcess
         },
         {
