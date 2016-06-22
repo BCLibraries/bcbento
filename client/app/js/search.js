@@ -37,7 +37,10 @@ $(document).ready(function () {
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
-                    service.postprocess(data);
+                    if (typeof service.postprocess != 'undefined') {
+                        service.postprocess(data);
+                    }
+
                     if (data.length > service.max_results) {
                         data.splice(service.max_results, 100);
                     }
@@ -136,7 +139,6 @@ $(document).ready(function () {
         {
             name: 'articles',
             max_results: 8,
-            postprocess: emptyProcess
         },
         {
             name: 'librarians',
@@ -151,21 +153,12 @@ $(document).ready(function () {
         {
             name: 'guides',
             max_results: 2,
-            postprocess: emptyProcess
         },
         {
             name: 'springshare',
-            max_results: 5,
-            postprocess: function (data) {
-                console.log('Springshare results');
-                console.log(data);
-            }
+            max_results: 5
         }
     ];
-
-    function emptyProcess(result) {
-        return result;
-    }
 
     templates = [];
 
