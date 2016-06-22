@@ -1,17 +1,8 @@
-/*jslint browser:true */
-/*globals $, Handlebars, Bloodhound */
-
 $(document).ready(function () {
-    'use strict';
-
-    var engine, api_version;
-
-    api_version = '0.0.7';
-
     engine = new Bloodhound({
         name: 'holmes-typeahead',
         remote: {
-            url: '/search-services/v' + api_version + '/typeahead?any=%QUERY&callback=?',
+            url: '/search-services/typeahead?any=%QUERY&callback=?',
             rateLimitWait: 100,
             rateLimitBy: 'throttle'
         },
@@ -29,19 +20,37 @@ $(document).ready(function () {
         templates: {
             empty: '',
             suggestion: function (result) {
-                var display = truncate(result.value, 80);
-                result.value = result.value.replace(/…$/, '');
-                return '<div><span class="summary">' + display + '</span></div>';
-            },
-            header: '<h3>Search suggestions</h3>'
+                return '<div>' + result.value + ' <span class="typeahead-type">' + result.type + '</span></div>';
+            }
         }
     });
 
-    function truncate(str, length) {
-        var too_long, s_;
-        too_long = str.length > length;
-        s_ = too_long ? str.substr(0, length - 1) : str;
-        s_ = too_long ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
-        return too_long ? s_ + '&hellip;' : s_;
-    }
+    /** Track search submissions */
+    $('#block_search form').submit(function () {
+        var search_type = 'all', source = '';
+        search_type = $('#block_search ul.nav li.active a').attr('href').substring(1);
+
+        if (search_type == '#articles') {
+            search_type = 'pci';
+        }
+        if (search_type == '#books') {
+            search_type = 'bc';
+        }
+
+        if (document.URL.indexOf('/search') > -1) {
+            source = 'search';
+        } else {
+            source = 'home';
+        }
+
+        if (search_type) {
+            source = source + ' ' + search_type;
+        }
+
+        $.ajax({
+            'url': "http://arc.bc.edu/quick-logger/log?src=" + source + "&query=" + $('#typeahead').val(),
+            'dataType': 'JSONP'
+        });
+        return true;
+    });
 });
