@@ -1,8 +1,9 @@
 /*jslint browser:true */
 /*globals $, Handlebars */
 
-$(document).ready(function () {
-    'use strict';
+'use strict';
+
+$.fn.bcBento = function () {
 
     var search_string, services, templates, source, loading_timers, i, max, api_version;
 
@@ -198,5 +199,9 @@ $(document).ready(function () {
     renderSearchResults(services);
     search(search_string);
     $('#typeahead').val(search_string);
+};
 
+
+$(document).ready(function() {
+    $(document).bcBento();
 });
