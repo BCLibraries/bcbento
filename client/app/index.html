@@ -45,12 +45,18 @@
         </div>
 
         <!-- Tertiary results box.-->
-        <div id="tertiary">
-            <div id="librarians-results" class="result-container librarians">
-                <h3>Librarians</h3>
+        <div id="tertiary" style="background-color: none">
+
+            <div id="librarians-results" class="result-container librarians" style="background-color: inherit">
+                <h3 id="librarianh3" style="display: none;">Librarians</h3>
             </div>
-            <div id="guides-results" class="result-container guides">
-                <h3>Subject guides</h3>
+
+            <div id="springshare-results" class="result-container">
+                <h3 id="researchh3">Research guides</h3>
+            </div>
+
+            <div id="guides-results" class="result-container guides" style="background-color: inherit">
+                <h3 id="subjecth3" style="display: none">Subject guides</h3>
             </div>
         </div>
 
@@ -67,25 +73,27 @@
 
 <!-- Search result templates -->
 <script id="librarians-template" type="text/x-template">
+    {{#if .}}
+    <h3 class="visible-also-try">Librarians</h3>
     <ul>
         {{#.}}
         <li>
-            <img src="//{{image}}" alt="picture of {{name}}">
+            <a href="http://libguides.bc.edu/prf.php?account_id={{id}}"><img src="//{{image}}" alt="picture of {{name}}"></a>
 
             <div class="librarian-info">
-                <h4 class="librarian-name">{{name}}</h4>
-
-                <div class="librarian-subject">
-                    Subject librarian for {{display_subjects}}
-                </div>
+                <h4 class="librarian-name"><a href="http://libguides.bc.edu/prf.php?account_id={{id}}">{{name}}</a></h4>
+                <p>{{display_subjects}}</p>
             </div>
         </li>
         {{/.}}
     </ul>
+    {{/if}}
 </script>
 
 <script id="guides-template" type="text/x-template">
-    <ul class="bento-results">
+    {{#if .}}
+    <h3 class="visible-also-try">Subject guides</h3>
+    <ul>
         {{#.}}
         <li>
             <div><a href="{{url}}">{{title}}</a></div>
@@ -93,6 +101,7 @@
         </li>
         {{/.}}
     </ul>
+    {{/if}}
 
 </script>
 
@@ -190,16 +199,28 @@
 
 </script>
 
+
+<script id="springshare-template" type="text/x-template">
+    <ul>
+        {{#items}}
+        <li>
+            <div><a href="{{url}}" class="title">{{title}}</a></div>
+            <div class="guide-description">{{description}}</div>
+        </li>
+        {{/items}}
+    </ul>
+</script>
+
 <script id="articles-template" type="text/x-template">
     <div class="more-results-link">
         <a href="{{search_link}}">
-            see all {{total_results}} results…
+            see all {{total_results}} results
         </a>
     </div>
 
-    <ul class="bento-results">
+    <ul>
         {{#items}}
-        <li>
+        <li class="bento-result">
 
             <a href="{{link}}" class="title">
                 {{truncate '100' title}}
@@ -210,9 +231,7 @@
             {{#if creator}}
             <div class="creator">{{truncate '80' creator}}</div>
             {{/if}}
-            <div class="publisher">{{part_of}}</div>
-            <div class="source">{{source}}</div>
-            <div class="type">{{type}}</div>
+            <div class="publisher">{{{part_of}}}</div>
         </li>
         {{/items}}
     </ul>
@@ -221,7 +240,7 @@
 <script id="dym-template" type="text/x-template">
     {{#if dym}}
     <div class="dym-notice">
-                    Did you mean <a href="">{{dym}}</a>?
+        Did you mean <a href="/search?any={{dym}}">{{dym}}</a>?
     </div>
     {{/if}}
 
