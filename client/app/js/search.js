@@ -3,9 +3,9 @@
 
 'use strict';
 
-$.fn.bcBento = function () {
+$.fn.bcBento = function (services) {
 
-    var search_string, services, templates, source, loading_timers, i, max, api_version;
+    var search_string, templates, source, loading_timers, i, max, api_version;
 
     api_version = '0.0.9.2';
 
@@ -126,41 +126,6 @@ $.fn.bcBento = function () {
         return too_long ? s_ + '…' : s_;
     }
 
-    services = [
-        {
-            name: 'catalog',
-            max_results: 8,
-            postprocess: function (data) {
-                var html;
-                source = $('#dym-template').html();
-                html = Handlebars.compile(source)(data);
-                $('#didyoumean-holder').append(html);
-            }
-        },
-        {
-            name: 'articles',
-            max_results: 8,
-        },
-        {
-            name: 'librarians',
-            max_results: 2,
-            postprocess: function (data) {
-                data.forEach(function (librarian) {
-                        librarian.display_subjects = librarian.subjects.sort().join(', ');
-                    }
-                );
-            }
-        },
-        {
-            name: 'guides',
-            max_results: 2,
-        },
-        {
-            name: 'springshare',
-            max_results: 5
-        }
-    ];
-
     templates = [];
 
     loading_timers = [];
@@ -202,6 +167,45 @@ $.fn.bcBento = function () {
 };
 
 
-$(document).ready(function() {
-    $(document).bcBento();
+$(document).ready(function () {
+
+    // Define services
+    var catalog = {
+        name: 'catalog',
+        max_results: 8,
+        postprocess: function (data) {
+            var html, source;
+            source = $('#dym-template').html();
+            html = Handlebars.compile(source)(data);
+            $('#didyoumean-holder').append(html);
+        }
+    }
+
+    var articles = {
+        name: 'articles',
+        max_results: 8,
+    };
+
+    var librarians = {
+        name: 'librarians',
+        max_results: 2,
+        postprocess: function (data) {
+            data.forEach(function (librarian) {
+                    librarian.display_subjects = librarian.subjects.sort().join(', ');
+                }
+            );
+        }
+    };
+
+    var guides = {
+        name: 'guides',
+        max_results: 2,
+    };
+
+    var springshare = {
+        name: 'springshare',
+        max_results: 5
+    }
+
+    $(document).bcBento([catalog, articles, librarians, guides, springshare]);
 });
