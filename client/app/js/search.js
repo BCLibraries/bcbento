@@ -3,7 +3,7 @@
 
 'use strict';
 
-$.fn.bcBento = function (services) {
+$.fn.bcBento = function (services, service_url_base) {
 
     var search_string, templates, source, loading_timers, i, max, api_version;
 
@@ -11,8 +11,6 @@ $.fn.bcBento = function (services) {
 
     /**
      * Call a single search service
-     * @param service the name of the service
-     * @param keyword the
      */
     function callSearchService(service, keyword) {
         var $target, $heading;
@@ -38,19 +36,7 @@ $.fn.bcBento = function (services) {
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
-                    if (typeof service.postprocess != 'undefined') {
-                        service.postprocess(data);
-                    }
-
-                    if (data.length > service.max_results) {
-                        data.splice(service.max_results, 100);
-                    }
-                    if (templates[service.name]) {
-                        var html = templates[service.name](data);
-                        clearTimeout(loading_timers[service.name]);
-                        $target.removeClass('loading');
-                        $heading.after(html);
-                    }
+                    successfulSearch(data, status, xhr, service, $target, $heading);
                 },
                 error: function (xhr, status) {
                     clearTimeout(loading_timers[service.name]);
@@ -58,6 +44,22 @@ $.fn.bcBento = function (services) {
                 }
             }
         );
+    }
+
+    function successfulSearch(data, status, xhr, service, $target, $heading) {
+        if (typeof service.postprocess != 'undefined') {
+            service.postprocess(data);
+        }
+
+        if (data.length > service.max_results) {
+            data.splice(service.max_results, 100);
+        }
+        if (templates[service.name]) {
+            var html = templates[service.name](data);
+            clearTimeout(loading_timers[service.name]);
+            $target.removeClass('loading');
+            $heading.after(html);
+        }
     }
 
     /**
@@ -69,9 +71,9 @@ $.fn.bcBento = function (services) {
         $('#didyoumean-holder').empty();
         setTitle(keyword);
         $typeahead.typeahead('close');
-        for (i = 0, max = services.length; i < max; i += 1) {
-            callSearchService(services[i], keyword);
-        }
+        services.forEach(function (service) {
+            callSearchService(service, keyword);
+        });
         $typeahead.typeahead('val', keyword.replace(/\+/g, ' '));
     }
 
@@ -88,8 +90,6 @@ $.fn.bcBento = function (services) {
 
     /**
      * Get a parameter from the query string
-     * @param name
-     * @returns {string}
      */
     function getQueryStringParam(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -99,31 +99,25 @@ $.fn.bcBento = function (services) {
     }
 
     /**
-     * Render the search results
-     * @param services
+     * Render results from one service
      */
-    function renderSearchResults(services) {
-        for (i = 0, max = services.length; i < max; i += 1) {
-            source = $('#' + services[i].name + '-template').html();
-            if (source) {
-                templates[services[i].name] = Handlebars.compile(source);
-            }
+    function renderServiceResults(service) {
+        source = $('#' + service.name + '-template').html();
+        if (source) {
+            templates[service.name] = Handlebars.compile(source);
         }
     }
 
-
     /**
      * Truncate string and add ellipses
-     * @param str
-     * @param length
-     * @returns string
      */
-    function truncate(str, length) {
-        var too_long, s_;
-        too_long = str.length > length;
-        s_ = too_long ? str.substr(0, length - 1) : str;
-        s_ = too_long ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
-        return too_long ? s_ + '…' : s_;
+    function truncate(str, max_length) {
+        console.log(str, max_length);
+        if (str.length > max_length) {
+            str = str.substr(0, max_length - 1);
+            str = str.substr(0, str.lastIndexOf(' ')) + '…';
+        }
+        return str;
     }
 
     templates = [];
@@ -149,19 +143,9 @@ $.fn.bcBento = function (services) {
         });
     }
 
-    Handlebars.registerHelper('truncate', function (max_length, text) {
-        var too_long, string;
-        too_long = text.length > max_length;
-        if (too_long) {
-            string = text.substr(0, max_length - 1);
-            string = string.substr(0, string.lastIndexOf(' ')) + '…';
-        } else {
-            string = text;
-        }
-        return string;
-    });
+    Handlebars.registerHelper('truncate', truncate);
 
-    renderSearchResults(services);
+    services.forEach(renderServiceResults);
     search(search_string);
     $('#typeahead').val(search_string);
 };
@@ -207,5 +191,7 @@ $(document).ready(function () {
         max_results: 5
     }
 
-    $(document).bcBento([catalog, articles, librarians, guides, springshare]);
+    var service_url_base = ''
+
+    $(document).bcBento([catalog, articles, librarians, guides, springshare], service_url_base);
 });

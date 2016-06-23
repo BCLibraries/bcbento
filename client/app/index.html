@@ -122,7 +122,7 @@
 
 
                 <a href="{{link}}" class="title">
-                    {{truncate '100' title}}
+                    {{truncate title '100'}}
                 </a>
 
                 {{date}}
@@ -130,14 +130,14 @@
                 <div class="catalog-metadata">
                     {{#if creator}}
                     <div class="creator">
-                        {{truncate '40' creator}}
+                        {{truncate creator '40'}}
                     </div>
                     {{/if}}
 
                     {{^creator}}
                     {{#if contributors.[0]}}
                     <div class="creator">
-                        {{truncate '40' contributors.[0]}}
+                        {{truncate contributors.[0] '40'}}
                     </div>
                     {{/if}}
                     {{/creator}}
@@ -184,11 +184,11 @@
             {{#worldcat_results}}
             <li>
                 <a href="{{url}}" class="title">
-                    {{truncate '100' name}}
+                    {{truncate name '100'}}
                 </a>
 
                 <div class="creator">
-                    {{truncate '40' creator}}
+                    {{truncate creator '40'}}
                 </div>
             </li>
             {{/worldcat_results}}
@@ -223,13 +223,13 @@
         <li class="bento-result">
 
             <a href="{{link}}" class="title">
-                {{truncate '100' title}}
+                {{truncate title '100'}}
             </a>
 
             {{date}}
 
             {{#if creator}}
-            <div class="creator">{{truncate '80' creator}}</div>
+            <div class="creator">{{truncate creator '80'}}</div>
             {{/if}}
             <div class="publisher">{{{part_of}}}</div>
         </li>
