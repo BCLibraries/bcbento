@@ -9,30 +9,28 @@ $.fn.bcBento = function (services, service_url_base) {
 
     api_version = '0.0.9.2';
 
-    /**
-     * Call a single search service
-     */
     function callSearchService(service, keyword) {
-        var $target, $heading;
-        var submit_url;
-
-        // Workaround for question mark problems.
-        keyword = keyword.replace(/\?/, '');
+        var $target, $heading, url;
 
         $target = $('#' + service.name + '-results');
         $heading = $('#' + service.name + '-results h3');
-        $heading.nextAll().remove();
 
+        // Workaround for question mark and double-quote problems.
+        keyword = keyword.replace(/\?/, '').replace('"', '%22');
+
+        url = '/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword);
+
+        // Clear old results.
+        $heading.nextAll().remove();
         loading_timers[service.name] = setTimeout(function () {
             $target.addClass('loading');
         }, 150);
 
-        submit_url = '/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword).replace('"', '%22');
 
         $.ajax(
             {
                 type: 'GET',
-                url: submit_url,
+                url: url,
                 dataType: 'jsonp',
                 cache: true,
                 success: function (data, status, xhr) {
@@ -51,9 +49,10 @@ $.fn.bcBento = function (services, service_url_base) {
             service.postprocess(data);
         }
 
-        if (data.length > service.max_results) {
-            data.splice(service.max_results, 100);
+        if (data.items && data.items.length > service.max_results) {
+            data.items = data.items.slice(0, service.max_results);
         }
+
         if (templates[service.name]) {
             var html = templates[service.name](data);
             clearTimeout(loading_timers[service.name]);
@@ -62,10 +61,6 @@ $.fn.bcBento = function (services, service_url_base) {
         }
     }
 
-    /**
-     * Search all services
-     * @param keyword
-     */
     function search(keyword) {
         var $typeahead = $('#typeahead');
         $('#didyoumean-holder').empty();
@@ -77,10 +72,6 @@ $.fn.bcBento = function (services, service_url_base) {
         $typeahead.typeahead('val', keyword.replace(/\+/g, ' '));
     }
 
-    /**
-     * Set page title
-     * @param keyword
-     */
     function setTitle(keyword) {
         var display_keyword = keyword.replace(/\+/g, ' ');
         if (keyword) {
@@ -88,9 +79,6 @@ $.fn.bcBento = function (services, service_url_base) {
         }
     }
 
-    /**
-     * Get a parameter from the query string
-     */
     function getQueryStringParam(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -98,9 +86,6 @@ $.fn.bcBento = function (services, service_url_base) {
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    /**
-     * Render results from one service
-     */
     function renderServiceResults(service) {
         source = $('#' + service.name + '-template').html();
         if (source) {
@@ -108,11 +93,7 @@ $.fn.bcBento = function (services, service_url_base) {
         }
     }
 
-    /**
-     * Truncate string and add ellipses
-     */
     function truncate(str, max_length) {
-        console.log(str, max_length);
         if (str.length > max_length) {
             str = str.substr(0, max_length - 1);
             str = str.substr(0, str.lastIndexOf(' ')) + '…';
