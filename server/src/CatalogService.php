@@ -76,7 +76,7 @@ class CatalogService extends AbstractPrimoService
         $items = array_map([$this, 'buildItem'], $result->results);
 
         $response = new SearchResponse($items, $this->searchCatalogDeepLink($keyword), $result->total_results);
-        $response->addField('dym',$result->dym);
+        $response->addField('dym', $result->dym);
         return $response;
     }
 
@@ -141,7 +141,7 @@ class CatalogService extends AbstractPrimoService
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
             'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . $tab,
-            'link_to_rsrc' => $this->buildLinksToResource($item),
+            'link_to_rsrc' => [],
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
@@ -150,11 +150,7 @@ class CatalogService extends AbstractPrimoService
             'toc'          => $this->tableOfContents($item)
         ];
     }
-
-    /**
-     * @param $components \BCLib\PrimoServices\BibComponent[]
-     * @return array
-     */
+    
     protected function buildAvailabilities(array $components)
     {
         $availabilities = [];
@@ -168,10 +164,6 @@ class CatalogService extends AbstractPrimoService
         return $availabilities;
     }
 
-    /**
-     * @param $avail
-     * @return \stdClass
-     */
     protected function buildAvailability(Availability $avail)
     {
         $avail_obj = new \stdClass();
@@ -191,10 +183,6 @@ class CatalogService extends AbstractPrimoService
         return $avail_obj;
     }
 
-    /**
-     * @param BibRecord $item
-     * @return bool
-     */
     protected function getItLink(BibRecord $item)
     {
         $getit = false;
@@ -212,21 +200,13 @@ class CatalogService extends AbstractPrimoService
         return $getit;
     }
 
-    /**
-     * @param $getit
-     * @param $availabilities
-     * @return string
-     */
     protected function buildTabParameter($getit, array $availabilities)
     {
-        $in_burns = false;
-
         foreach ($availabilities as $avail) {
             if (strpos($avail->library, 'BURNS') !== false || strpos($avail->library, 'ARCH') !== false) {
                 return '';
             }
         }
-
         return $getit ? '"&tabs=viewOnlineTab' : '"&tabs=requestTab';
     }
 
@@ -250,25 +230,5 @@ class CatalogService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url)
     {
         return (!strpos($image_url, 'amazon.com'));
-    }
-
-    private function buildLinksToResource(BibRecord $item)
-    {
-        return [];
-        $response = [];
-
-        $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];
-        $link_to_rsrc = is_array($link_to_rsrc) ? $link_to_rsrc : [$link_to_rsrc];
-
-        foreach ($link_to_rsrc as $link) {
-            list($url, $text) = explode('$$D', $link);
-            $url = str_replace('$$U', '', $url);
-            $response[] = [
-                'url'  => $url,
-                'text' => $text
-            ];
-        }
-
-        return $response;
     }
 }
