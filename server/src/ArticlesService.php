@@ -9,7 +9,6 @@ use BCLib\PrimoServices\QueryTerm;
 class ArticlesService extends AbstractPrimoService
 {
     private $results_to_send = 8;
-    private $current_article;
 
     private $type_map = [
         'book'                => 'Book',
@@ -36,12 +35,8 @@ class ArticlesService extends AbstractPrimoService
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
-        $response = new \stdClass();
-        $this->current_article = 0;
-        $response->total_results = $result->total_results;
-        $response->search_link = $this->searchArticlesDeepLink($keyword);
-        $response->items = array_map([$this, 'buildItem'], $result->results);
-        return $response;
+        $items = array_map([$this, 'buildItem'], $result->results);
+        return new SearchResponse($items, $this->searchArticlesDeepLink($keyword), $result->total_results);
     }
 
     protected function searchArticlesDeepLink($keyword)

@@ -67,20 +67,16 @@ class CatalogService extends AbstractPrimoService
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         if ($result->total_results == 0) {
-            return $this->worldcat->fetch($keyword);
+            //return $this->worldcat->fetch($keyword);
         }
-
-        $response = new \stdClass();
-
-        $response->total_results = $result->total_results;
-        $response->search_link = $this->searchCatalogDeepLink($keyword);
-        $response->dym = $result->dym;
 
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('bc.alma.exlibrisgroup.com', '01BC_INST');
         $rta->checkAvailability($result->results);
-        $response->items = array_map([$this, 'buildItem'], $result->results);
+        $items = array_map([$this, 'buildItem'], $result->results);
 
+        $response = new SearchResponse($items, $this->searchCatalogDeepLink($keyword), $result->total_results);
+        $response->addField('dym',$result->dym);
         return $response;
     }
 

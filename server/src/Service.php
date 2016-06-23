@@ -2,13 +2,12 @@
 
 namespace BCLib\BCBento;
 
-use Slim\Middleware;
+use BCLib\PrimoServices\BriefSearchResult;
 
-class Service extends Middleware
+abstract class Service
 {
+    abstract public function fetch($keyword);
 
-    public function call()
-    {
+    abstract protected function buildResponse(BriefSearchResult $result, $keyword);
 
-    }
 }
