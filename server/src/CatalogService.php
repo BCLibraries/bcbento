@@ -67,7 +67,7 @@ class CatalogService extends AbstractPrimoService
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         if ($result->total_results == 0) {
-            //return $this->worldcat->fetch($keyword);
+            return $this->worldcat->fetch($keyword);
         }
 
         $client_factory = new ClientFactory();
@@ -124,6 +124,10 @@ class CatalogService extends AbstractPrimoService
         $item->cover_images = array_filter($item->cover_images, [$this, 'removeAmazonCoverImages']);
         $item->cover_images = array_values($item->cover_images);
 
+        if ($item->cover_images[0] == 'no_cover') {
+            $item->cover_images = ['/theme/img/results_book.png'];
+        }
+
         $date = $item->field('addata/date');
         $date = is_array($date) ? $date[0] : $date;
 
@@ -141,7 +145,7 @@ class CatalogService extends AbstractPrimoService
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
             'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . $tab,
-            'link_to_rsrc' => [],
+            'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
@@ -150,7 +154,7 @@ class CatalogService extends AbstractPrimoService
             'toc'          => $this->tableOfContents($item)
         ];
     }
-    
+
     protected function buildAvailabilities(array $components)
     {
         $availabilities = [];
@@ -170,8 +174,8 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->availability = $avail->availability;
         $avail_obj->library = $avail->library;
         $avail_obj->call_number = $avail->call_number;
-        $avail_obj->on_shelf = ($avail->availability === 'available');
-        $avail_obj->check_avail = ($avail->availability === 'check availability');
+        $avail_obj->on_shelf = ($avail->availability === 'available' || $avail->availability === 'check_holdings');
+        $avail_obj->check_avail = ($avail->availability === 'check_holdings');
         $avail_obj->in_library_only = (in_array($avail->location, $this->lib_use_only_locations));
         if (isset($avail->library, $this->lib_map[$avail->library])) {
             $avail_obj->lib_display = $this->lib_map[$avail->library];
@@ -230,5 +234,25 @@ class CatalogService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url)
     {
         return (!strpos($image_url, 'amazon.com'));
+    }
+
+    private function buildLinksToResource(BibRecord $item)
+    {
+        return [];
+        $response = [];
+
+        $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];
+        $link_to_rsrc = is_array($link_to_rsrc) ? $link_to_rsrc : [$link_to_rsrc];
+
+        foreach ($link_to_rsrc as $link) {
+            list($url, $text) = explode('$$D', $link);
+            $url = str_replace('$$U', '', $url);
+            $response[] = [
+                'url'  => $url,
+                'text' => $text
+            ];
+        }
+
+        return $response;
     }
 }

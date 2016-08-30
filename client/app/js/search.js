@@ -19,6 +19,7 @@ $.fn.bcBento = function (services, service_url_base) {
         keyword = keyword.replace(/\?/, '').replace('"', '%22');
 
         url = '/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword);
+        url = url.replace(/%2B/,'+');
 
         // Clear old results.
         $heading.nextAll().remove();

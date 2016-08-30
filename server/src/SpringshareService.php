@@ -35,7 +35,7 @@ class SpringshareService implements ServiceInterface
         $groups_hash = $springshare_response->grouped->g;
 
         return [
-            'total_results' => $groups_hash->matches,
+            'total_results' => $groups_hash->ngroups,
             'search_link'   => "http://libguides.bc.edu/srch.php?q=$keyword",
             'dym'           => null,
             'items'         => array_map([$this, 'processGroup'], $groups_hash->groups)
@@ -61,6 +61,7 @@ class SpringshareService implements ServiceInterface
             'type'     => isset($first_doc->guide_type) ? $first_doc->guide_type : '',
             'subjects' => isset($first_doc->subject) ? $first_doc->subject : [],
             'tags'     => isset($first_doc->tag) ? $first_doc->tag : [],
+            'abstract' => isset($first_doc->gd) ? $first_doc->gd : '',
             'author'   => $author,
             'pages'    => array_map([$this, 'processDoc'], $docs_hash)
         ];
