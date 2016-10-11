@@ -10,5 +10,7 @@ return array(
     'WORLDCAT_KEY'          => 'hqt3zFO8NMheYSQFD1WF7UM9apJMEIGVSpAKzFyyDfy1DOCE52Vuof6mP5lKnyDVmoXfYMt68UUUSUqa3QL',
     'WORLDCAT_SECRET'       => 'KjqEmGzQD17OWsCJsYSU07TAF',
     'WORLDCAT_INST_NUM'     => '31870',
-    'WORLDCAT_INST_CODE'    => 'FOO'
+    'WORLDCAT_INST_CODE'    => 'FOO',
+    'LIBGUIDES_SITE_ID'     => 94,
+    'LIBGUIDES_API_KEY'     => 'ae512ef4cbc7313cdf89f97ab0b'
 );

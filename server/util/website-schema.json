@@ -1,0 +1,55 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "page": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "url": {
+          "type": "string",
+          "index": "no"
+        },
+        "guide_title": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "guide_id": {
+          "type": "string",
+          "index": "no"
+        },
+        "guide_url": {
+          "type": "string",
+          "index": "no"
+        },
+        "updated": {
+          "type": "string",
+          "index": "no"
+        },
+        "text": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        }
+      }
+    }
+  }
+}
