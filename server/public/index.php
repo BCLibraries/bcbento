@@ -18,7 +18,6 @@ require_once('../errors.php');
 $seconds_until_3am = secondsUntil3AM();
 
 $paths = [
-
     '/typeahead'   => $seconds_until_3am,
     '/catalog'     => 180,
     '/articles'    => $seconds_until_3am,
@@ -27,6 +26,7 @@ $paths = [
     '/dpla'        => $seconds_until_3am,
     '/worldcat'    => $seconds_until_3am,
     '/springshare' => $seconds_until_3am,
+    '/website'     => $seconds_until_3am
 ];
 
 

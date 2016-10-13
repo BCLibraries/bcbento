@@ -1,6 +1,6 @@
 <?php
 
-namespace BCLib\BCBento\LibGuides;
+namespace BCLib\BCBento\Website;
 
 class Page
 {

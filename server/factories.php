@@ -55,6 +55,10 @@ $app->catalog = function () use ($app) {
     return new CatalogService($app->primo, $app->qb, $app->worldcat);
 };
 
+$app->website = function() use ($app) {
+    return new \BCLib\BCBento\WebsiteService($app->elasticsearch, $app->config('ELASTICSEARCH_VERSION'));
+};
+
 $app->guides = function () use ($app) {;
     return new GuidesService(
         $app->elasticsearch,

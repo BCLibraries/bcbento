@@ -10,7 +10,7 @@ $libguides_api_key = $config['LIBGUIDES_API_KEY'];
 $es_host = $config['ELASTICSEARCH_HOST'];
 
 $es = new \Elasticsearch\Client(['hosts' => [$es_host]]);
-$indexer = new \BCLib\BCBento\LibGuides\Indexer($es, $libguides_site_id, $libguides_api_key, $index_name);
+$indexer = new \BCLib\BCBento\Website\Indexer($es, $libguides_site_id, $libguides_api_key, $index_name);
 
 build_index($es, $index_name);
 $indexer->indexSite();

@@ -17,7 +17,7 @@
         },
         "url": {
           "type": "string",
-          "index": "no"
+          "index": "not_analyzed"
         },
         "guide_title": {
           "type": "string",
@@ -34,13 +34,40 @@
         },
         "guide_url": {
           "type": "string",
-          "index": "no"
+          "index": "not_analyzed"
         },
         "updated": {
           "type": "string",
           "index": "no"
         },
         "text": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "guide_description": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "guide_subjects": {
+          "type": "string",
+          "fields": {
+            "english": {
+              "type": "string",
+              "analyzer": "english"
+            }
+          }
+        },
+        "guide_tags": {
           "type": "string",
           "fields": {
             "english": {
