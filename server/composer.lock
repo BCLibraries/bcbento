@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e0a36bdd49b3a04fb15c88279373276",
-    "content-hash": "58cf28cd3c819aa62ca212e28e69c00e",
+    "hash": "3d683aa7f6817ae3091d06941e043111",
+    "content-hash": "df0eb4f1e0ea8d9f9b8f2a319a36d020",
     "packages": [
         {
             "name": "3ft9/dpla",
@@ -79,16 +79,16 @@
         },
         {
             "name": "bclibraries/primo-services",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "64b20264d87a72150ef4cdde290ec768e830ae9a"
+                "reference": "ea1060666cf453f9ac2ea5569f0d09359b468b1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/64b20264d87a72150ef4cdde290ec768e830ae9a",
-                "reference": "64b20264d87a72150ef4cdde290ec768e830ae9a",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/ea1060666cf453f9ac2ea5569f0d09359b468b1a",
+                "reference": "ea1060666cf453f9ac2ea5569f0d09359b468b1a",
                 "shasum": ""
             },
             "require": {
@@ -123,10 +123,10 @@
             ],
             "description": "Access to Primo Web services",
             "support": {
-                "source": "https://github.com/BCLibraries/primo-services/tree/master",
+                "source": "https://github.com/BCLibraries/primo-services/tree/1.0.0",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2015-12-16 19:53:19"
+            "time": "2016-11-07 15:18:41"
         },
         {
             "name": "doctrine/cache",
@@ -406,6 +406,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2013-10-02 20:47:00"
         },
         {
@@ -1175,9 +1176,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "bclibraries/primo-services": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
