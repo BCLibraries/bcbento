@@ -83,8 +83,8 @@ class CatalogService extends AbstractPrimoService
     protected function searchCatalogDeepLink($keyword)
     {
         return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
-        'institution=BCL&vid=bclib&onCampus=true&group=GUEST&loc=local,scope:(BCL)&query=any,contains,' .
-        $keyword;
+            'institution=BCL&vid=bclib&onCampus=true&group=GUEST&loc=local,scope:(BCL)&query=any,contains,' .
+            $keyword;
     }
 
     protected function displayType(BibRecord $item)
@@ -222,7 +222,12 @@ class CatalogService extends AbstractPrimoService
      */
     private function getMediumCoverImage($image_url)
     {
-        return str_replace('/SC.JPG', '/MC.JPG', $image_url);
+        $larger = str_replace('/SC.JPG', '/MC.JPG', $image_url);
+        return str_replace(
+            'https://proxy-na.hosted.exlibrisgroup.com/exl_rewrite/lib.syndetics',
+            'http://lib.syndetics',
+            $larger
+        );
     }
 
     /**
