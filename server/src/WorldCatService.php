@@ -145,7 +145,7 @@ class WorldCatService implements ServiceInterface
         $response->type = (string) $this->displayType($work);
         $response->url = (string) $work->getUri();
 
-        $response->url = str_replace('www.worldcat.org', 'bc.worldcat.org', $response->url);
+        $response->url = "https://bc.on.worldcat.org/oclc/{$work->getOCLCNumber()}";
 
 
         $response->creator = '';
