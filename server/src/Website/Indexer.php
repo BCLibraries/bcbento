@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace BCLib\BCBento\Website;
 
 use Elasticsearch\Client;
@@ -14,9 +17,10 @@ class Indexer
     private $api_key;
     private $index_name;
 
+    // Taken from LibGuides' robots.txt
     const CRAWL_DELAY = 10;
 
-    public function __construct(Client $elastic, $site_id, $api_key, $index_name)
+    public function __construct(Client $elastic, int $site_id, string $api_key, string $index_name)
     {
         $this->elastic = $elastic;
         $this->site_id = $site_id;
@@ -27,12 +31,13 @@ class Indexer
     public function indexSite()
     {
         $guides = $this->fetchGuides();
+        $page_index_function = [$this, 'indexPage'];
         foreach ($guides as $guide) {
-            array_walk($guide->pages, [$this, 'indexPage'], $guide);
+            array_walk($guide->pages, $page_index_function, $guide);
         }
     }
 
-    public function indexPage(Page $page, $key, Guide $guide)
+    public function indexPage(Page $page, int $key, Guide $guide)
     {
         echo "Indexed {$guide->title} : {$page->title}\n";
         $page->crawl();
@@ -64,7 +69,7 @@ class Indexer
     /**
      * @return Guide[]
      */
-    private function fetchGuides()
+    private function fetchGuides() : array
     {
         $query_string = [
             'site_id' => $this->site_id,
@@ -72,25 +77,33 @@ class Indexer
             'expand'  => 'pages,tags,subjects',
             'status'  => '1'
         ];
+
         $url = 'http://lgapi.libapps.com/1.1/guides?' . http_build_query($query_string);
         $guides_json = $this->getJSON($url);
-        return array_map([$this, 'buildGuide'], $guides_json);
+
+        $guide_build_function = [$this, 'buildGuide'];
+
+        return array_map($guide_build_function, $guides_json);
     }
 
-    private function buildGuide($guide_json)
+    private function buildGuide(\stdClass $guide_json): Guide
     {
         $guide = new Guide();
+
         $guide->id = $guide_json->id;
         $guide->title = $guide_json->name;
-        $guide->url = isset($guide_json->friendly_url) ? $guide_json->friendly_url : $guide_json->url;
-        $guide->description = (isset($guide_json->description)) ? $guide_json->description : '';
+        $guide->url = $guide_json->friendly_url ?? $guide_json->url;
+        $guide->description = $guide_json->description ?? '';
         $guide->subjects = isset($guide_json->subjects) ? $this->buildSubjects($guide_json->subjects) : [];
         $guide->tags = isset($guide_json->tags) ? $this->buildTags($guide_json->tags) : [];
-        array_walk($guide_json->pages, [$this, 'buildPage'], $guide);
+
+        $page_build_function = [$this, 'buildPage'];
+        array_walk($guide_json->pages, $page_build_function, $guide);
+
         return $guide;
     }
 
-    function buildPage($page_json, $key, Guide $guide)
+    public function buildPage(\stdClass $page_json, $key, Guide $guide)
     {
         if ($page_json->enable_display) {
             $page = new Page();
@@ -98,12 +111,12 @@ class Indexer
             $page->title = $page_json->name;
             $page->updated = $page_json->updated;
             $page->guide = $guide;
-            $page->url = isset($page_json->friendly_url) ? $page_json->friendly_url : $page_json->url;
+            $page->url = $page_json->friendly_url ?? $page_json->url;
             $guide->pages[] = $page;
         }
     }
 
-    function buildSubjects($subjects_json)
+    private function buildSubjects(array $subjects_json)
     {
         $subjects = array_map(
             function ($subject) {
@@ -114,7 +127,7 @@ class Indexer
         return $subjects;
     }
 
-    function buildTags($tags_json)
+    private function buildTags(array $tags_json)
     {
         $tags = array_map(
             function ($tag) {
@@ -125,7 +138,7 @@ class Indexer
         return $tags;
     }
 
-    private function getJSON($url)
+    private function getJSON(string $url)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
