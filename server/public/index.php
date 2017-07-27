@@ -6,14 +6,14 @@ use BCLib\PrimoServices\DeepLink;
 use BCLib\PrimoServices\QueryTerm;
 use Slim\Slim;
 
-require_once('../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$config = require('../config/.env.production.php');
+$config = require_once __DIR__ . '/../config/.env.production.php';
 
 $app = new Slim($config);
 
-require_once('../factories.php');
-require_once('../errors.php');
+require_once __DIR__ . '/../provision.php';
+require_once __DIR__ . '/../errors.php';
 
 $seconds_until_3am = secondsUntil3AM();
 
