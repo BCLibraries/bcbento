@@ -125,7 +125,7 @@ class CatalogService extends AbstractPrimoService
         $item->cover_images = array_values($item->cover_images);
 
         if ($item->cover_images[0] == 'no_cover') {
-            $item->cover_images = ['/theme/img/results_book.png'];
+            $item->cover_images = [false];
         }
 
         $date = $item->field('addata/date');
