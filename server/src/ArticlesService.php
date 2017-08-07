@@ -41,9 +41,8 @@ class ArticlesService extends AbstractPrimoService
 
     protected function searchArticlesDeepLink($keyword)
     {
-        return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
-        'institution=BCL&vid=bclib&onCampus=false&group=GUEST&tab=pci_only&query=any,contains,' .
-        $keyword . '&loc=adaptor%2Cprimo_central_multiple_fe';
+        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=pci_only" .
+            '&search_scope=pci&vid=bclib_new&lang=en_US&offset=0';
     }
 
     protected function displayType(BibRecord $item)
@@ -61,9 +60,7 @@ class ArticlesService extends AbstractPrimoService
         $id_array = $result->field('search/recordid');
         $id = isset($id_array) ? $id_array : '';
 
-        $deep_link = 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlDisplay.do?';
-        $deep_link .= 'vid=bclib&loc=adaptor%2Cprimo_central_multiple_fe';
-        $deep_link .= '&docId=' . $result->id . '&tab=pci_only';
+        $deep_link = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid={$result->id}&context=PC&vid=bclib_new&search_scope=pci&tab=pci_only&lang=en_US";
 
         return [
             'id'        => $id,

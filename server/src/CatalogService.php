@@ -82,9 +82,8 @@ class CatalogService extends AbstractPrimoService
 
     protected function searchCatalogDeepLink($keyword)
     {
-        return 'http://bc-primo.hosted.exlibrisgroup.com/primo_library/libweb/action/dlSearch.do?' .
-            'institution=BCL&vid=bclib&onCampus=true&group=GUEST&loc=local,scope:(BCL)&query=any,contains,' .
-            $keyword;
+        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=bcl_only" .
+            '&search_scope=bcl&vid=bclib_new&lang=en_US&offset=0';
     }
 
     protected function displayType(BibRecord $item)
@@ -137,6 +136,8 @@ class CatalogService extends AbstractPrimoService
 
         $tab = $this->buildTabParameter($getit, $availabilities);
 
+        $link = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid={$item->id}&context=L&vid=bclib_new&search_scope=bcl&tab=bcl_only&lang=en_US";
+
         return [
             'id'           => $item->id,
             'title'        => $item->title,
@@ -144,7 +145,7 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => "http://" . $this->primo->createDeepLink()->link($item->id) . $tab,
+            'link'         => $link,
             'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
