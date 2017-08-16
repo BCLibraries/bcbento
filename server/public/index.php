@@ -55,14 +55,14 @@ foreach ($paths as $path => $ttl) {
 $app->get(
     '/primo-catalog',
     function () use ($app) {
-        redirectToPrimo($app, $app->deeplink);
+        redirectToPrimo($app);
     }
 );
 
 $app->get(
     '/primo-articles',
     function () use ($app) {
-        redirectToPrimo($app, $app->deeplink, true);
+        redirectToPrimo($app,true);
     }
 );
 
@@ -70,7 +70,7 @@ $app->add(new Cache($app->redis));
 $app->add(new JSONPWrapper());
 $app->run();
 
-function redirectToPrimo(Slim $app, DeepLink $dl, $articles = false)
+function redirectToPrimo(Slim $app, $articles = false)
 {
     if ($articles) {
         $scope = 'pci';
@@ -79,14 +79,9 @@ function redirectToPrimo(Slim $app, DeepLink $dl, $articles = false)
         $scope = 'bcl';
         $tab = 'bcl_only';
     }
-
-    $term = new QueryTerm();
-    $term->keyword($app->request->params('any'));
-
-    $dl->onCampus('TRUE');
-    $dl->view('bclib');
-    $dl->group('GUEST');
-    $app->redirect('http://' . $dl->search($term) . "&search_scope=$scope&tab=$tab");
+    $any = $app->request->params('any');
+    $url = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$any&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
+    $app->redirect($url);
 }
 
 /**

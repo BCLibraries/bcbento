@@ -1,14 +1,12 @@
 <?php
 
 use BCLib\BCBento\ArticlesService;
-use BCLib\BCBento\BestBetsService;
 use BCLib\BCBento\CatalogService;
 use BCLib\BCBento\DPLAService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\TypeaheadService;
 use BCLib\BCBento\SpringshareService;
-use BCLib\PrimoServices\DeepLink;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -21,10 +19,6 @@ $app->primo = function () use ($app) {
         $app->redis,
         '4.9'
     );
-};
-
-$app->deeplink = function () use ($app) {
-    return new DeepLink($app->config('PRIMO_HOST'), $app->config('PRIMO_INSTITUTION'));
 };
 
 $app->qb = function () use ($app) {
@@ -86,10 +80,6 @@ $app->worldcat = function () use ($app) {
         $app->config('WORLDCAT_INST_CODE'),
         $app->redis
     );
-};
-
-$app->bets = function () use ($app) {
-    return new BestBetsService($app->elasticsearch);
 };
 
 $app->springshare = function () use ($app) {
