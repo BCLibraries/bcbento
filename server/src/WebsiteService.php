@@ -29,7 +29,6 @@ class WebsiteService implements ServiceInterface
             'body'  => [
                 'query'     => [
                     'multi_match' => [
-                        'type'   => 'most_fields',
                         'query'  => $keyword,
                         'fields' => [
                             "title^5",
@@ -45,7 +44,8 @@ class WebsiteService implements ServiceInterface
                             "guide_description^6",
                             "guide_description.english^6",
                             "text^1"
-                        ]
+                        ],
+                        "operator" =>  "and"
                     ]
                 ],
                 'highlight' => [
