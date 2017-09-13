@@ -26,11 +26,12 @@ var trackOutboundLink = function (url) {
 
 $.fn.bcBento = function (services) {
 
-    var search_string, templates, source, loading_timers, api_version, spinner_html, error_html, host;
+    var search_string, templates, source, loading_timers, api_version, spinner_html, error_html, host, protocol;
 
     api_version = '0.0.9.2';
 
-    host = window.location.hostname === 'library.bc.edu' ? 'https://library' : 'http://libdev';
+    host = window.location.hostname;
+    protocol = window.location.hostname === 'library.bc.edu' ? 'https://' : 'http://';
 
     function callSearchService(service, keyword) {
         var $target, $heading, url;
@@ -41,7 +42,7 @@ $.fn.bcBento = function (services) {
         // Workaround for question mark and double-quote problems.
         keyword = keyword.replace(/\?/, '');
 
-        url = host + '.bc.edu/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword);
+        url = protocol + host + '/search-services/' + service.name + '?any=' + encodeURIComponent(keyword);
         url = url.replace(/%2B/, '+').replace('"', '%22');
 
         // Clear old results.
@@ -221,7 +222,12 @@ $(document).ready(function () {
         max_results: 5
     };
 
+    var faq = {
+        name: 'faq',
+        max_results: 3
+    };
+
     var service_url_base = '';
 
-    $(document).bcBento([catalog, articles, librarians, website], service_url_base);
+    $(document).bcBento([catalog, articles, librarians, website, faq], service_url_base);
 });

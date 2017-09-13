@@ -26,7 +26,7 @@ class FAQService implements ServiceInterface
 
         return [
             'total_results' => $search_response->numFound,
-            'search_link'   => "http://libguides.bc.edu/srch.php?q=$keyword",
+            'search_url'   => "http://answers.bc.edu/search/?t=0&q=$keyword",
             'dym'           => null,
             'items'         => array_map([$this, 'processResult'], $search_response->results)
         ];

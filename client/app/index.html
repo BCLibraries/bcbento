@@ -140,6 +140,10 @@
       }
     }
     
+
+
+
+
     </script>
 
     <!--
@@ -233,7 +237,9 @@
                     <ul class="bclib-header-links">
                         <li><a href="https://bc.edu">BC Home</a></li>
                         <li><a href="https://www.bc.edu/bc-web/about/mission.html">Mission</a></li>
-                        <li><a href="https://library.bc.edu/feedback"><span class="fa fa-commenting-o" aria-hidden="true"></span> Feedback</a>
+                        <li>
+                            <a href="https://library.bc.edu/feedback"><span class="fa fa-commenting-o" aria-hidden="true"></span>
+                                Feedback</a>
                         </li>
                         <li>
                             <a href="http://libguides.bc.edu/my-accounts"><span class="fa fa-user" aria-hidden="true"></span>
@@ -415,8 +421,9 @@
                                                 <li>
                                                     <a href="https://ds.bc.edu/" id="mm-using-services-digital-scholoarship">Digital
                                                         Scholarship</a></li>
-                                                <li><a href="https://library.bc.edu/scholcomm" id="mm-using-services-publishing-support">Publishing
-                                                    Support</a></li>
+                                                <li>
+                                                    <a href="https://library.bc.edu/scholcomm" id="mm-using-services-publishing-support">Publishing
+                                                        Support</a></li>
                                                 <li>
                                                     <a href="http://libguides.bc.edu/accessibility" id="mm-using-services-accessibility">Accessibility</a>
                                                 </li>
@@ -1269,6 +1276,9 @@
 
             <!-- Tertiary results box.-->
             <div id="tertiary" class="col-md-3">
+                <div id="faq-results" class="result-container faq row">
+                    <h2 id="faqh3" class="search-heading">Frequently asked questions</h2>
+                </div>
                 <div id="website-results" class="result-container website row">
                     <h2 id="subjecth3" class="search-heading">Website</h2>
                 </div>
@@ -1281,7 +1291,7 @@
 
     </div>
     <script src="https://library.bc.edu/theme/bcbento/js/handlebars-v3.0.0.js"></script>
-    <script src="https://library.bc.edu/theme/bcbento/js/search.js?v=20170815-01"></script>
+    <script src="js/search.js?v=20170815-01"></script>
 
 
     <!-- Search result templates -->
@@ -1304,6 +1314,22 @@
                 <a href="http://libguides.bc.edu/ask-a-librarian/contact" onclick="trackOutboundLink('http://libguides.bc.edu/ask-a-librarian/contact'); return false;">See
                     all subject librarians</a></p>
         </div>
+        {{/if}}
+    </script>
+
+
+    <script id="faq-template" type="text/x-template">
+        {{#if items}}
+        <div class="more-results-link">
+            <a href="{{search_url}}" onclick="trackOutboundLink('{{search_url}}'); return false;">see all {{total_results}} results&hellip;&nbsp;</a>
+        </div>
+        <ul>
+            {{#items}}
+            <li>
+                <a href="{{url}}" class="title" onclick="trackOutboundLink('{{url}}'); return false;">{{question}}</a>
+            </li>
+            {{/items}}
+        </ul>
         {{/if}}
     </script>
 

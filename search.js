@@ -37,7 +37,7 @@ $.fn.bcBento = function (services, service_url_base) {
         // Workaround for question mark and double-quote problems.
         keyword = keyword.replace(/\?/, '');
 
-        url = '/search-services/v' + api_version + '/' + service.name + '?any=' + encodeURIComponent(keyword);
+        url = '/search-services/' + service.name + '?any=' + encodeURIComponent(keyword);
         url = url.replace(/%2B/,'+').replace('"','%22');
 
         // Clear old results.

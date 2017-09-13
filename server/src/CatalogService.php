@@ -66,8 +66,13 @@ class CatalogService extends AbstractPrimoService
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
-        if ($result->total_results == 0) {
-            return $this->worldcat->fetch($keyword);
+        try {
+            if ($result->total_results == 0) {
+                return $this->worldcat->fetch($keyword);
+            }
+        } Catch (\Exception $e)
+        {
+            // Do nothing for now.
         }
 
         $client_factory = new ClientFactory();
