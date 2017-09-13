@@ -3,6 +3,7 @@
 use BCLib\BCBento\ArticlesService;
 use BCLib\BCBento\CatalogService;
 use BCLib\BCBento\DPLAService;
+use BCLib\BCBento\FAQService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\TypeaheadService;
@@ -84,4 +85,8 @@ $app->worldcat = function () use ($app) {
 
 $app->springshare = function () use ($app) {
     return new SpringshareService();
+};
+
+$app->faq = function () use ($app) {
+    return new FAQService();
 };

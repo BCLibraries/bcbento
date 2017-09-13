@@ -26,7 +26,8 @@ $paths = [
     '/dpla'        => $seconds_until_3am,
     '/worldcat'    => $seconds_until_3am,
     '/springshare' => $seconds_until_3am,
-    '/website'     => $seconds_until_3am
+    '/website'     => $seconds_until_3am,
+    '/faq'         => $seconds_until_3am
 ];
 
 
@@ -62,7 +63,7 @@ $app->get(
 $app->get(
     '/primo-articles',
     function () use ($app) {
-        redirectToPrimo($app,true);
+        redirectToPrimo($app, true);
     }
 );
 
