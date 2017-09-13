@@ -1,251 +1,1677 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="myApp">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Search : Boston College Libraries</title>
-    <link rel="stylesheet" href="css/app.css"/>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Asap:400,700,700italic,400italic" type="text/css">
-    <link rel="stylesheet" href="css/local.css"/>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Boston College Libraries</title>
+    <meta charset="utf-8"/>
+
+    <link rel="shortcut icon" href="https://library.bc.edu/favicon.ico?v=0"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!--link rel="stylesheet" href="https://library.bc.edu/theme/css/bootstrap.css"/-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://library.bc.edu/theme/bcbento/css/app.css"/>
+    <!--link rel="stylesheet" href="https://library.bc.edu/theme/css/style.css?version=2017060501"/-->
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/refresh.css?version=20170728"/>
+
+    <!-- EXHIBIT STYLE SHEETS -->
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/exhibit_refresh.css?version=20170811"/>
+
+    <!-- MEGA MENU AND FOOTER STYLE SHEETS -->
+    <!-- MODULAR SHEETS TO QUICKLY ADD INTO LIBGUIDES  -->
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/megamenu.css?version=20170804"/>
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/footer.css?version=20170810"/>
+    <!-- END MEGA MENU AND FOOTER STYLES -->
+
+    <!-- CONTENT ROW STYLE SHEETS, CAN BE MERGED INTO MASTER STYLE SHEET LATER.-->
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/refresh_content_rows.css?version=20170804"/>
+    <!-- END CONTENT ROW STYLES -->
+
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/icomoon.css"/>
+    <link rel="stylesheet" href="https://library.bc.edu/theme/css/notification.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//api2.libanswers.com/1.0/widgets/5468" async></script>
+
+    <style>
+        .homepagerefresh #header {
+            height: initial;
+        }
+
+        @media (min-width: 768px) {
+            .homepagerefresh #header {
+                padding-top: 46px;
+                padding-bottom: 24px;
+            }
+        }
+    </style>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+
     <![endif]-->
+
+    <!-- SCRIPT TO TURN SIDE NAVIGATION INTO DROPDOWNS ON MOBILE.  DO NOT REMOVE.  -->
+    <!--script>
+    /* DOM ready*/
+    $(function() {
+        var myNavID = "nav";
+        /* For each nav menu, create a corresponding drop down menu */
+        $("nav.drop-down").each(function(){
+            if ($(this).attr("id")) {
+                myNavID = "nav#" + $(this).attr("id");
+            }
+
+            //console.log("navID " + myNavID);
+
+            sel = $(this).find(".nav-mobile");
+
+            if (sel.length == 0){
+                /* Create the dropdown base */
+                $("<select class='nav-mobile' />").appendTo(myNavID);
+                sel = $(this).find(".nav-mobile");
+            }
+
+            /* Create default option "Go to..." */
+            $("<option />", {
+                "selected": "selected",
+                "value"   : "",
+                "text"    : "Go to..."
+            }).appendTo(sel);
+
+            /* Populate dropdown with menu items */
+            $(myNavID + " a").each(function() {
+                var el = $(this);
+                var myText = el.text();
+                if ($(el).parents(".s-lg-subtab-ul").length > 0) {
+                    myText = "> " + el.text();
+                }
+                $("<option />", {
+                    "value"   : el.attr("href"),
+                    "text"      : myText
+                }).appendTo(sel);
+            });
+
+            /* To make dropdown actually work
+            // To make more unobtrusive: http://css-tricks.com/4064-unobtrusive-page-changer/ */
+            $(sel).change(function() {
+                window.location = $(this).find("option:selected").val();
+            });
+        });
+    });
+    </script-->
+
+    <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
+    <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Library",
+      "name" : "Boston College Libraries",
+      "alternateName": "Boston College University Libraries",
+      "url": "http://library.bc.edu",
+      "image" : "http://s3.amazonaws.com/libapps/accounts/3908/images/bapst-banner.png",
+      "logo" : "http://library.bc.edu/theme/img/title_sq_nomotto_72dpi.png",
+      "telephone" : "617-552-4470",
+      "address" : {
+        "@type" : "PostalAddress",
+        "streetAddress" : "140 Commonwealth Avenue",
+        "addressLocality" : "Chestnut Hill",
+        "addressRegion" : "MA",
+        "postalCode" : "02467"
+      },
+      "sameAs": [
+        "https://www.facebook.com/bostoncollegelibraries",
+        "https://twitter.com/bclibraries",
+        "https://www.youtube.com/user/BostonCollegeLib",
+        "http://libguides.bc.edu/publications",
+        "https://www.flickr.com/photos/bc-burnslibrary/"
+      ],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "http://library.bc.edu/search/?any={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    
+    </script>
+
+    <!--
+      <PageMap>
+        <DataObject type="thumbnail">
+          <Attribute name="src" value="https://library.bc.edu/theme/img/library_thumbnail.png"/>
+          <Attribute name="width" value="225"/>
+          <Attribute name="height" value="150"/>
+        </DataObject>
+      </PageMap>
+    -->
+
+    <!-- Google Analytics script -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-3008279-16', 'auto');
+        ga('require', 'linkid');
+        ga('send', 'pageview');
+
+        $(function () {
+            $('#megamenu ul.nav li.dropdown').mouseenter(function () {
+                var myText = $(this).find("a.menu-option").text();
+                ga('send', 'event', 'megamenu', 'hover', myText.trim());
+            });
+            $("ul.item-desktop li a").mouseenter(function () {
+                var myPane = $(this).html();
+                ga('send', 'event', 'librarypanes', 'hover', myPane);
+            });
+            $("input#searchsubmit").click(function () {
+                ga('send', 'event', 'bc-searchbutton', 'click');
+            });
+            $("a").not('.search-link').click(function (e) {
+                if (!ga.q) {
+                    var url = $(this).attr("href");
+
+                    /* Bug fix to stop screen jump when clicking carousel controls */
+                    if (url.indexOf('#') !== 0) {
+                        ga("send", "event", "outbound", "click", url, {
+                            "hitCallback":
+                                function () {
+                                    document.location = url;
+                                }
+                        });
+                    }
+                    e.preventDefault();
+                }
+            });
+        });
+        // Initialize bootstrap popover
+        //$(function () { $('[data-toggle="tooltip"]').tooltip() });
+    </script>
 </head>
 
-<body>
+<body id="index" class="s-lg-guide-body mainhomepage homepagerefresh">
 
-<div id="newsearch">
-    <div data-searchbox>
-        <form method="get" action="/search" id="bcbento-search">
-            <input type="text" id="typeahead" name="any">
-            <input type="submit">
-        </form>
-    </div>
-</div>
+<!--<div id="downtime-notification">
+    Downtime message here
+    <a id="close">[close]</a>
+</div>-->
 
-<div id="bentoboxresults">
+<a id="skiplink" href="#main-heading" class="accessibility-text">Skip to main content</a>
 
-    <div id="didyoumean-holder"></div>
+<div id="bclib-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-6 col-xxs">
+                <a href="https://library.bc.edu" title="Go to Boston College Libraries" class="bclib-header-logo">
+                    <img src="https://library.bc.edu/theme/img/title_295x30_transparent_whitetext.png" id="fakebctitle" alt="Boston College Library Logo">
 
-    <div id="all-results">
-
-        <!-- Secondary results box. -->
-        <div id="secondary">
-            <div id="articles-results" class="result-container">
-                <h3>Articles</h3>
-            </div>
-        </div>
-
-        <!-- The primary results box. -->
-        <div id="primary">
-            <div id="catalog-results" class="result-container">
-                <h3>Catalog</h3>
-            </div>
-        </div>
-
-        <!-- Tertiary results box.-->
-        <div id="tertiary" style="background-color: none">
-
-            <div id="librarians-results" class="result-container librarians" style="background-color: inherit">
-                <h3 id="librarianh3" style="display: none;">Librarians</h3>
-            </div>
-
-            <div id="springshare-results" class="result-container">
-                <h3 id="researchh3">Research guides</h3>
-            </div>
-
-            <div id="guides-results" class="result-container guides" style="background-color: inherit">
-                <h3 id="subjecth3" style="display: none">Subject guides</h3>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="js/typeahead.bundle.min.js"></script>
-<script src="js/handlebars-v3.0.0.js"></script>
-<script src="js/bclib-typeahead.js"></script>
-<script src="js/search.js"></script>
-
-
-<!-- Search result templates -->
-<script id="librarians-template" type="text/x-template">
-    {{#if .}}
-    <h3 class="visible-also-try">Librarians</h3>
-    <ul>
-        {{#.}}
-        <li>
-            <a href="http://libguides.bc.edu/prf.php?account_id={{id}}"><img src="//{{image}}" alt="picture of {{name}}"></a>
-
-            <div class="librarian-info">
-                <h4 class="librarian-name"><a href="http://libguides.bc.edu/prf.php?account_id={{id}}">{{name}}</a></h4>
-                <p>{{display_subjects}}</p>
-            </div>
-        </li>
-        {{/.}}
-    </ul>
-    {{/if}}
-</script>
-
-<script id="guides-template" type="text/x-template">
-    {{#if .}}
-    <h3 class="visible-also-try">Subject guides</h3>
-    <ul>
-        {{#.}}
-        <li>
-            <div><a href="{{url}}">{{title}}</a></div>
-            <div class="guide-description">{{description}}</div>
-        </li>
-        {{/.}}
-    </ul>
-    {{/if}}
-
-</script>
-
-<script id="catalog-template" type="text/x-template">
-
-    <div class="more-results-link">
-        <a href="{{search_link}}">
-            see all {{total_results}} results…
-        </a>
-    </div>
-
-    <ul id="catalog-results bento-results">
-
-        {{#items}}
-        <li class="bento-result">
-
-            <div class="catalog-text{{#if covers.[0]}} has-cover{{/if}}">
-
-
-                <a href="{{link}}" class="title">
-                    {{truncate title '100'}}
+                    <p>Boston College Libraries</p>
                 </a>
+            </div>
+            <!--  POTENTIAL SEAL LOCATION
+
+            <div class="col-md-2">
+               <a href="#" class="ignatius"></a>
+            </div>-->
+            <div class="col-md-8 col-sm-12 col-xs-6 col-xxs header-right">
+                <div class="col-md-7 col-sm-7 col-xs-7 col-xxs link-wrapper">
+                    <ul class="bclib-header-links">
+                        <li><a href="https://bc.edu">BC Home</a></li>
+                        <li><a href="https://www.bc.edu/bc-web/about/mission.html">Mission</a></li>
+                        <li><a href="https://library.bc.edu/feedback"><span class="fa fa-commenting-o" aria-hidden="true"></span> Feedback</a>
+                        </li>
+                        <li>
+                            <a href="http://libguides.bc.edu/my-accounts"><span class="fa fa-user" aria-hidden="true"></span>
+                                Accounts</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-5 col-xxs input-wrapper">
+                    <div class="pull-right">
+                        <form action="//www.bc.edu/bc-web/search.html">
+                            <div class="input-group" id="bclib-header-form">
+                                <label for="bclib-header-search" class="accessibility-text">Search the Library</label>
+                                <input type="hidden" ie="UTF-8"/>
+                                <input type="text" id="bclib-header-search" class="form-control" name="q" placeholder="Search bc.edu">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i><span class="accessibility-text">Submit Search</span></button>
+                                    </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h1 class="sr-only sr-only-focusable">Search</h1>
+
+
+<!-- HEADER START -->
+<div class="megamenu-container">
+    <!-- MENU BEGINS HERE -->
+    <div id="megamenu-refresh" class="container">
+        <!-- BEGIN NAVBAR -->
+        <nav class="navbar yamm navbar-default" role="navigation">
+            <div id="navbar-collapse-1" class="container-fluid-skip">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <div class="navbar-brand">
+                        <!--   POTENTIAL SEAL LOCATION
+                        <a href="#" class="ignatius"></a> -->
+                        Value Beyond Discovery
+                    </div>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <!-- Find list -->
+                        <li class="dropdown yamm-fw">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-option" id="mm-find-header">Find</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- Content container to add padding -->
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <!-- Books Media & More -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/books-media-more" id="mm-find-books">Books,
+                                                            Media, and more</a></div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://library.bc.edu/catalog" id="mm-find-books-catalog-simple-search">Catalog
+                                                        Simple Search</a></li>
+                                                <li>
+                                                    <a href="http://bclib.bc.edu/advanced-search" id="mm-find-books-catalog-advanced-search">Catalog
+                                                        Advanced Search</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/popcollection" id="mm-find-books-popular">Popular
+                                                        Books &amp; DVDs</a></li>
+                                                <li>
+                                                    <a href="http://arc.bc.edu/reserves" id="mm-find-books-course-reserves">Course
+                                                        Reserves</a></li>
+                                                <li><a href="http://libguides.bc.edu/dataportal" id="mm-find-books-gis">Data/GIS/Statistics</a>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Articles -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/articles" id="mm-find-articles">Articles</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/az.php" id="mm-find-articles-databases">Databases</a>
+                                                </li>
+                                                <li><a href="http://bclib.bc.edu/a-to-z" id="mm-find-articles-journals">Journals</a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?tab=pci_only&vid=bclib_new&sortby=rank" id="mm-find-articles-search">Article
+                                                        search</a></li>
+                                                <li>
+                                                    <a href="http://bclib.bc.edu/find-by-citation" id="mm-find-articles-citation">Find
+                                                        by Citation</a></li>
+                                            </ul>
+
+                                            <!-- Outside BC -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/outside-bc" id="mm-find-outside">Outside
+                                                            BC</a></div>
+                                                </li>
+                                                <li><a href="https://bc.on.worldcat.org" id="mm-find-outside-worldcat">WorldCat
+                                                    <p class="tuck">Search Boston College and beyond</p></a></li>
+                                                <li>
+                                                    <a href="https://scholar.google.com" id="mm-find-outside-google-scholar">Google
+                                                        Scholar</a></li>
+                                            </ul>
+
+                                            <!-- Other -->
+                                            <ul class="col-sm-3 menu_list end">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/all-collections" id="mm-find-other">Other</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://search.proquest.com.proxy.bc.edu/pqdtft/advanced?accountid=9673" id="mm-find-other-proquest-theses">ProQuest
+                                                        Theses &amp; Dissertations</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/collections" id="mm-find-other-collections">Collections</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://escholarship.bc.edu/" id="mm-find-other-escholarship">eScholarship@BC</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/digital-collections" id="mm-find-other-digital-collections">Digital
+                                                        Collections</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="row bottom_row">
+                                            <div class="more"><a href="http://libguides.bc.edu/find" id="mm-find-more">Find
+                                                More <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Using the Libraries list -->
+                        <li class="dropdown yamm-fw">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-option" id="mm-using-header">Services</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- Content container to add padding -->
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <!-- Services -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/services" id="mm-using-services">Services</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/borrowing" id="mm-using-services-borrowing">Borrowing</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/request-materials" id="mm-using-services-requesting">Requesting</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/course-reserves" id="mm-using-services-course-reserves">Course
+                                                        Reserves</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/library-instruction" id="mm-using-services-library-instruction">Library
+                                                        Instruction</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/media-services" id="mm-using-services-media-services">Media
+                                                        Services</a></li>
+                                                <li>
+                                                    <a href="https://ds.bc.edu/" id="mm-using-services-digital-scholoarship">Digital
+                                                        Scholarship</a></li>
+                                                <li><a href="https://library.bc.edu/scholcomm" id="mm-using-services-publishing-support">Publishing
+                                                    Support</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/accessibility" id="mm-using-services-accessibility">Accessibility</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/dataverse" id="mm-using-services-dataverse">Dataverse</a>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Services For... -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/services-for" id="mm-using-services-for">Services
+                                                            for...</a></div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/undergraduates" id="mm-using-services-for-undergrads">Undergraduates</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/graduate-students" id="mm-using-services-for-grads">Graduate
+                                                        Students</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/faculty-and-staff" id="mm-using-services-for-faculty-staff">Faculty
+                                                        &amp; Staff</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/alumni-and-guests" id="mm-using-services-for-alumni-guests">Alumni
+                                                        &amp; Guests</a></li>
+                                            </ul>
+
+                                            <!-- Technology -->
+                                            <ul class="col-sm-3 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/technology" id="mm-using-technology">Technology</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/software" id="mm-using-technology-software">Software
+                                                        in the libraries</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/laptops-ipads-more" id="mm-using-technology-laptops-more">Laptops,
+                                                        iPads, &amp; More</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/printers-and-scanners" id="mm-using-technology-printers">Printers
+                                                        &amp; Scanners</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/oneill-tech-help" id="mm-using-tech-help">Technology
+                                                        Help</a></li>
+                                            </ul>
+
+                                            <!-- Spaces -->
+                                            <ul class="col-sm-3 menu_list end">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/spaces" id="mm-using-spaces">Spaces</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libcal.bc.edu/booking/oneill" id="mm-using-spaces-study-room">Reserve
+                                                        a Study Room</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/study-spaces" id="mm-using-spaces-study-spaces">Study
+                                                        Spaces</a></li>
+                                                <li>
+                                                    <a href="https://ds.bc.edu/digital-studio/" id="mm-using-spaces-digstudio">Digital
+                                                        Studio</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="row bottom_row">
+                                            <div class="more">
+                                                <a href="http://libguides.bc.edu/using-the-library" id="mm-more-using">More
+                                                    Library Services
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Get Help list -->
+                        <li class="dropdown yamm-fw">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-option" id="mm-help-header">Get
+                                Help</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- Content container to add padding -->
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <ul class="col-sm-4 menu_list">
+                                                <li>
+                                                    <div class="h4style">
+                                                        <a href="http://libguides.bc.edu/research-help" id="mm-help-research">Research
+                                                            Help</a></div>
+                                                </li>
+                                                <li><a href="http://libguides.bc.edu/subjects" id="mm-help-subjects">Guides
+                                                    by Subject</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/subjects/course-guides" id="mm-help-course">Guides
+                                                        by Course</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/ask-a-librarian/contact" id="mm-help-subject-librarians">Subject
+                                                        Librarians</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/subjects/general" id="mm-help-howto">How
+                                                        to... (use the catalog, cite sources, etc.)</a></li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/core-skills-videos" id="mm-help-coreskills">Core
+                                                        Skills video tutorials</a></li>
+                                            </ul>
+                                            <div class="iteminfo-content get-help-menu">
+
+                                                <!-- MENU WITH LINKS, FOR DESKTOP VERSION. -->
+                                                <ul class="col-sm-3 item-list item-desktop">
+                                                    <li>
+                                                        <div class="h4style">
+                                                            <a href="http://libguides.bc.edu/ask-a-librarian" id="mm-help-aal">Ask
+                                                                A Librarian</a></div>
+                                                    </li>
+                                                    <li class="ref_pane">
+                                                        <a href="http://libguides.bc.edu/ask-a-librarian" id="mm-help-ref">Visit
+                                                            a Reference Desk</a></li>
+                                                    <li class="faq_pane">
+                                                        <a href="http://answers.bc.edu/index.php" id="mm-help-faq">Frequently
+                                                            Asked Questions</a></li>
+                                                    <li class="chat_pane">
+                                                        <a href="#" onClick="window.open('https://libraryh3lp.com/chat/ajcu-consortium@chat.libraryh3lp.com?skin=19965&title=Boston College/AJCU+Librarians&profile=cs-bostoncoll','chat', 'resizable=1,width=320,height=300'); return false;" style="cursor: pointer;" id="mm-help-chat">Chat
+                                                            with us</a></li>
+                                                    <li class="email_pane">
+                                                        <a href="http://answers.bc.edu/q.php" id="mm-help-email">Send us
+                                                            an Email</a></li>
+                                                    <li class="call_pane"><a href="#" id="mm-help-call">Call us</a></li>
+                                                </ul>
+
+                                                <!-- MENU WITH NO LINKS, FOR TABLET VERSION. -->
+                                                <ul class="col-sm-3 item-list item-tablet">
+                                                    <li>
+                                                        <div class="h4style">
+                                                            <a href="http://libguides.bc.edu/ask-a-librarian" id="mm-t-help-aal">Ask
+                                                                A Librarian</a></div>
+                                                    </li>
+                                                    <li class="ref_pane"><a href="#" id="mm-t-help-ref">Visit a
+                                                        Reference Desk</a></li>
+                                                    <li class="faq_pane"><a href="#" id="mm-t-help-faq">Frequently Asked
+                                                        Questions</a></li>
+                                                    <li class="chat_pane"><a href="#" id="mm-t-help-email">Send us an
+                                                        Email</a></li>
+                                                    <li class="call_pane"><a href="#" id="mm-t-help-call">Call us</a>
+                                                    </li>
+                                                </ul>
+
+
+                                                <div class="h4style accessibility-text">Help from anywhere</div>
+
+                                                <!-- REFERENCE PANE BEGINS HERE -->
+                                                <div id="ref_pane" class="item_pane col-sm-5">
+                                                    <div class="pane_info">
+                                                        <a href="http://libguides.bc.edu/ask-a-librarian" id="mm-help-pane-ref-header">
+                                                            <div class="askicon ask_ref"></div>
+                                                            <div class="h2style">Visit a Reference Desk</div>
+                                                        </a>
+                                                        <p>Ask us anything! We can help you find answers to your
+                                                            questions, resources for your projects, or refer you to
+                                                            other experts.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- END REF PANE. RIGHT UP THERE-->
+
+                                                <!-- FAQ PANE BEGINS HERE -->
+                                                <div id="faq_pane" class="item_pane col-sm-5">
+                                                    <div class="pane_info">
+                                                        <a href="http://answers.bc.edu/index.php" id="mm-help-pane-faq-header">
+                                                            <div class="askicon ask_faq"></div>
+                                                            <div class="h2style">Frequently Asked Questions</div>
+                                                        </a>
+                                                        <p>Get answers to frequently asked questions on the
+                                                            <a href="http://answers.bc.edu/index.php" id="mm-help-pane-faq-link">Library's
+                                                                FAQ</a>.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- END FAQ PANE. RIGHT UP THERE-->
+
+                                                <!-- CHAT PANE BEGINS HERE -->
+                                                <div id="chat_pane" class="item_pane col-sm-5">
+                                                    <div class="pane_info">
+                                                        <a href="#" onClick="window.open('https://libraryh3lp.com/chat/ajcu-consortium@chat.libraryh3lp.com?skin=19965&title=Boston College/AJCU+Librarians&profile=cs-bostoncoll','chat','resizable=1,width=320,height=300'); return false;" style="cursor: pointer;" id="mm-help-pane-chat-header">
+                                                            <div class="askicon ask_chat"></div>
+                                                            <div class="h2style">Chat with us</div>
+                                                        </a>
+                                                        <p>24/7 research help from Librarians at BC and at participating
+                                                            Jesuit institutions across the country.
+                                                            <a onClick="window.open('https://libraryh3lp.com/chat/ajcu-consortium@chat.libraryh3lp.com?skin=19965&title=Boston College/AJCU+Librarians&profile=cs-bostoncoll','chat', 'resizable=1,width=320,height=300'); return false;" style="cursor: pointer;" id="mm-help-pane-chat">Click
+                                                                here to chat with a Librarian.</a></p>
+                                                    </div>
+                                                </div>
+                                                <!-- END CHAT PANE. RIGHT UP THERE-->
+
+                                                <!-- EMAIL PANE BEGINS HERE -->
+                                                <div id="email_pane" class="item_pane col-sm-5">
+                                                    <div class="pane_info">
+                                                        <a href="http://answers.bc.edu/q.php" id="mm-help-pane-email">
+                                                            <div class="askicon ask_email"></div>
+                                                            <div class="h2style">Send us an Email</div>
+                                                        </a>
+                                                        <p>Get an
+                                                            <a href="http://answers.bc.edu/q.php" id="mm-help-email-link">answer
+                                                                by email</a> within one day, Monday-Friday.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- END EMAIL PANE. RIGHT UP THERE-->
+
+                                                <!-- CALL PANE BEGINS HERE -->
+                                                <div id="call_pane" class="item_pane col-sm-5">
+                                                    <div class="pane_info">
+                                                        <div class="askicon ask_call"></div>
+                                                        <div class="h2style">Call us</div>
+                                                        <p>(617) 552-4472</p>
+                                                        <p>Call a Reference Librarian during regular reference service
+                                                            hours.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- END CALL PANE. RIGHT UP THERE-->
+                                            </div>
+
+                                        </div>
+                                        <div class="row bottom_row">
+                                            <div class="more">
+                                                <a href="http://libguides.bc.edu/ask-a-librarian" id="mm-help-all">All
+                                                    Help
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- About The Libraries list -->
+                        <li class="dropdown yamm-fw">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-option" id="mm-about-header">About</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- Content container to add padding -->
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <!-- About Us -->
+                                            <ul class="col-sm-2 menu_list" style="padding-top: 10px;">
+                                                <li>
+                                                    <div class="h4style">About us</div>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/hours" id="mm-about-hours">Hours</a>
+                                                </li>
+                                                <li><a href="http://libguides.bc.edu/contact" id="mm-about-contact-us">Contact
+                                                    Us</a></li>
+                                                <li><a href="http://library.bc.edu/news" id="mm-about-news">News</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/getting-here" id="mm-about-getting-here">Getting
+                                                        Here</a></li>
+                                                <li><a href="http://libguides.bc.edu/policies" id="mm-about-policies">Policies</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/gifts" id="mm-about-gifts">Gifts</a>
+                                                </li>
+                                                <li><a href="http://libguides.bc.edu/mission" id="mm-about-mission">Mission</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/employment" id="mm-about-employment">Employment</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://libguides.bc.edu/publications" id="mm-about-publications">Publications</a>
+                                                </li>
+                                                <li><a href="http://library.bc.edu/exhibits" id="mm-about-exhibits">Exhibits</a>
+                                                </li>
+                                                <li><a href="http://libguides.bc.edu/advertise" id="mm-about-advertise">Advertise
+                                                    Your Event</a></li>
+                                            </ul>
+
+                                            <!-- LIBRARY INFO CAN GO HERE -->
+
+                                            <!--Libraryinfo-content class exists to hide hours info that appears elsewhere.-->
+                                            <div class="iteminfo-content">
+                                                <!-- MENU LIST WITH LINKS, FOR DESKTOP. -->
+                                                <ul class="col-sm-3 item-list item-desktop">
+                                                    <li>
+                                                        <div class="h4style">Libraries</div>
+                                                    </li>
+                                                    <li class="bapst_pane">
+                                                        <a href="http://libguides.bc.edu/bapst" id="mm-pane-bapst">Bapst
+                                                            Library</a></li>
+                                                    <li class="burns_pane">
+                                                        <a href="http://libguides.bc.edu/burns" id="mm-pane-burns">Burns
+                                                            Library</a></li>
+                                                    <li class="erc_pane">
+                                                        <a href="http://libguides.bc.edu/erc" id="mm-pane-erc">Educational
+                                                            Resource Center</a></li>
+                                                    <li class="law_pane">
+                                                        <a href="http://www.bc.edu/lawlibrary" id="mm-pane-law">Law
+                                                            Library</a></li>
+                                                    <li class="oconnor_pane">
+                                                        <a href="http://libguides.bc.edu/oconnor" id="mm-pane-oconnor">O'Connor
+                                                            Library</a></li>
+                                                    <li class="oneill_pane">
+                                                        <a href="http://libguides.bc.edu/oneill" id="mm-pane-oneill">O'Neill
+                                                            Library</a></li>
+                                                    <li class="swl_pane">
+                                                        <a href="http://libguides.bc.edu/socialwork" id="mm-pane-swl">Social
+                                                            Work Library</a></li>
+                                                    <li class="tml_pane">
+                                                        <a href="http://libguides.bc.edu/tml" id="mm-pane-tml">Theology
+                                                            &amp; Ministry Library</a></li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                </ul>
+
+                                                <!-- MENU LIST WITH NO LINKS, FOR TABLET CLICKING. -->
+                                                <ul class="col-sm-3 item-list item-tablet">
+                                                    <li>
+                                                        <div class="h4style">Libraries</div>
+                                                    </li>
+                                                    <li class="bapst_pane"><a href="#">Bapst Library</a></li>
+                                                    <li class="burns_pane"><a href="#">Burns Library</a></li>
+                                                    <li class="erc_pane"><a href="#">Educational Resource Center</a>
+                                                    </li>
+                                                    <li class="law_pane"><a href="#">Law Library</a></li>
+                                                    <li class="oconnor_pane"><a href="#">O'Connor Library</a></li>
+                                                    <li class="oneill_pane"><a href="#">O'Neill Library</a></li>
+                                                    <li class="swl_pane"><a href="#">Social Work Library</a></li>
+                                                    <li class="tml_pane"><a href="#">Theology &amp; Ministry Library</a>
+                                                    </li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                    <li><!--THIS IS A MESSY WAY TO MAKE SPACE-->&nbsp;</li>
+                                                </ul>
+
+                                                <div class="h4style accessibility-text">Libraries</div>
+
+                                                <!-- BAPST PANE BEGINS HERE -->
+                                                <div id="bapst_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/bapst">Bapst
+                                                            Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">140 Commonwealth Avenue<br>Chestnut Hill, MA
+                                                            02467-3810</p>
+                                                        <p>Bapst Library, named for the first president of Boston
+                                                            College, served as the original Library from 1925 until the
+                                                            opening of the Thomas P. O'Neill Library in 1984.</p>
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175523200">617-552-3200</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:bapst@bc.edu">bapst@bc.edu</a></p></li>
+                                                        </ul>
+
+                                                        <!--<ul class="col-sm-6">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-bapst" id="BapstLibrary"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/bapst" title="Bapst Library home page" id="mm-bapst">
+                                                            <i class="libsprite libsprite-librarythumbnails_bapst"></i>
+                                                            <span class="sr-only">Bapst Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END BAPST PANE. RIGHT UP THERE-->
+
+                                                <!-- BURNS PANE BEGINS HERE -->
+                                                <div id="burns_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/burns">Burns
+                                                            Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">140 Commonwealth Avenue<br>Chestnut Hill, MA
+                                                            02467-3810</p>
+                                                        <p>Located in the original Bapst Library building on Boston
+                                                            College’s Chestnut Hill campus, the John J. Burns Library
+                                                            offers students, scholars, and the general public
+                                                            opportunities to engage with rare books, special
+                                                            collections, and archives.</p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175524861">617-552-4861</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:burnsref@bc.edu">burnsref@bc.edu</a></p>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!--<ul class="col-sm-6">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-burns" id="BurnsLibrary"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/burns-library" title="Burns Library home page" id="mm-burns">
+                                                            <i class="libsprite libsprite-librarythumbnails_burns"></i>
+                                                            <span class="sr-only">Burns Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END BURNS PANE. RIGHT UP THERE-->
+
+                                                <!-- ERC PANE BEGINS HERE -->
+                                                <div id="erc_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/erc">Educational
+                                                            Resource Center
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">140 Commonwealth Avenue<br>Chestnut Hill, MA
+                                                            02467-3810</p>
+                                                        <p>The Educational Resource Center, located in Campion Hall,
+                                                            serves the specialized resource needs of the Lynch School of
+                                                            Education faculty and students. </p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175524920">617-552-4920</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:erc@bc.edu">erc@bc.edu</a></p></li>
+                                                        </ul>
+                                                        <!--
+                                                        <ul class="col-sm-6">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-erc" id="EducationalResourceCenter"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/erc" title="Educational Resource Center home page" id="mm-erc">
+                                                            <i class="libsprite libsprite-librarythumbnails_ed"></i>
+                                                            <span class="sr-only">Educational Resource Center</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END ERC PANE. RIGHT UP THERE-->
+
+                                                <!-- LAW PANE BEGINS HERE -->
+                                                <div id="law_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://www.bc.edu/lawlibrary">Law
+                                                            Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">Boston College Law School<br>885 Centre
+                                                            St<br>Newton Center, MA 02459</p>
+                                                        <p>The mission of the Boston College Law Library is to provide
+                                                            research, educational and technological support to the
+                                                            Boston College Law School community. </p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175524434">617-552-4434</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:lawcirc@bc.edu">lawcirc@bc.edu</a></p>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!--<ul class="col-sm-6">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-law" id="LawLibrary"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://www.bc.edu/schools/law/library" title="Law Library home page" id="mm-law">
+                                                            <i class="libsprite libsprite-librarythumbnails_law"></i>
+                                                            <span class="sr-only">Law Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END LAW PANE. RIGHT UP THERE-->
+
+                                                <!-- O'CONNOR PANE BEGINS HERE -->
+                                                <div id="oconnor_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/oconnor">Catherine
+                                                            O'Connor Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">381 Concord Road <br/> Weston, MA 02493</p>
+                                                        <p>Located at Weston Observatory, this library contains a
+                                                            specialized collection of earth sciences monographs,
+                                                            periodicals, and maps, particularly in the areas of
+                                                            seismology, geology, and geophysics.</p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175524477">617-552-4477</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:karre@bc.edu">karre@bc.edu</a></p></li>
+                                                        </ul>
+
+                                                        <!-- <ul class="col-sm-6">
+                                                             <li><div class="h4style">Today's Hours</div></li>
+                                                             <li><div id="oconnor_hours_container">By appointment</div></li>
+                                                             <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                         </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/oconnor" title="Catherine O'Connor Library home page" id="mm-oconnor">
+                                                            <i class="libsprite libsprite-librarythumbnails_oconnor"></i>
+                                                            <span class="sr-only">O'Connor Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END O'CONNOR PANE. RIGHT UP THERE-->
+
+                                                <!-- O'NEILL PANE BEGINS HERE -->
+                                                <div id="oneill_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/oneill">O'Neill
+                                                            Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">140 Commonwealth Avenue<br>Chestnut Hill, MA
+                                                            02467-3810</p>
+                                                        <p>The main research library, the Thomas P. O'Neill, Jr.
+                                                            Library, is located in the center of the main campus,
+                                                            adjoining the O'Neill Plaza.</p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                Circ: <a href="tel:+16175528038">617-552-8038</a></p>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                Ref: <a href="tel:+16175524472">617-552-4472</a></p>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!--<ul class="col-sm-6">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-oneill" id="ONeillLibrary"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/oneill" title="O'Neill Library home page" id="mm-oneill">
+                                                            <i class="libsprite libsprite-librarythumbnails_oneill"></i>
+                                                            <span class="sr-only">O'Neill Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END O'NEILL PANE. RIGHT UP THERE-->
+
+                                                <!-- SWL PANE BEGINS HERE -->
+                                                <div id="swl_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style">
+                                                            <a href="http://libguides.bc.edu/socialwork">Social Work
+                                                                Library
+                                                                <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">140 Commonwealth Avenue<br>Chestnut Hill, MA
+                                                            02467-3810</p>
+                                                        <p>Located in McGuinn Hall, the Social Work Library supports the
+                                                            teaching and research needs of the Boston College School of
+                                                            Social Work.</p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                <a href="tel:+16175520109">617-552-0109</a></p></li>
+                                                            <li class="megamenuemail"><p>
+                                                                <i class="fa fa-lg fa-envelope" aria-hidden="true"></i>
+                                                                <a href="mailto:swlib@bc.edu">swlib@bc.edu</a></p></li>
+                                                        </ul>
+
+                                                        <!--<ul class="col-sm-7">
+                                                            <li><div class="h4style">Today's Hours</div></li>
+                                                            <li><div class="mini_hours_container lib-swl" id="SocialWorkLibrary"></div></li>
+                                                            <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                        </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/socialwork" title="Social Work Library home page" id="mm-swl">
+                                                            <i class="libsprite libsprite-librarythumbnails_swl"></i>
+                                                            <span class="sr-only">Social Work Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END SWL PANE. RIGHT UP THERE-->
+
+                                                <!-- TML PANE BEGINS HERE -->
+                                                <div id="tml_pane" class="item_pane">
+                                                    <div class="pane_info">
+                                                        <div class="h3style"><a href="http://libguides.bc.edu/tml">Theology
+                                                            &amp; Ministry Library
+                                                            <i class="fa fa-lg fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                                        </div>
+                                                        <p class="address">Boston College Theology and Ministry Library
+                                                            <br>117 Lake Street <br>Brighton, MA 02135 </p>
+                                                        <p>The Theology &amp; Ministry Library (TML) supports research,
+                                                            teaching, and learning at the School of Theology & Ministry
+                                                            and Saint John's Seminary. </p>
+
+                                                        <ul class="col-sm-12">
+                                                            <li>
+                                                                <div class="h4style">Contact Info</div>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                Circ: <a href="tel:+16175520549">617-552-0549</a></p>
+                                                            </li>
+                                                            <li class="megamenuphone"><p>
+                                                                <i class="fa fa-lg fa-phone" aria-hidden="true"></i>
+                                                                Ref: <a href="tel:+16175526553">617-552-6553</a></p>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!-- <ul class="col-sm-6">
+                                                             <li><div class="h4style">Today's Hours</div></li>
+                                                             <li><div class="mini_hours_container lib-tml" id="TheologyandMinistryLibrary"></div></li>
+                                                             <li class="megamenucalendar"><p><i class="fa fa-lg fa-calendar" aria-hidden="true"></i> <a href="http://libguides.bc.edu/hours">All Library Hours</a></p></li>
+                                                         </ul>-->
+                                                    </div>
+
+                                                    <div class="pane_pic" aria-hidden="true">
+                                                        <a href="http://libguides.bc.edu/tml" title="Theology and Ministry Library home page" id="mm-tml">
+                                                            <i class="libsprite libsprite-librarythumbnails_tml"></i>
+                                                            <span class="sr-only">Theology and Ministry Library</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- END TML PANE. RIGHT UP THERE-->
+                                            </div>
+                                        </div>
+                                        <div class="row bottom_row">
+                                            <div class="more">
+                                                <a href="http://libguides.bc.edu/about-us" id="mm-more-about-the-libraries">More
+                                                    About the Libraries
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Hours -->
+                        <li class="dropdown yamm-fw">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-option" id="mm-hours-header">Hours</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- Content container to add padding -->
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <!-- Books Media & More -->
+                                            <ul class="col-sm-12 col-md-10 col-md-offset-1 hours_menu_list">
+                                                <li>
+                                                    <div class="hours-todays-date-container">Library hours for
+                                                        <span class="hours-todays-date"></span></div>
+                                                    <div class="table-responsive table-hours top-table-hours">
+                                                        <table class="table table-condensed table-bordered">
+                                                            <caption class="accessibility-text">Today's Library Hours
+                                                            </caption>
+                                                            <thead class="accessibility-text">
+                                                            <tr>
+                                                                <th>Library</th>
+                                                                <th>Hours</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/oneill/hours">O'Neill
+                                                                    Library</a></td>
+                                                                <td class="lib-hours lib-oneill">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/bapst/hours">Bapst
+                                                                    Library</a></td>
+                                                                <td class="lib-hours lib-bapst"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/burns">Burns
+                                                                    Library</a></td>
+                                                                <td class="lib-hours lib-burns"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/erc/hours">Educational
+                                                                    Resource Center</a></td>
+                                                                <td class="lib-hours lib-erc"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="http://www.bc.edu/bc-web/schools/law/sites/current-students/library/using/hours.html">Law
+                                                                        Library</a></td>
+                                                                <td class="lib-hours lib-law"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/socialwork/hours">Social
+                                                                    Work Library</a></td>
+                                                                <td class="lib-hours lib-swl"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><a href="http://libguides.bc.edu/tml/hours">Theology
+                                                                    &amp; Ministry Library</a></td>
+                                                                <td class="lib-hours lib-tml"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="row bottom_row">
+                                            <div class="more">
+                                                <a href="http://libguides.bc.edu/hours"><i class="fa fa-arrow-circle-o-right fa-lg" aria-hidden="true"></i>
+                                                    See all hours</a></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- FEEDBACK FORM EMAIL -->
+                        <!--li class="dropdown yamm-fw"><a href="#bcl-feedback" class="menu-option" id="mm-feedback-header">
+                        <span class="feedback"></span>Feedback</a>
+                        </li-->
+
+                        <!-- MY ACCOUNTS BUTTON -->
+                        <!--li class="dropdown yamm-fw" id="accounts"><a href="http://libguides.bc.edu/my-accounts" class="menu-option" id="mm-myaccounts-header">
+                        <span class="fa fa-user"></span> My Accounts</a>
+                        </li-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END NAVBAR -->
+    </div>
+    <!-- END MEGAMENU --></div>
+<div id="header">
+    <div class="container">
+        <h1 id="main-heading" class="sr-only sr-only-focusable">Main content</h1>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" id="search-panel">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="/search">
+                            <div class="input-group">
+                                <label for="lib-search-box" class="sr-only">Search</label>
+                                <input class="form-control" name="any" placeholder="Search for books, articles, journals, databases" id="lib-search-box">
+                                <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <span class="search-button-text">Search</span></button>
+                    </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" id="search-links">
+                    <div class="col-sm-2 col-sm-offset-2">
+                        <a href="https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?vid=bclib_new&lang=en_US&sortby=rank" class="search-link book-search-link">Books</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?tab=pci_only&vid=bclib_new&sortby=rank" class="search-link  article-search-link">Articles</a>
+                    </div>
+                    <div class=" col-sm-2">
+                        <a href="https://bc-primo.hosted.exlibrisgroup.com/primo-explore/jsearch?vid=bclib_new&lang=en_US" class="search-link journal-search-link">Journals</a>
+                    </div>
+                    <div class=" col-sm-3">
+                        <a href="https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?mode=advanced&vid=bclib_new&lang=en_US&sortby=rank" class="advanced-search-link">Advanced
+                            search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row caption-link">
+            <div class="col-md-12"><a href="http://libguides.bc.edu/bapst">Portion from the Bapst Illuminating Stained
+                Glass</a></div>
+        </div>
+        <!--<div class="row">
+            <div class="alert alert-warning col-md-10 col-md-offset-1" role="alert" style="color: black"> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            NOTICE HERE
+            </div>
+        </div>-->    </div>
+</div>
+<!-- HEADER END -->
+<div id="main-body" class="container">
+    <div id="didyoumean-holder" class="row"></div>
+
+    <div id="bentoboxresults">
+
+        <div class="row" id="all-results">
+
+            <!-- The primary results box. -->
+            <div id="primary" class="col-md-5">
+                <div id="catalog-results" class="result-container">
+                    <span class="results-count accessibility-text" aria-live="polite"></span>
+                    <h2 id="booksh3" class="search-heading">Books &amp; more</h2>
+                </div>
+            </div>
+
+            <!-- Secondary results box. -->
+            <div id="secondary" class="col-md-4">
+                <div id="articles-results" class="result-container">
+                    <span class="results-count accessibility-text" aria-live="polite"></span>
+                    <h2 id="articleh3" class="search-heading">Articles</h2>
+                </div>
+            </div>
+
+            <!-- Tertiary results box.-->
+            <div id="tertiary" class="col-md-3">
+                <div id="website-results" class="result-container website row">
+                    <h2 id="subjecth3" class="search-heading">Website</h2>
+                </div>
+                <div id="librarians-results" class="result-container librarians row">
+                    <h2 id="librarianh3" class="search-heading">Librarians</h2>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://library.bc.edu/theme/bcbento/js/handlebars-v3.0.0.js"></script>
+    <script src="https://library.bc.edu/theme/bcbento/js/search.js?v=20170815-01"></script>
+
+
+    <!-- Search result templates -->
+    <script id="librarians-template" type="text/x-template">
+        {{#if .}}
+        <div class="results-highlight">
+            {{#.}}
+            <div class="librarian">
+                <a href="http://libguides.bc.edu/prf.php?account_id={{id}}" onclick="trackOutboundLink('http://libguides.bc.edu/prf.php?account_id={{id}}'); return false;"><img src="//{{image}}" alt="picture of {{name}}"></a>
+
+                <div class="librarian-info">
+                    <h3 class="librarian-name">
+                        <a href="http://libguides.bc.edu/prf.php?account_id={{id}}" onclick="trackOutboundLink('http://libguides.bc.edu/prf.php?account_id={{id}}'); return false;">{{name}}</a>
+                    </h3>
+                    <p class="guide-description">{{display_subjects}}</p>
+                </div>
+            </div>
+            {{/.}}
+            <p class="all-librarians">
+                <a href="http://libguides.bc.edu/ask-a-librarian/contact" onclick="trackOutboundLink('http://libguides.bc.edu/ask-a-librarian/contact'); return false;">See
+                    all subject librarians</a></p>
+        </div>
+        {{/if}}
+    </script>
+
+    <script id="website-template" type="text/x-template">
+        {{#if items}}
+        <div class="more-results-link">
+
+            <a href="{{search_url}}" onclick="trackOutboundLink('{{search_url}}'); return false;">see more results&hellip;&nbsp;</a>
+
+        </div>
+        <div class="results-highlight">
+
+            <div>
+                {{#items}}
+                <div class="bento-result">
+                    <div>
+                        <h3>
+                            <a href="{{url}}" class="title" onclick="trackOutboundLink('{{url}}'); return false;">{{page_title}}</a>
+                        </h3>
+                        in <a href="{{guide_url}}" class="guide-title">{{guide_title}}</a></div>
+                    {{#if pages}}
+                    <ul class="guide-pages">
+                        {{#pages}}
+                        <li><a href="{{url}}" onclick="trackOutboundLink('{{url}}'); return false;">{{title}}</a></li>
+                        {{/pages}}
+                    </ul>
+                    {{/if}}
+                </div>
+                {{/items}}
+            </div>
+        </div>
+        {{/if}}
+
+    </script>
+
+    <script id="catalog-template" type="text/x-template">
+
+        <div class="more-results-link">
+            <a href="{{search_url}}" onclick="trackOutboundLink('{{search_url}}'); return false;">see all
+                {{total_results}}
+                results&hellip;&nbsp;</a>
+        </div>
+
+        <div id="catalog-results bento-results">
+
+            {{#items}}
+            <div>
+
+                <div class="catalog-text{{#if covers.[0]}} has-cover{{/if}} bento-result">
+
+
+                    <h3>
+                        <a href="{{link}}" class="title" onclick="trackOutboundLink('{{link}}'); return false;">
+                            {{truncate '100' title}}
+                        </a>
+                    </h3>
+
+                    {{date}}
+
+                    <div class="catalog-metadata">
+                        {{#if creator}}
+                        <div class="creator">
+                            {{truncate '40' creator}}
+                        </div>
+                        {{/if}}
+
+                        {{^creator}}
+                        {{#if contributors.[0]}}
+                        <div class="creator">
+                            {{truncate '40' contributors.[0]}}
+                        </div>
+                        {{/if}}
+                        {{/creator}}
+
+                        {{^creator}}
+                        {{^contributor}}
+                        <div class="publisher">
+                            {{publisher}} {{date}}
+                        </div>
+                        {{/contributor}}
+                        {{/creator}}
+
+                        <div class="type">{{type}}</div>
+                        <ul class="available-items">
+                            {{#avail}}
+                            <li class="item-info {{#unless on_shelf}}unavailable{{/unless}}">
+                                <span class="library">{{lib_display}}</span>
+                                {{#if in_library_only }}
+                                <span class="location">{{full/location}}</span>
+                                {{/if}}
+                                <span class="callno">{{call_number}}</span>
+                                <span class="availability">{{availability}}</span>
+                            </li>
+                            {{/avail}}
+                        </ul>
+                        {{#if getit}}
+                        <div class="available-online">
+                            <a href="{{link}}" onclick="trackOutboundLink('{{link}}'); return false;">Available
+                                online</a>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                {{#if covers.[0]}}
+                <img src="{{covers.[0]}}" alt="book cover" class="cover-image">
+                {{/if}}
+
+            </div>
+            {{/items}}
+        </div>
+
+        {{#if worldcat_results}}
+        <div class="worldcat-results">
+            <p>The following items were found at other libraries:</p>
+            <ul>
+                {{#worldcat_results}}
+                <li>
+                    <a href="{{url}}" class="title" onclick="trackOutboundLink('{{url}}'); return false;">
+                        {{truncate '100' name}}
+                    </a>
+
+                    <div class="creator">
+                        {{truncate '40' creator}}
+                    </div>
+                </li>
+                {{/worldcat_results}}
+            </ul>
+        </div>
+        {{/if}}
+
+
+    </script>
+
+    <script id="articles-template" type="text/x-template">
+        <div class="more-results-link">
+            <a href="{{search_url}}" onclick="trackOutboundLink('{{search_url}}'); return false;">see all
+                {{total_results}}
+                results&hellip;&nbsp;</a>
+        </div>
+
+        <div>
+            {{#items}}
+            <div class="bento-result">
+
+                <h3>
+                    <a href="{{link}}" class="title" onclick="trackOutboundLink('{{link}}'); return false;">
+                        {{truncate '100' title}}
+                    </a>
+                </h3>
 
                 {{date}}
 
-                <div class="catalog-metadata">
-                    {{#if creator}}
-                    <div class="creator">
-                        {{truncate creator '40'}}
-                    </div>
-                    {{/if}}
+                {{#if creator}}
+                <div class="creator">{{truncate '80' creator}}</div>
+                {{/if}}
+                <div class="publisher">{{{part_of}}}</div>
+            </div>
+            {{/items}}
+        </div>
+    </script>
 
-                    {{^creator}}
-                    {{#if contributors.[0]}}
-                    <div class="creator">
-                        {{truncate contributors.[0] '40'}}
-                    </div>
-                    {{/if}}
-                    {{/creator}}
+    <script id="dym-template" type="text/x-template">
+        {{#if dym}}
+        <div class="dym-notice">
+            Did you mean <a href="https://library.bc.edu/search?any={{dym}}">{{dym}}</a>?
+        </div>
+        {{/if}}
+    </script>
 
-                    {{^creator}}
-                    {{^contributor}}
-                    <div class="publisher">
-                        {{publisher}} {{date}}
-                    </div>
-                    {{/contributor}}
-                    {{/creator}}
+    <script id="spinner-template" type="text/x-template">
+        <div class="spinner-box">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+    </script>
 
-                    <div class="type">{{type}}</div>
-                    <ul class="available-items">
-                        {{#avail}}
-                        <li class="item-info {{#unless on_shelf}}unavailable{{/unless}}">
-                            <span class="library">{{lib_display}}</span>
-                            {{#if in_library_only }}
-                            <span class="location">{{full/location}}</span>
-                            {{/if}}
-                            <span class="callno">{{call_number}}</span>
-                            <span class="availability">{{availability}}</span>
-                        </li>
-                        {{/avail}}
-                    </ul>
-                    {{#if getit}}
-                    <div class="available-online"><a href="{{link}}">Available online</a></div>
-                    {{/if}}
+    <script id="error-template" type="text/x-template">
+        <div class="error-notice">
+            <div class="alert alert-danger" role="alert">There was an error connecting to this service.</div>
+        </div>
+    </script>
+
+    <!-- Control search tab switch. -->
+    <script>
+        $(function () {
+            $('#block_search *[role=presentation]').click(
+                function () {
+                    var current_text = $('#block_search .tab-pane.active input[type=text]').val();
+                    $('#block_search .tab-pane input[type=text]').val(current_text);
+                }
+            );
+        });
+    </script>
+</div>
+
+
+<footer role="contentinfo">
+    <h2 class="sr-only sr-only-focusable">Footer</h2>
+    <!-- LIBRARY FOOTER START -->
+    <h3 class="sr-only sr-only-focusable">Libraries footer</h3>
+    <div id="lib-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 address-wrap">
+                    <div class="address">
+                        <h4 class="orgname">Boston College Libraries</h4>
+                        <a href="https://www.google.com/maps/place/140+Commonwealth+Avenue,+Chestnut+Hill,+MA+02467/@42.3364909,-71.1725963,17.37z/data=!4m5!3m4!1s0x89e37860e3b651e5:0x9d50126b40ea51e4!8m2!3d42.3367006!4d-71.1714299">
+                            <span>140 Commonwealth Ave<br></span>
+                            <span>Chestnut Hill, MA 02467<br></span>
+                        </a>
+                    </div>
+                    <div class="phone-numbers">
+                        <div class="phone-pair"><p class="phone-label">O'Neill Circulation: </p>
+                            <p class="phone-number"><a href="tel:+16175528038">617-552-8038</a></p></div>
+                        <div class="phone-pair"><p class="phone-label">O'Neill Reference: </p>
+                            <p class="phone-number"><a href="tel:+16175524472">617-552-4472</a></p></div>
+                        <div class="phone-pair"><p class="phone-label">Administration: </p>
+                            <p class="phone-number"><a href="tel:+16175524470">617-552-4470</a></p></div>
+                    </div>
+                    <div class="lib-footer-links">
+                        <span><a href="http://libguides.bc.edu/accessibility">Library Accessibility</a><a href="http://libguides.bc.edu/privacy">Privacy</a></span>
+                    </div>
+                    <div class="ihs-logo">
+                        <a href="http://www.bc.edu/bc-web/jesuit-catholic.html"><img alt="The Society of Jesus (Jesuits) logo" src="https://library.bc.edu/theme/img/ihs-logo.svg"/></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 social-wrap">
+                    <div id="socialmedia" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4>Connect With Us</h4>
+                        <ul>
+                            <li>
+                                <a href="http://libguides.bc.edu/publications" title="Boston College Library Blogs" class="" id="media_news"><span class="accessibility-text">Blogs</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/bostoncollegelibraries" title="Boston College Library Facebook" class="" id="media_facebook"><span class="accessibility-text">Facebook</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.flickr.com/photos/bc-burnslibrary/" title="Burns Library Flickr Page" class="" id="media_flickr"><span class="accessibility-text">Flickr</span></a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/bclibraries" title="Follow the Boston College Libraries on Twitter" class="" id="media_twitter"><span class="accessibility-text">Twitter</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.youtube.com/user/BostonCollegeLib" title="Boston College Library on YouTube" class="" id="media_youtube"><span class="accessibility-text">YouTube</span></a>
+                            </li>
+                            <li>
+                                <a href="https://www.instagram.com/bclibraries/" title="Boston College Library on Instagram" class="" id="media_instagram"><span class="accessibility-text">Instagram</span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-links col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="http://libcal.bc.edu/booking/oneill">Study Rooms</a></li>
+                            <li><a href="http://libguides.bc.edu/ask-a-librarian">Ask a Librarian</a></li>
+                            <li><a href="https://illiad.bc.edu/illiad/bxm/logon.html">Interlibrary Loan</a></li>
+                            <li><a href="https://bc.on.worldcat.org/">WorldCat</a></li>
+                            <li><a href="http://arc.bc.edu/reserves">Course Reserves</a></li>
+                            <li><a href="http://libguides.bc.edu/refworks-login">RefWorks</a></li>
+                            <li><a href="http://answers.bc.edu/">FAQs</a></li>
+                            <li><a href="http://libguides.bc.edu/contact">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 hours-wrap">
+                    <h4 class="hours"><a href="http://libguides.bc.edu/hours">Hours</a></h4>
+                    <div class="hours-todays-date"></div>
+                    <div class="table-hours">
+                        <table class="table table-condensed table-bordered">
+                            <caption class="accessibility-text">Today's Library Hours</caption>
+                            <thead class="accessibility-text">
+                            <tr>
+                                <th>Library</th>
+                                <th>Hours</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/oneill/hours">O'Neill Library</a></td>
+                                <td class="lib-hours lib-oneill">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/bapst/hours">Bapst Library</a></td>
+                                <td class="lib-hours lib-bapst"></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/burns">Burns Library</a></td>
+                                <td class="lib-hours lib-burns"></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/erc/hours">Educational Resource Center</a></td>
+                                <td class="lib-hours lib-erc"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="http://www.bc.edu/bc-web/schools/law/sites/current-students/library/using/hours.html">Law
+                                        Library</a></td>
+                                <td class="lib-hours lib-law"></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/socialwork/hours">Social Work Library</a></td>
+                                <td class="lib-hours lib-swl"></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://libguides.bc.edu/tml/hours">Theology &amp; Ministry Library</a></td>
+                                <td class="lib-hours lib-tml"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
-            {{#if covers.[0]}}
-            <img src="{{covers.[0]}}" class="cover-image">
-            {{/if}}
-
-        </li>
-        {{/items}}
-    </ul>
-
-    {{#if worldcat_results}}
-    <div class="worldcat-results">
-        <p>The following items were found at other libraries:</p>
-        <ul>
-            {{#worldcat_results}}
-            <li>
-                <a href="{{url}}" class="title">
-                    {{truncate name '100'}}
-                </a>
-
-                <div class="creator">
-                    {{truncate creator '40'}}
+        </div>
+    </div>
+    <!-- LIBRARY FOOTER END -->
+    <!-- BC FOOTER START -->
+    <h3 class="sr-only sr-only-focusable">Boston College footer</h3>
+    <div id="bc-footer">
+        <div class="container">
+            <div class="row">
+                <div class="bc-img col-md-3 col-sm-12 col-xs-12">
+                    <a href="https://www.bc.edu/content/bc-web.html"><img src="https://www.bc.edu/etc/designs/bc-web/images/logo-footer.png" class="footer-logo" alt="Boston College"></a>
                 </div>
-            </li>
-            {{/worldcat_results}}
-        </ul>
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <nav class="bc-links">
+                        <ul>
+                            <li><a href="https://www.bc.edu/sites/accessibility.html">Accessibility</a></li>
+                            <li><a href="https://www.bc.edu/bc-web/resources/emergency-r.html">Emergency</a></li>
+                            <li><a href="https://www.bc.edu/bc-web/about/maps-and-directions.html">Maps</a></li>
+                            <li><a href="https://www.bc.edu/bc-web/resources/directories-r.html">Directories</a></li>
+                            <li><a href="https://www.bc.edu/a-z/directories/contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <p class="copyright">Copyright &copy; 2017 Trustees of Boston College</p>
+                </div>
+            </div>
+        </div>
     </div>
-    {{/if}}
+    <!-- BC FOOTER END -->    </footer>
 
-
-</script>
-
-
-<script id="springshare-template" type="text/x-template">
-    <ul>
-        {{#items}}
-        <li>
-            <div><a href="{{url}}" class="title">{{title}}</a></div>
-            <div class="guide-description">{{description}}</div>
-        </li>
-        {{/items}}
-    </ul>
-</script>
-
-<script id="articles-template" type="text/x-template">
-    <div class="more-results-link">
-        <a href="{{search_link}}">
-            see all {{total_results}} results
-        </a>
+<!-- FEEDBACK FORM -->
+<div id="bcl-feedback" class="bcl-modal">
+    <div id="feedback_wrapper">
+        <div id="feedback_close"></div>
+        <div id="s-la-widget-5468"></div>
     </div>
+</div>
+<!-- END FEEDBACK FORM -->
 
-    <ul>
-        {{#items}}
-        <li class="bento-result">
+<script src="https://library.bc.edu/theme/js/nospam.js"></script>
+<script src="https://library.bc.edu/theme/js/libhoursv2.js"></script>
 
-            <a href="{{link}}" class="title">
-                {{truncate title '100'}}
-            </a>
+<!-- MEGA MENU SCRIPTS -->
+<!-- This code will prevent unexpected menu close when using some components (like accordion, forms, etc) -->
+<script>$(document).on('click', '.yamm .dropdown-menu', function (e) {
+    e.stopPropagation()
+});</script>
+<script type="text/javascript" src="https://library.bc.edu/theme/js/bootstrap-hover-dropdown.min.js"></script>
+<script type="text/javascript" src="https://library.bc.edu/theme/js/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="https://library.bc.edu/theme/js/megamenu.js"></script>
+<script type="text/javascript" src="https://library.bc.edu/theme/js/libraryinfo.js"></script>
+<!-- END MEGA MENU SCRIPTS -->
 
-            {{date}}
-
-            {{#if creator}}
-            <div class="creator">{{truncate creator '80'}}</div>
-            {{/if}}
-            <div class="publisher">{{{part_of}}}</div>
-        </li>
-        {{/items}}
-    </ul>
-</script>
-
-<script id="dym-template" type="text/x-template">
-    {{#if dym}}
-    <div class="dym-notice">
-        Did you mean <a href="/search?any={{dym}}">{{dym}}</a>?
-    </div>
-    {{/if}}
-
-</script>
-
-
+<script type="text/javascript" src="https://library.bc.edu/theme/bcbento/js/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="https://library.bc.edu/theme/bcbento/js/bclib-typeahead.js"></script>
 </body>
 </html>
