@@ -41,6 +41,7 @@ class ArticlesService extends AbstractPrimoService
 
     protected function searchArticlesDeepLink($keyword)
     {
+        $keyword = urlencode($keyword);
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=pci_only" .
             '&search_scope=pci&vid=bclib_new&lang=en_US&offset=0';
     }

@@ -87,6 +87,7 @@ class CatalogService extends AbstractPrimoService
 
     protected function searchCatalogDeepLink($keyword)
     {
+        $keyword = urlencode($keyword);
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=bcl_only" .
             '&search_scope=bcl&vid=bclib_new&lang=en_US&offset=0';
     }
