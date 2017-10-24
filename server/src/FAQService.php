@@ -8,11 +8,26 @@ class FAQService implements ServiceInterface
 {
     public function fetch($keyword)
     {
-        $client = new Client();
-        $request = $client->get($this->url($keyword));
-        $body = $request->send()->getBody();
-        $remote_response = json_decode($body);
-        return $this->buildResponse($remote_response, $keyword);
+        $curl = curl_init();
+        curl_setopt_array(
+            $curl,
+            array(
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL            => $this->url($keyword),
+                CURLOPT_USERAGENT      => 'Codular Sample cURL Request',
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT => 30
+            )
+        );
+        $resp = curl_exec($curl);
+        curl_close($curl);
+
+        if ($resp) {
+            $remote_response = $this->buildResponse(json_decode($resp), $keyword);
+        } else {
+            $remote_response = ['error_code' => 500];
+        }
+        return $remote_response;
     }
 
     private function url($keyword)
@@ -26,7 +41,7 @@ class FAQService implements ServiceInterface
 
         return [
             'total_results' => $search_response->numFound,
-            'search_url'   => "http://answers.bc.edu/search/?t=0&q=$keyword",
+            'search_url'    => "http://answers.bc.edu/search/?t=0&q=$keyword",
             'dym'           => null,
             'items'         => array_map([$this, 'processResult'], $search_response->results)
         ];

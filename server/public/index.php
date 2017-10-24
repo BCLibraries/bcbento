@@ -48,7 +48,11 @@ foreach ($paths as $path => $ttl) {
         "/$service_name",
         function () use ($app, $service_name, $path) {
             $service = $app->$service_name;
-            $app->response->setBody(json_encode($service->fetch($app->request->params('any'))));
+            $fetch_response = $service->fetch($app->request->params('any'));
+            if (is_array($fetch_response) && isset($fetch_response['error_code'])) {
+                $app->response->setStatus($fetch_response['error_code']);
+            }
+            $app->response->setBody(json_encode($fetch_response));
         }
     )->ttl = 100;
 }
