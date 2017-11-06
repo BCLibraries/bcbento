@@ -2,8 +2,6 @@
 
 use BCLib\BCBento\Cache;
 use BCLib\BCBento\JSONPWrapper;
-use BCLib\PrimoServices\DeepLink;
-use BCLib\PrimoServices\QueryTerm;
 use Slim\Slim;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -35,7 +33,7 @@ foreach ($paths as $path => $ttl) {
     $service_name = ltrim($path, '/');
     $app->get(
         '/:version' . $path,
-        function () use ($app, $service_name, $path) {
+        function () use ($app, $service_name) {
             $service = $app->$service_name;
             $app->response->setBody(json_encode($service->fetch($app->request->params('any'))));
         }
@@ -46,7 +44,7 @@ foreach ($paths as $path => $ttl) {
      */
     $app->get(
         "/$service_name",
-        function () use ($app, $service_name, $path) {
+        function () use ($app, $service_name) {
             $service = $app->$service_name;
             $fetch_response = $service->fetch($app->request->params('any'));
             if (is_array($fetch_response) && isset($fetch_response['error_code'])) {

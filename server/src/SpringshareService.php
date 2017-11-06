@@ -25,11 +25,6 @@ class SpringshareService implements ServiceInterface
         return $base . '?' . $query_string;
     }
 
-    private function buildQuery($keyword)
-    {
-        return "(guide%3A($keyword))%5E6%20(page%3A($keyword))%5E5%20(subject%3A($keyword))%5E4%20(tag%3A($keyword))%5E4%20(allInOne%3A($keyword))%5E1%20";
-    }
-
     private function buildResponse($springshare_response, $keyword)
     {
         $groups_hash = $springshare_response->grouped->g;

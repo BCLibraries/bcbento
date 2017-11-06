@@ -41,10 +41,9 @@ $app->error(
     }
 );
 
-// routes - as per normal - no HTML though!
 $app->get(
     '/download/portals',
-    function () use ($app) {
+    function () {
         $client = new \Guzzle\Http\Client();
         $result = $client->get(
             'http://lgapi.libapps.com/1.1/guides?site_id=94&key=a8d4316f3140239e36f101209d9f1b36&group_ids=1214&status=1&search_terms=history'
@@ -56,7 +55,7 @@ $app->get(
 
 $app->get(
     '/download/librarians',
-    function () use ($app) {
+    function () {
         $client = new \Guzzle\Http\Client();
         $result = $client->get(
             'http://lgapi.libapps.com/1.1/accounts?site_id=94&key=a8d4316f3140239e36f101209d9f1b36'
@@ -68,7 +67,7 @@ $app->get(
 
 $app->get(
     '/download/databases',
-    function () use ($app) {
+    function () {
         $client = new \Guzzle\Http\Client();
         $result = $client->get(
             'http://lgapi.libapps.com/1.1/assets?site_id=94&key=a8d4316f3140239e36f101209d9f1b36&asset_types[]=10&asset_types[]=6'

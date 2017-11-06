@@ -30,15 +30,6 @@ class GuidesService extends AbstractLocalService
             ]
         ];
 
-        $phrase_match_query = [
-            'match_phrase' => [
-                'taxonomy' => [
-                    'query' => $keyword,
-                    'boost' => $this->max_boost
-                ]
-            ]
-        ];
-
         if (count($taxonomy_terms)) {
             $should[] = $keyword_query;
         } else {

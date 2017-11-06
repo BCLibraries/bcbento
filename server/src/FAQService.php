@@ -2,8 +2,6 @@
 
 namespace BCLib\BCBento;
 
-use Guzzle\Http\Client;
-
 class FAQService implements ServiceInterface
 {
     public function fetch($keyword)

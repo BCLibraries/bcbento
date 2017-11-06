@@ -30,7 +30,7 @@ class ArticlesService extends AbstractPrimoService
         $term = new QueryTerm();
         $term->set('facet_tlevel', 'exact', 'online_resources_PC_TN');
         return $this->query_builder->keyword($keyword)->getQuery()->addTerm($term)
-            ->articles()->bulkSize($this->results_to_send)->onCampus(true);
+            ->articles()->bulkSize($this->results_to_send)->onCampus();
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
