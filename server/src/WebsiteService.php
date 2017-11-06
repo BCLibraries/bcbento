@@ -84,6 +84,6 @@ class WebsiteService implements ServiceInterface
     private function buildTitle($guide_title, $page_title)
     {
 
-        return $page_title == 'Home' ? $guide_title : "$guide_title : $page_title";
+        return $page_title === 'Home' ? $guide_title : "$guide_title : $page_title";
     }
 }

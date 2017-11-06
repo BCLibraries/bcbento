@@ -102,19 +102,13 @@ class CatalogService extends AbstractPrimoService
 
     protected function tableOfContents(BibRecord $item)
     {
-        $toc_out = [];
-        $source_toc = $item->field('search/toc');
-
-        if (!is_array($source_toc)) {
-            $source_toc = [$source_toc];
-        }
-
+        $toc_out = [[]];
+        $source_toc = (array) $item->field('search/toc');
         foreach ($source_toc as $field505) {
-            $parts = explode(' -- ', $field505);
-            $toc_out = array_merge($toc_out, $parts);
+            //echo "$field505\n";
+            $toc_out[] = explode(' -- ', $field505);
         }
-
-        return $toc_out;
+        return array_merge(...$toc_out);
     }
 
     protected function buildItem(BibRecord $item)
@@ -247,7 +241,7 @@ class CatalogService extends AbstractPrimoService
         $response = [];
 
         $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];
-        $link_to_rsrc = is_array($link_to_rsrc) ? $link_to_rsrc : [$link_to_rsrc];
+        $link_to_rsrc = (array) $link_to_rsrc;
 
         foreach ($link_to_rsrc as $link) {
             list($url, $text) = explode('$$D', $link);
