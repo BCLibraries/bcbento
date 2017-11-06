@@ -140,7 +140,7 @@ class CatalogService extends AbstractPrimoService
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
             'link'         => $this->itemPermalink($item),
-            'link_to_rsrc' => $this->buildLinksToResource($item),
+            'link_to_rsrc' => [],
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $this->displayType($item),
@@ -233,25 +233,5 @@ class CatalogService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url): bool
     {
         return (!strpos($image_url, 'amazon.com'));
-    }
-
-    private function buildLinksToResource(BibRecord $item)
-    {
-        return [];
-        $response = [];
-
-        $link_to_rsrc = $item->field('links/linktorsrc') ?: [];
-        $link_to_rsrc = (array) $link_to_rsrc;
-
-        foreach ($link_to_rsrc as $link) {
-            list($url, $text) = explode('$$D', $link);
-            $url = str_replace('$$U', '', $url);
-            $response[] = [
-                'url'  => $url,
-                'text' => $text
-            ];
-        }
-
-        return $response;
     }
 }
