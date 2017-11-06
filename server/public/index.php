@@ -75,17 +75,18 @@ $app->add(new Cache($app->redis));
 $app->add(new JSONPWrapper());
 $app->run();
 
-function redirectToPrimo(Slim $app, $articles = false)
+function redirectToPrimo(Slim $app, $is_pci = false)
 {
-    if ($articles) {
-        $scope = 'pci';
-        $tab = 'pci_only';
-    } else {
-        $scope = 'bcl';
-        $tab = 'bcl_only';
-    }
-    $any = $app->request->params('any');
-    $url = "https://{$app->config('PRIMO_HOST')}/primo-explore/search?query=any,contains,$any&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
+    $base = "https://{$app->config('PRIMO_HOST')}/primo-explore/search";
+    $query_params = [
+        'query'        => "any,contains,{$app->request->params('any')}",
+        'tab'          => $is_pci ? 'pci_only' : 'bcl_only',
+        'search_scope' => $is_pci ? 'pci' : 'bcl',
+        'vid'          => 'bclib_new',
+        'lang'         => 'en_US',
+        'offset'       => 0
+    ];
+    $url = $base . '?' . http_build_query($query_params);
     $app->redirect($url);
 }
 
