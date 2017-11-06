@@ -80,11 +80,7 @@ class WorldCatService implements ServiceInterface
 
             $bib = $this->search($keyword);
 
-            if (is_a($bib, Error::class)) {
-                $still_searching = $this->handleError($bib);
-            } else {
-                $still_searching = false;
-            }
+            $still_searching = is_a($bib, Error::class) ? $this->handleError($bib) : false;
 
             $num_tries++;
         }
@@ -105,12 +101,10 @@ class WorldCatService implements ServiceInterface
 
     private function handleError(Error $error)
     {
-        switch ($error->getErrorCode()) {
-            case '403':
-                return true;
-            default:
-                throw new \Exception($error->getErrorMessage(), $error->getErrorCode());
+        if ($error->getErrorCode() === '403') {
+            return true;
         }
+        throw new \Exception($error->getErrorMessage(), $error->getErrorCode());
     }
 
     private function search($keyword)
@@ -160,12 +154,7 @@ class WorldCatService implements ServiceInterface
     protected function displayType(CreativeWork $work)
     {
         $original_type = $work->type();
-        if (isset($this->type_map[$original_type])) {
-            $display_type = $this->type_map[$original_type];
-        } else {
-            $display_type = $original_type;
-        }
-        return $display_type;
+        return $this->type_map[$original_type] ?? $original_type;
     }
 
     private function requestCacheId($keyword)

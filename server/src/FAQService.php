@@ -20,11 +20,8 @@ class FAQService implements ServiceInterface
         $resp = curl_exec($curl);
         curl_close($curl);
 
-        if ($resp) {
-            $remote_response = $this->buildResponse(json_decode($resp), $keyword);
-        } else {
-            $remote_response = ['error_code' => 500];
-        }
+        $remote_response = $resp ? $this->buildResponse(json_decode($resp), $keyword) : ['error_code' => 500];
+
         return $remote_response;
     }
 
