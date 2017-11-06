@@ -134,7 +134,7 @@ class CatalogService extends AbstractPrimoService
         $item->cover_images = array_filter($item->cover_images, [$this, 'removeAmazonCoverImages']);
         $item->cover_images = array_values($item->cover_images);
 
-        if ($item->cover_images[0] == 'no_cover') {
+        if ($item->cover_images[0] === 'no_cover') {
             $item->cover_images = [false];
         }
 
@@ -234,11 +234,10 @@ class CatalogService extends AbstractPrimoService
      */
     private function getMediumCoverImage($image_url)
     {
-        $larger = str_replace('/SC.JPG', '/MC.JPG', $image_url);
         return str_replace(
-            'https://proxy-na.hosted.exlibrisgroup.com/exl_rewrite/lib.syndetics',
-            'http://lib.syndetics',
-            $larger
+            ['/SC.JPG', 'https://proxy-na.hosted.exlibrisgroup.com/exl_rewrite/lib.syndetics'],
+            ['/MC.JPG', 'http://lib.syndetics'],
+            $image_url
         );
     }
 

@@ -4,7 +4,7 @@ namespace BCLib\BCBento;
 
 use Elasticsearch\Client;
 
-class LibrariansService extends AbstractLocalService implements ServiceInterface
+class LibrariansService extends AbstractLocalService
 {
 
     const MIN_LIBRARIAN_SCORE = '.1';

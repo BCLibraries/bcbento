@@ -4,7 +4,7 @@ namespace BCLib\BCBento;
 
 use Elasticsearch\Client;
 
-class GuidesService extends AbstractLocalService implements ServiceInterface
+class GuidesService extends AbstractLocalService
 {
     const MIN_GUIDE_SCORE = '.1';
 
