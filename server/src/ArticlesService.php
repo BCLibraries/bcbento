@@ -36,14 +36,7 @@ class ArticlesService extends AbstractPrimoService
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         $items = array_map([$this, 'buildItem'], $result->results);
-        return new SearchResponse($items, $this->searchArticlesDeepLink($keyword), $result->total_results);
-    }
-
-    protected function searchArticlesDeepLink($keyword)
-    {
-        $keyword = urlencode($keyword);
-        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=pci_only" .
-            '&search_scope=pci&vid=bclib_new&lang=en_US&offset=0';
+        return new SearchResponse($items, $this->searchPermalink($keyword, true), $result->total_results);
     }
 
     protected function displayType(BibRecord $item)
@@ -61,15 +54,13 @@ class ArticlesService extends AbstractPrimoService
         $id_array = $result->field('search/recordid');
         $id = isset($id_array) ? $id_array : '';
 
-        $deep_link = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid={$result->id}&context=PC&vid=bclib_new&search_scope=pci&tab=pci_only&lang=en_US";
-
         return [
             'id'        => $id,
             'title'     => $this->stripTags($result->title),
             'date'      => $this->stripTags($result->date),
             'publisher' => $this->stripTags($result->publisher),
             'creator'   => $this->stripTags($result->field('display/creator')),
-            'link'      => $deep_link,
+            'link'      => $this->itemPermalink($result, true),
             'source'    => $this->stripTags($result->field('display/source')),
             'part_of'   => $this->stripTags($result->field('display/ispartof')),
             'type'      => $this->stripTags($this->displayType($result)),
@@ -88,6 +79,5 @@ class ArticlesService extends AbstractPrimoService
             $result = strip_tags($field);
         }
         return $result;
-
     }
 }

@@ -85,16 +85,9 @@ class CatalogService extends AbstractPrimoService
         }
         $items = array_map([$this, 'buildItem'], $result->results);
 
-        $response = new SearchResponse($items, $this->searchCatalogDeepLink($keyword), $result->total_results);
+        $response = new SearchResponse($items, $this->searchPermalink($keyword), $result->total_results);
         $response->addField('dym', $result->dym);
         return $response;
-    }
-
-    protected function searchCatalogDeepLink($keyword)
-    {
-        $keyword = urlencode($keyword);
-        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=bcl_only" .
-            '&search_scope=bcl&vid=bclib_new&lang=en_US&offset=0';
     }
 
     protected function displayType(BibRecord $item)
@@ -145,10 +138,6 @@ class CatalogService extends AbstractPrimoService
 
         $getit = $this->getItLink($item);
 
-        $tab = $this->buildTabParameter($getit, $availabilities);
-
-        $link = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid={$item->id}&context=L&vid=bclib_new&search_scope=bcl&tab=bcl_only&lang=en_US";
-
         return [
             'id'           => $item->id,
             'title'        => $item->title,
@@ -156,7 +145,7 @@ class CatalogService extends AbstractPrimoService
             'publisher'    => $item->publisher,
             'creator'      => $item->creator->display_name,
             'contributors' => $item->contributors,
-            'link'         => $link,
+            'link'         => $this->itemPermalink($item),
             'link_to_rsrc' => $this->buildLinksToResource($item),
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,

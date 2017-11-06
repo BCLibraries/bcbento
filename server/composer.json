@@ -3,7 +3,7 @@
     "description": "The Boston College Libraries bento server",
     "license": "MIT",
     "require": {
-        "bclibraries/primo-services": "2.0.4",
+        "bclibraries/primo-services": "2.*",
         "3ft9/dpla": "1.0.8",
         "elasticsearch/elasticsearch": "~1.0",
         "slim/slim": "2.*",

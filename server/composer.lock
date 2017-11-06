@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca8b4f71371c2bb0d992130e503e5be3",
+    "content-hash": "da834357fdcee25147a0d104991f8b3a",
     "packages": [
         {
             "name": "3ft9/dpla",
@@ -78,16 +78,16 @@
         },
         {
             "name": "bclibraries/primo-services",
-            "version": "2.0.4",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-services.git",
-                "reference": "4ffc2ae524290422587f487b3193326e398c55ff"
+                "reference": "063a1efa8208a9a660d914126f5cb24334994f14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/4ffc2ae524290422587f487b3193326e398c55ff",
-                "reference": "4ffc2ae524290422587f487b3193326e398c55ff",
+                "url": "https://api.github.com/repos/BCLibraries/primo-services/zipball/063a1efa8208a9a660d914126f5cb24334994f14",
+                "reference": "063a1efa8208a9a660d914126f5cb24334994f14",
                 "shasum": ""
             },
             "require": {
@@ -122,10 +122,10 @@
             ],
             "description": "Access to Primo Web services",
             "support": {
-                "source": "https://github.com/BCLibraries/primo-services/tree/2.0.4",
+                "source": "https://github.com/BCLibraries/primo-services/tree/2.1.0",
                 "issues": "https://github.com/BCLibraries/primo-services/issues"
             },
-            "time": "2017-09-21T01:31:34+00:00"
+            "time": "2017-11-06T16:13:39+00:00"
         },
         {
             "name": "doctrine/cache",

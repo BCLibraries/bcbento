@@ -8,7 +8,7 @@ use Slim\Slim;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$config = require_once __DIR__ . '/../config/.env.production.php';
+$config = require __DIR__ . '/../config/.env.production.php';
 
 $app = new Slim($config);
 
@@ -85,7 +85,7 @@ function redirectToPrimo(Slim $app, $articles = false)
         $tab = 'bcl_only';
     }
     $any = $app->request->params('any');
-    $url = "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$any&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
+    $url = "https://{$app->config('PRIMO_HOST')}/primo-explore/search?query=any,contains,$any&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
     $app->redirect($url);
 }
 
