@@ -12,21 +12,7 @@ use BCLib\PrimoServices\QueryBuilder;
 class CatalogService extends AbstractPrimoService
 {
 
-    private $type_map = [
-        'book'                => 'Book',
-        'video'               => 'Video',
-        'journal'             => 'Journal',
-        'government_document' => 'Government document',
-        'database'            => 'Database',
-        'image'               => 'Image',
-        'audio_music'         => 'Musical recording',
-        'realia'              => '',
-        'data'                => 'Data',
-        'dissertation'        => 'Thesis',
-        'other'               => ''
-    ];
-
-    private $lib_map = [
+    const LIB_MAP = [
         'ARCH'  => 'Burns Archives',
         'TML'   => 'Theology and Ministry Library',
         'ERC'   => 'Educational Resource Center',
@@ -41,7 +27,7 @@ class CatalogService extends AbstractPrimoService
      */
     private $worldcat;
 
-    private $lib_use_only_locations = [
+    const LIB_USE_ONLY = [
         'Reference No Loan',
         'Reading Room Use Only',
         'Reference Folio No Loan'
@@ -70,8 +56,7 @@ class CatalogService extends AbstractPrimoService
             if ($result->total_results == 0) {
                 return $this->worldcat->fetch($keyword);
             }
-        } Catch (\Exception $e)
-        {
+        } Catch (\Exception $e) {
             // Do nothing for now.
         }
 
@@ -88,16 +73,6 @@ class CatalogService extends AbstractPrimoService
         $response = new SearchResponse($items, $this->searchPermalink($keyword), $result->total_results);
         $response->addField('dym', $result->dym);
         return $response;
-    }
-
-    protected function displayType(BibRecord $item)
-    {
-        if (isset($this->type_map[$item->type])) {
-            $display_type = $this->type_map[$item->type];
-        } else {
-            $display_type = $item->type;
-        }
-        return $display_type;
     }
 
     protected function tableOfContents(BibRecord $item)
@@ -171,12 +146,8 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->call_number = $avail->call_number;
         $avail_obj->on_shelf = ($avail->availability === 'available' || $avail->availability === 'check_holdings');
         $avail_obj->check_avail = ($avail->availability === 'check_holdings');
-        $avail_obj->in_library_only = in_array($avail->location, $this->lib_use_only_locations, true);
-        if (isset($avail->library, $this->lib_map[$avail->library])) {
-            $avail_obj->lib_display = $this->lib_map[$avail->library];
-        } else {
-            $avail_obj->lib_display = $avail->library;
-        }
+        $avail_obj->in_library_only = in_array($avail->location, self::LIB_USE_ONLY, true);
+        $avail_obj->lib_display = $this->libraryDisplayValue($avail);
         $avail_obj->lib_display .= ' ' . $avail->location;
         $avail_obj->full = $avail;
         return $avail_obj;
@@ -207,6 +178,12 @@ class CatalogService extends AbstractPrimoService
             }
         }
         return $getit ? '"&tabs=viewOnlineTab' : '"&tabs=requestTab';
+    }
+
+    protected function libraryDisplayValue(Availability $avail): string
+    {
+        $lib_is_set = isset($avail->library, self::LIB_MAP[$avail->library]);
+        return $lib_is_set ? self::LIB_MAP[$avail->library] : $avail->library;
     }
 
     /**

@@ -18,7 +18,7 @@ class WorldCatService implements ServiceInterface
 
     const TOKEN_CACHE_ID = 'worldcat-discovery-token';
 
-    private $type_map = [
+    const TYPE_MAP = [
         'schema:Book'         => 'Book',
         'schema:VideoObject'  => 'Video',
         'schema:Periodical'   => 'Journal',
@@ -154,7 +154,7 @@ class WorldCatService implements ServiceInterface
     protected function displayType(CreativeWork $work)
     {
         $original_type = $work->type();
-        return $this->type_map[$original_type] ?? $original_type;
+        return self::TYPE_MAP[$original_type] ?? $original_type;
     }
 
     private function requestCacheId($keyword)

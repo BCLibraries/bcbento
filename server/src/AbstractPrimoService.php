@@ -10,6 +10,23 @@ use BCLib\PrimoServices\QueryBuilder;
 
 abstract class AbstractPrimoService implements ServiceInterface
 {
+    const TYPE_MAP = [
+        'book'                => 'Book',
+        'video'               => 'Video',
+        'journal'             => 'Journal',
+        'government_document' => 'Government document',
+        'database'            => 'Database',
+        'image'               => 'Image',
+        'audio_music'         => 'Musical recording',
+        'realia'              => '',
+        'data'                => 'Data',
+        'dissertation'        => 'Thesis',
+        'article'             => 'Article',
+        'review'              => 'Review',
+        'reference_entry'     => 'Reference entry',
+        'newspaper_article'   => 'Newspaper article',
+        'other'               => ''
+    ];
 
     /**
      * @var PrimoServices
@@ -66,4 +83,9 @@ abstract class AbstractPrimoService implements ServiceInterface
     abstract protected function getQuery($keyword): Query;
 
     abstract protected function buildResponse(BriefSearchResult $result, $keyword);
+
+    protected function displayType(BibRecord $item)
+    {
+        return self::TYPE_MAP[$item->type] ?? $item->type;
+    }
 } 

@@ -39,16 +39,6 @@ class ArticlesService extends AbstractPrimoService
         return new SearchResponse($items, $this->searchPermalink($keyword, true), $result->total_results);
     }
 
-    protected function displayType(BibRecord $item)
-    {
-        if (isset($this->type_map[$item->type])) {
-            $display_type = $this->type_map[$item->type];
-        } else {
-            $display_type = $item->type;
-        }
-        return $display_type;
-    }
-
     protected function buildItem(BibRecord $result)
     {
         $id_array = $result->field('search/recordid');
