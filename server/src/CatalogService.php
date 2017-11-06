@@ -77,7 +77,12 @@ class CatalogService extends AbstractPrimoService
 
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('bc.alma.exlibrisgroup.com', '01BC_INST');
-        $rta->checkAvailability($result->results);
+        try {
+            $rta->checkAvailability($result->results);
+        } catch (\Exception $e) {
+            // No op to catch Alma downtime.
+            // @TODO respond better to this
+        }
         $items = array_map([$this, 'buildItem'], $result->results);
 
         $response = new SearchResponse($items, $this->searchCatalogDeepLink($keyword), $result->total_results);
