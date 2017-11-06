@@ -5,6 +5,7 @@ namespace BCLib\BCBento;
 use BCLib\PrimoServices\BibRecord;
 use BCLib\PrimoServices\BriefSearchResult;
 use BCLib\PrimoServices\PrimoServices;
+use BCLib\PrimoServices\Query;
 use BCLib\PrimoServices\QueryBuilder;
 
 abstract class AbstractPrimoService implements ServiceInterface
@@ -62,11 +63,7 @@ abstract class AbstractPrimoService implements ServiceInterface
         return $base . '?' . http_build_query($query_params);
     }
 
-    /**
-     * @param $keyword
-     * @return  \BCLib\PrimoServices\Query
-     */
-    abstract protected function getQuery($keyword);
+    abstract protected function getQuery($keyword): Query;
 
     abstract protected function buildResponse(BriefSearchResult $result, $keyword);
 } 

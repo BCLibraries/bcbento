@@ -25,7 +25,7 @@ class ArticlesService extends AbstractPrimoService
         'other'               => ''
     ];
 
-    public function getQuery($keyword)
+    public function getQuery($keyword): \BCLib\PrimoServices\Query
     {
         $term = new QueryTerm();
         $term->set('facet_tlevel', 'exact', 'online_resources_PC_TN');
@@ -52,7 +52,7 @@ class ArticlesService extends AbstractPrimoService
     protected function buildItem(BibRecord $result)
     {
         $id_array = $result->field('search/recordid');
-        $id = isset($id_array) ? $id_array : '';
+        $id = $id_array ?? '';
 
         return [
             'id'        => $id,

@@ -55,9 +55,9 @@ class CatalogService extends AbstractPrimoService
 
     /**
      * @param $keyword
-     * @return mixed
+     * @return \BCLib\PrimoServices\Query
      */
-    protected function getQuery($keyword)
+    protected function getQuery($keyword): \BCLib\PrimoServices\Query
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
             ->local('BCL')->bulkSize(10)->dym();
@@ -215,7 +215,7 @@ class CatalogService extends AbstractPrimoService
      * @param $image_url
      * @return string
      */
-    private function getMediumCoverImage($image_url)
+    private function getMediumCoverImage($image_url): string
     {
         return str_replace(
             ['/SC.JPG', 'https://proxy-na.hosted.exlibrisgroup.com/exl_rewrite/lib.syndetics'],
@@ -230,7 +230,7 @@ class CatalogService extends AbstractPrimoService
      * @param $image_url
      * @return bool
      */
-    private function removeAmazonCoverImages($image_url)
+    private function removeAmazonCoverImages($image_url): bool
     {
         return (!strpos($image_url, 'amazon.com'));
     }
@@ -240,7 +240,7 @@ class CatalogService extends AbstractPrimoService
         return [];
         $response = [];
 
-        $link_to_rsrc = $item->field('links/linktorsrc') ? $item->field('links/linktorsrc') : [];
+        $link_to_rsrc = $item->field('links/linktorsrc') ?: [];
         $link_to_rsrc = (array) $link_to_rsrc;
 
         foreach ($link_to_rsrc as $link) {

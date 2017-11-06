@@ -80,7 +80,7 @@ class WorldCatService implements ServiceInterface
 
             $bib = $this->search($keyword);
 
-            if (is_a($bib, '\WorldCat\Discovery\Error')) {
+            if (is_a($bib, Error::class)) {
                 $still_searching = $this->handleError($bib);
             } else {
                 $still_searching = false;

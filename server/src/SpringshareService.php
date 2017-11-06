@@ -45,18 +45,18 @@ class SpringshareService implements ServiceInterface
         $url_base = 'http://libguides.bc.edu/';
 
         $author = [
-            'id'   => isset($first_doc->aid) ? $first_doc->aid : '',
-            'name' => isset($first_doc->an) ? $first_doc->an : '',
+            'id'   => $first_doc->aid ?? '',
+            'name' => $first_doc->an ?? '',
         ];
 
         return [
             'title'    => $first_doc->guide,
             'url'      => isset($first_doc->slug) ? $url_base . $first_doc->slug : $url_base . 'c.php?g=' . $first_doc->g,
-            'group'    => isset($first_doc->group) ? $first_doc->group : '',
-            'type'     => isset($first_doc->guide_type) ? $first_doc->guide_type : '',
-            'subjects' => isset($first_doc->subject) ? $first_doc->subject : [],
-            'tags'     => isset($first_doc->tag) ? $first_doc->tag : [],
-            'abstract' => isset($first_doc->gd) ? $first_doc->gd : '',
+            'group'    => $first_doc->group ?? '',
+            'type'     => $first_doc->guide_type ?? '',
+            'subjects' => $first_doc->subject ?? [],
+            'tags'     => $first_doc->tag ?? [],
+            'abstract' => $first_doc->gd ?? '',
             'author'   => $author,
             'pages'    => array_map([$this, 'processDoc'], $docs_hash)
         ];

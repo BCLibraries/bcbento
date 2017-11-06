@@ -16,7 +16,7 @@ class DPLAService implements ServiceInterface
         $this->dpla = $dpla;
     }
 
-    public function fetch($keyword)
+    public function fetch($keyword): \stdClass
     {
         $result = $this->dpla->createSearchQuery()->forText($keyword)
             ->withPaging(1, 4)->execute();
