@@ -80,7 +80,7 @@ class GuidesService extends AbstractLocalService
                 $title = $hit['_source']['title'];
             }
 
-            if ($hit['_score'] < GuidesService::MIN_GUIDE_SCORE) {
+            if ($hit['_score'] < self::MIN_GUIDE_SCORE) {
                 break;
             }
 

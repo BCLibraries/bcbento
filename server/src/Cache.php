@@ -39,7 +39,7 @@ class Cache extends Middleware
         $query_keys = $_GET;
         unset($query_keys['callback']);
         asort($query_keys);
-        $key = $this->app->request()->getResourceUri() . "?" . http_build_query($query_keys);
+        $key = $this->app->request()->getResourceUri() . '?' . http_build_query($query_keys);
         return $key;
     }
 }

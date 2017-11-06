@@ -33,9 +33,9 @@ class Page
         $xpath = new \DOMXPath($dom);
         foreach ($xpath->query('//div[@class="s-lib-box-container"]') as $node) {
             $this->text .= $node->textContent;
-        };
+        }
         $this->text = str_replace("\n",' ', $this->text);
-        $this->text = str_replace("\t", " ", $this->text);
-        $this->text = preg_replace("/  +/", " ",$this->text);
+        $this->text = str_replace("\t", ' ', $this->text);
+        $this->text = preg_replace('/  +/', ' ',$this->text);
     }
 }

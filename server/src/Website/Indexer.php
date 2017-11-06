@@ -61,7 +61,7 @@ class Indexer
         $response = $this->elastic->index($params);
 
         // Wait out the crawl delay
-        sleep(Indexer::CRAWL_DELAY);
+        sleep(self::CRAWL_DELAY);
 
         return $response;
     }

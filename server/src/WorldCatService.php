@@ -107,13 +107,10 @@ class WorldCatService implements ServiceInterface
     {
         switch ($error->getErrorCode()) {
             case '403':
-                echo "403";
-                echo $error->getErrorMessage() . "<br>\n";
                 return true;
             default:
                 throw new \Exception($error->getErrorMessage(), $error->getErrorCode());
         }
-        return false;
     }
 
     private function search($keyword)

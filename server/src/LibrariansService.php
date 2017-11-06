@@ -68,7 +68,7 @@ class LibrariansService extends AbstractLocalService
     {
         $results = [];
         foreach ($librarians['hits']['hits'] as $hit) {
-            if ($hit['_score'] < LibrariansService::MIN_LIBRARIAN_SCORE) {
+            if ($hit['_score'] < self::MIN_LIBRARIAN_SCORE) {
                 break;
             }
 

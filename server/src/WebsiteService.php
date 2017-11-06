@@ -30,22 +30,22 @@ class WebsiteService implements ServiceInterface
                 'query'     => [
                     'multi_match' => [
                         'query'  => $keyword,
-                        'fields' => [
-                            "title^5",
-                            "title.english^5",
-                            "guide_title^6",
-                            "guide_title.english^6",
-                            "guide_subjects^4",
-                            "guide_subjects.english^4",
-                            "guide_tags^4",
-                            "guide_tags.english^4",
-                            "url^5",
-                            "guide_url^6",
-                            "guide_description^6",
-                            "guide_description.english^6",
-                            "text^1"
+                        'fields'   => [
+                            'title^5',
+                            'title.english^5',
+                            'guide_title^6',
+                            'guide_title.english^6',
+                            'guide_subjects^4',
+                            'guide_subjects.english^4',
+                            'guide_tags^4',
+                            'guide_tags.english^4',
+                            'url^5',
+                            'guide_url^6',
+                            'guide_description^6',
+                            'guide_description.english^6',
+                            'text^1'
                         ],
-                        "operator" =>  "and"
+                        'operator' => 'and'
                     ]
                 ],
                 'highlight' => [

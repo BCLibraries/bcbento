@@ -162,7 +162,7 @@ class CatalogService extends AbstractPrimoService
 
         foreach ($components as $comp) {
             foreach ($comp->availability as $avail) {
-                $availabilities[] = $this->buildAvailability($avail);;
+                $availabilities[] = $this->buildAvailability($avail);
             }
         }
 
@@ -177,7 +177,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->call_number = $avail->call_number;
         $avail_obj->on_shelf = ($avail->availability === 'available' || $avail->availability === 'check_holdings');
         $avail_obj->check_avail = ($avail->availability === 'check_holdings');
-        $avail_obj->in_library_only = (in_array($avail->location, $this->lib_use_only_locations));
+        $avail_obj->in_library_only = in_array($avail->location, $this->lib_use_only_locations, true);
         if (isset($avail->library, $this->lib_map[$avail->library])) {
             $avail_obj->lib_display = $this->lib_map[$avail->library];
         } else {

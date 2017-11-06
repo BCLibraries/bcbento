@@ -57,13 +57,13 @@ abstract class AbstractLocalService implements ServiceInterface
                     'query'            => $keyword,
                     'default_operator' => 'AND',
                     'fields'           => [
-                        "title^10",
-                        "author^5",
-                        "subjects^3",
-                        "description",
-                        "toc",
-                        "issn",
-                        "isbn"
+                        'title^10',
+                        'author^5',
+                        'subjects^3',
+                        'description',
+                        'toc',
+                        'issn',
+                        'isbn'
                     ],
                     'use_dis_max'      => false
                 ]
