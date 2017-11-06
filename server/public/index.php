@@ -99,7 +99,7 @@ function redirectToPrimo(Slim $app, $articles = false)
 function secondsUntil3AM()
 {
     $now = time();
-    $three_am = strtotime("03:00");
+    $three_am = strtotime('03:00');
     if ($now < $three_am) {
         $remaining = $three_am - $now;
     } else {

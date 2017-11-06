@@ -3,7 +3,7 @@
 chdir(dirname(__DIR__)); // set directory to root
 require 'vendor/autoload.php'; // composer autoload
 
-$config = require('config/.env.production.php');
+$config = require 'config/.env.production.php';
 $config['debug'] = false;
 
 // convert all the command line arguments into a URL
@@ -13,8 +13,8 @@ $pathInfo = '/' . implode('/', $argv);
 
 $app = new \Slim\Slim($config);
 
-require_once('factories.php');
-require_once('errors.php');
+require_once 'factories.php';
+require_once 'errors.php';
 
 // Set up the environment so that Slim can route
 $app->environment = \Slim\Environment::mock(

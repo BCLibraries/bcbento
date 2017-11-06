@@ -12,7 +12,7 @@ $config = require __DIR__ . '/../config/.env.production.php';
 $es_host = $config['ELASTICSEARCH_HOST'];
 
 // Build dependencies.
-$index_name = "website_" . time();
+$index_name = 'website_' . time();
 $es = new Client(['hosts' => [$es_host]]);
 $indexer = new Indexer(
     $es,
