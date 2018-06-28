@@ -10,6 +10,7 @@ class Guide
     public $tags =[];
     public $subjects = [];
     public $description;
+    public $canvas = [];
 
     /**
      * @var Page[]

@@ -75,6 +75,10 @@
               "analyzer": "english"
             }
           }
+        },
+        "canvas": {
+          "type": "string",
+          "index": "not_analyzed"
         }
       }
     }

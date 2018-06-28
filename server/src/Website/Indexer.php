@@ -37,9 +37,8 @@ class Indexer
         }
     }
 
-    public function indexPage(Page $page, int $key, Guide $guide)
+    public function indexPage(Page $page, int $key, Guide $guide): array
     {
-        echo "Indexed {$guide->title} : {$page->title}\n";
         $page->crawl();
         $params = [
             'index' => $this->index_name,
@@ -55,10 +54,12 @@ class Indexer
                 'updated'           => $page->updated,
                 'guide_subjects'    => $guide->subjects,
                 'guide_tags'        => $guide->tags,
-                'guide_description' => $guide->description
+                'guide_description' => $guide->description,
+                'canvas'            => $guide->canvas
             ]
         ];
         $response = $this->elastic->index($params);
+        $this->elastic->update()
 
         // Wait out the crawl delay
         sleep(self::CRAWL_DELAY);
@@ -69,16 +70,16 @@ class Indexer
     /**
      * @return Guide[]
      */
-    private function fetchGuides() : array
+    private function fetchGuides(): array
     {
         $query_string = [
             'site_id' => $this->site_id,
             'key'     => $this->api_key,
-            'expand'  => 'pages,tags,subjects',
+            'expand'  => 'pages,tags,subjects,metadata',
             'status'  => '1'
         ];
 
-        $url = 'http://lgapi.libapps.com/1.1/guides?' . http_build_query($query_string);
+        $url = 'http://lgapi-us.libapps.com/1.1/guides?' . http_build_query($query_string);
         $guides_json = $this->getJSON($url);
 
         $guide_build_function = [$this, 'buildGuide'];
@@ -90,12 +91,22 @@ class Indexer
     {
         $guide = new Guide();
 
+        $canvas = [];
+        $metadata = $guide_json->metadata ?? [];
+
+        foreach ($metadata as $metadatum) {
+            if ($metadatum->name === 'canvas') {
+                $canvas[] = $metadatum->content;
+            }
+        }
+
         $guide->id = $guide_json->id;
         $guide->title = $guide_json->name;
         $guide->url = $guide_json->friendly_url ?? $guide_json->url;
         $guide->description = $guide_json->description ?? '';
         $guide->subjects = isset($guide_json->subjects) ? $this->buildSubjects($guide_json->subjects) : [];
         $guide->tags = isset($guide_json->tags) ? $this->buildTags($guide_json->tags) : [];
+        $guide->canvas = $canvas;
 
         $page_build_function = [$this, 'buildPage'];
         array_walk($guide_json->pages, $page_build_function, $guide);
@@ -116,7 +127,7 @@ class Indexer
         }
     }
 
-    private function buildSubjects(array $subjects_json)
+    private function buildSubjects(array $subjects_json): array
     {
         $subjects = array_map(
             function ($subject) {
@@ -127,7 +138,7 @@ class Indexer
         return $subjects;
     }
 
-    private function buildTags(array $tags_json)
+    private function buildTags(array $tags_json): array
     {
         $tags = array_map(
             function ($tag) {
@@ -136,6 +147,18 @@ class Indexer
             $tags_json
         );
         return $tags;
+    }
+
+    private function getCanvasMetadata($accumulator, \stdClass $metadata_object): array
+    {
+        if (null === $accumulator) {
+            $accumulator = [];
+        }
+        $name = strtolower($metadata_object->name);
+        if ($name === 'canvas') {
+            $accumulator[] = $metadata_object->content;
+        }
+        return $accumulator;
     }
 
     private function getJSON(string $url)
