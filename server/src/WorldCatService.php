@@ -109,7 +109,7 @@ class WorldCatService implements ServiceInterface
 
     private function search($keyword)
     {
-        $options = ['dbIds' => '283', 'notHeldBy' => $this->institution_code];
+        $options = ['dbIds' => ['283'], 'notHeldBy' => [$this->institution_code]];
         return Bib::search($keyword, $this->access_code, $options);
     }
 

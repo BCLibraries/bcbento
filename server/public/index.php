@@ -71,7 +71,16 @@ $app->get(
 
 $app->add(new Cache($app->redis));
 $app->add(new JSONPWrapper());
+
+sendCORSHeaders();
+
 $app->run();
+
+function sendCORSHeaders() {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+}
 
 function redirectToPrimo(Slim $app, $is_pci = false)
 {
