@@ -30,7 +30,7 @@ class GuidesService extends AbstractLocalService
             ]
         ];
 
-        if (count($taxonomy_terms)) {
+        if (\count($taxonomy_terms)) {
             $should[] = $keyword_query;
         } else {
             $must[] = $keyword_query;
@@ -42,11 +42,11 @@ class GuidesService extends AbstractLocalService
             ]
         ];
 
-        if (count($should)) {
+        if (\count($should)) {
             $query['query']['bool']['should'] = $should;
         }
 
-        if (count($must)) {
+        if (\count($must)) {
             $query['query']['bool']['must'] = $must;
         }
 

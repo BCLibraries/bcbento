@@ -8,8 +8,8 @@ class SearchResponse implements \JsonSerializable
 
     public function __construct(array $items, $search_url, $total_results)
     {
-        if (!is_string($search_url)) {
-            throw new \InvalidArgumentException('Search url strings must be strings, got ' . gettype($search_url));
+        if (!\is_string($search_url)) {
+            throw new \InvalidArgumentException('Search url strings must be strings, got ' . \gettype($search_url));
         }
         $this->result['items'] = $items;
         $this->result['search_url'] = $search_url;

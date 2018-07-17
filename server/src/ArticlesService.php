@@ -10,21 +10,6 @@ class ArticlesService extends AbstractPrimoService
 {
     private $results_to_send = 8;
 
-    private $type_map = [
-        'book'                => 'Book',
-        'video'               => 'Video',
-        'journal'             => 'Journal',
-        'government_document' => 'Government document',
-        'database'            => 'Database',
-        'image'               => 'Image',
-        'audio_music'         => 'Musical recording',
-        'article'             => 'Article',
-        'newspaper_article'   => 'Newspaper article',
-        'review'              => 'Review',
-        'reference_entry'     => 'Reference entry',
-        'other'               => ''
-    ];
-
     public function getQuery($keyword): \BCLib\PrimoServices\Query
     {
         $term = new QueryTerm();
@@ -60,7 +45,7 @@ class ArticlesService extends AbstractPrimoService
 
     protected function stripTags($field)
     {
-        if (is_array($field)) {
+        if (\is_array($field)) {
             $result = array();
             foreach ($field as $member) {
                 $result[] = strip_tags($member);

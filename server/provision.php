@@ -6,8 +6,8 @@ use BCLib\BCBento\DPLAService;
 use BCLib\BCBento\FAQService;
 use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
-use BCLib\BCBento\TypeaheadService;
 use BCLib\BCBento\SpringshareService;
+use BCLib\BCBento\TypeaheadService;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -50,11 +50,11 @@ $app->catalog = function () use ($app) {
     return new CatalogService($app->primo, $app->qb, $app->worldcat);
 };
 
-$app->website = function() use ($app) {
+$app->website = function () use ($app) {
     return new \BCLib\BCBento\WebsiteService($app->elasticsearch, $app->config('ELASTICSEARCH_VERSION'));
 };
 
-$app->guides = function () use ($app) {;
+$app->guides = function () use ($app) {
     return new GuidesService(
         $app->elasticsearch,
         $app->config('ELASTICSEARCH_VERSION')
@@ -83,10 +83,10 @@ $app->worldcat = function () use ($app) {
     );
 };
 
-$app->springshare = function () use ($app) {
+$app->springshare = function () {
     return new SpringshareService();
 };
 
-$app->faq = function () use ($app) {
+$app->faq = function () {
     return new FAQService();
 };

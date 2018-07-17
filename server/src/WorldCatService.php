@@ -118,12 +118,12 @@ class WorldCatService implements ServiceInterface
         $wc_results = [];
         foreach ($results->getSearchResults() as $book) {
             $wc_results[] = $this->formatCreativeWork($book);
-            if (count($wc_results) >= self::MAX_RESPONSE_ITEMS) {
+            if (\count($wc_results) >= self::MAX_RESPONSE_ITEMS) {
                 break;
             }
         }
         $response = ['total_results' => 0];
-        if (count($wc_results) > 0) {
+        if (\count($wc_results) > 0) {
             $response['worldcat_results'] = $wc_results;
         }
         return $response;

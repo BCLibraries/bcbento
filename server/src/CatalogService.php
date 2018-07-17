@@ -53,7 +53,7 @@ class CatalogService extends AbstractPrimoService
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
         try {
-            if ($result->total_results == 0) {
+            if ($result->total_results === 0) {
                 return $this->worldcat->fetch($keyword);
             }
         } Catch (\Exception $e) {
@@ -101,7 +101,7 @@ class CatalogService extends AbstractPrimoService
         }
 
         $date = $item->field('addata/date');
-        $date = is_array($date) ? $date[0] : $date;
+        $date = \is_array($date) ? $date[0] : $date;
 
         $availabilities = $this->buildAvailabilities($item->components);
 
@@ -146,7 +146,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->call_number = $avail->call_number;
         $avail_obj->on_shelf = ($avail->availability === 'available' || $avail->availability === 'check_holdings');
         $avail_obj->check_avail = ($avail->availability === 'check_holdings');
-        $avail_obj->in_library_only = in_array($avail->location, self::LIB_USE_ONLY, true);
+        $avail_obj->in_library_only = \\in_array($avail->location, self::LIB_USE_ONLY, true);
         $avail_obj->lib_display = $this->libraryDisplayValue($avail);
         $avail_obj->lib_display .= ' ' . $avail->location;
         $avail_obj->full = $avail;
@@ -160,10 +160,8 @@ class CatalogService extends AbstractPrimoService
         while (isset($item->getit[$i]) && !$getit) {
             if ($item->getit[$i]->category === 'Alma-E') {
                 $getit = $item->getit[$i]->getit_1;
-            } else {
-                if ($item->getit[$i]->category === 'Online Resource') {
-                    $getit = $item->getit[$i]->getit_1;
-                }
+            } else if ($item->getit[$i]->category === 'Online Resource') {
+                $getit = $item->getit[$i]->getit_1;
             }
             $i++;
         }
