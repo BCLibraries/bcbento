@@ -13,7 +13,7 @@ class SearchResponse implements \JsonSerializable
         }
         $this->result['items'] = $items;
         $this->result['search_url'] = $search_url;
-        $this->result['total_results'] = $total_results;
+        $this->result['total_results'] = (int) $total_results;
     }
 
     public function addField($key, $value)

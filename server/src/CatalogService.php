@@ -54,7 +54,7 @@ class CatalogService extends AbstractPrimoService
     {
         try {
             if ($result->total_results === 0) {
-                return $this->worldcat->fetch($keyword);
+                //return $this->worldcat->fetch($keyword);
             }
         } Catch (\Exception $e) {
             // Do nothing for now.
@@ -80,7 +80,6 @@ class CatalogService extends AbstractPrimoService
         $toc_out = [[]];
         $source_toc = (array) $item->field('search/toc');
         foreach ($source_toc as $field505) {
-            //echo "$field505\n";
             $toc_out[] = explode(' -- ', $field505);
         }
         return array_merge(...$toc_out);
@@ -146,7 +145,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->call_number = $avail->call_number;
         $avail_obj->on_shelf = ($avail->availability === 'available' || $avail->availability === 'check_holdings');
         $avail_obj->check_avail = ($avail->availability === 'check_holdings');
-        $avail_obj->in_library_only = \\in_array($avail->location, self::LIB_USE_ONLY, true);
+        $avail_obj->in_library_only = \in_array($avail->location, self::LIB_USE_ONLY, true);
         $avail_obj->lib_display = $this->libraryDisplayValue($avail);
         $avail_obj->lib_display .= ' ' . $avail->location;
         $avail_obj->full = $avail;
