@@ -93,14 +93,19 @@ abstract class AbstractLocalService implements ServiceInterface
             ]
         ];
 
+        $facet_array = [];
+
+	try {
         $response = $this->elastic_search->search($params);
 
-        $facet_array = [];
         foreach ($response['facets'] as $facet) {
             if (\count($facet['terms'])) {
                 $facet_array[] = $facet['terms'];
             }
         }
+	} catch (\Exception $e) {
+		// do nothing
+	}
 
         return $facet_array;
     }
