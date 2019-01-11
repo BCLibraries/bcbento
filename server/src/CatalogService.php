@@ -150,7 +150,7 @@ class CatalogService extends AbstractPrimoService
         $avail_obj->check_avail = ($avail->availability === 'check_holdings');
         $avail_obj->in_library_only = \in_array($avail->location, self::LIB_USE_ONLY, true);
         $avail_obj->lib_display = $this->libraryDisplayValue($avail);
-        $avail_obj->lib_display .= ' ' . $avail->location;
+        $avail_obj->loc_display = $avail->location;
         $avail_obj->full = $avail;
         return $avail_obj;
     }
