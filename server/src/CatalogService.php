@@ -65,8 +65,11 @@ class CatalogService extends AbstractPrimoService
         try {
             $rta->checkAvailability($result->results);
         } catch (\Exception $e) {
-            // No op to catch Alma downtime.
             // @TODO respond better to this
+            $avail_error_log = '/apps/bcbento.versions/logs/avail-error.log';
+            $timestamp = date('Y-m-d H:i:s');
+            $message = "$timestamp {$e->getMessage()}\n";
+            error_log($message, 3, $avail_error_log);
         }
         $items = array_map([$this, 'buildItem'], $result->results);
 
@@ -159,8 +162,10 @@ class CatalogService extends AbstractPrimoService
         while (isset($item->getit[$i]) && !$getit) {
             if ($item->getit[$i]->category === 'Alma-E') {
                 $getit = $item->getit[$i]->getit_1;
-            } else if ($item->getit[$i]->category === 'Online Resource') {
-                $getit = $item->getit[$i]->getit_1;
+            } else {
+                if ($item->getit[$i]->category === 'Online Resource') {
+                    $getit = $item->getit[$i]->getit_1;
+                }
             }
             $i++;
         }
