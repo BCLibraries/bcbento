@@ -68,15 +68,24 @@ abstract class AbstractPrimoService implements ServiceInterface
 
     protected function itemPermalink(BibRecord $result, bool $is_pci = false): string
     {
-        $base = "https://{$this->primo->getHost()}/primo-explore/fulldisplay";
-        $query_params = [
-            'docid'        => $result->id,
-            'context'      => $is_pci ? 'PC' : 'L',
-            'tab'          => $is_pci ? 'pci_only' : 'bcl_only',
-            'search_scope' => $is_pci ? 'pci' : 'bcl',
-            'vid'          => 'bclib_new',
-            'lang'         => 'en_US',
-        ];
+        if ($result->type === 'collection') {
+            $base = "https://{$this->primo->getHost()}/primo-explore/collectionDiscovery";
+            $query_params = [
+                'collectionId' => str_replace('ALMA-BC', '', $result->id),
+                'vid'          => 'bclib_new',
+                'lang'         => 'en_US',
+            ];
+        } else {
+            $base = "https://{$this->primo->getHost()}/primo-explore/fulldisplay";
+            $query_params = [
+                'docid'        => $result->id,
+                'context'      => $is_pci ? 'PC' : 'L',
+                'tab'          => $is_pci ? 'pci_only' : 'bcl_only',
+                'search_scope' => $is_pci ? 'pci' : 'bcl',
+                'vid'          => 'bclib_new',
+                'lang'         => 'en_US',
+            ];
+        }
         return $base . '?' . http_build_query($query_params);
     }
 
