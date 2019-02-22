@@ -69,7 +69,9 @@ class CatalogService extends AbstractPrimoService
             $avail_error_log = '/apps/bcbento.versions/logs/avail-error.log';
             $timestamp = date('Y-m-d H:i:s');
             $message = "$timestamp {$e->getMessage()}\n";
-            error_log($message, 3, $avail_error_log);
+            $components = iterator_to_array($rta->buildComponentsHash($result->results));
+            $items = implode(':', array_keys($components));
+            // error_log("$message ($items)", 3, $avail_error_log);
         }
         $items = array_map([$this, 'buildItem'], $result->results);
 
@@ -90,17 +92,9 @@ class CatalogService extends AbstractPrimoService
 
     protected function buildItem(BibRecord $item)
     {
-        if (empty($item->cover_images)) {
-            $item->cover_images = [''];
-        }
+        $display_type = $this->displayType($item);
 
-        $item->cover_images = array_map([$this, 'getMediumCoverImage'], $item->cover_images);
-        $item->cover_images = array_filter($item->cover_images, [$this, 'removeAmazonCoverImages']);
-        $item->cover_images = array_values($item->cover_images);
-
-        if ($item->cover_images[0] === 'no_cover') {
-            $item->cover_images = [false];
-        }
+        $item->cover_images = $this->coverImages($item);
 
         $date = $item->field('addata/date');
         $date = \is_array($date) ? $date[0] : $date;
@@ -120,7 +114,7 @@ class CatalogService extends AbstractPrimoService
             'link_to_rsrc' => [],
             'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
-            'type'         => $this->displayType($item),
+            'type'         => $display_type,
             'avail'        => $availabilities,
             'getit'        => $getit,
             'toc'          => $this->tableOfContents($item)
@@ -186,6 +180,35 @@ class CatalogService extends AbstractPrimoService
     {
         $lib_is_set = isset($avail->library, self::LIB_MAP[$avail->library]);
         return $lib_is_set ? self::LIB_MAP[$avail->library] : $avail->library;
+    }
+
+    /**
+     * @param BibRecord $item
+     * @return array
+     */
+    protected function coverImages(BibRecord $item): array
+    {
+        $cover_images = $item->cover_images;
+
+        if (empty($cover_images)) {
+            return [false];
+        }
+
+        if ($item->type === 'collection') {
+            $url_base = 'http://bc.alma.exlibrisgroup.com/view/delivery/thumbnail/01BC_INST';
+            $bare_id = str_replace('ALMA-BC','',$item->id);
+            return ["$url_base/$bare_id"];
+        }
+
+        $cover_images = array_map([$this, 'getMediumCoverImage'], $cover_images);
+        $cover_images = array_filter($cover_images, [$this, 'removeAmazonCoverImages']);
+        $cover_images = array_values($cover_images);
+
+        if ($cover_images[0] === 'no_cover') {
+            $cover_images = [false];
+        }
+
+        return $cover_images;
     }
 
     /**
