@@ -50,7 +50,9 @@ class WebsiteService implements ServiceInterface
                 ],
                 'highlight' => [
                     'fields' =>
-                        ['text' => (object) []]
+                        ['text' => (object) [
+                            'fragment_size' => 150
+                        ]]
                 ]
             ]
         ];

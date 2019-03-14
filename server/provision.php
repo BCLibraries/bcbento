@@ -1,5 +1,6 @@
 <?php
 
+use BCLib\BCBento\VideoThumbClient;
 use BCLib\BCBento\ArticlesService;
 use BCLib\BCBento\CatalogService;
 use BCLib\BCBento\DPLAService;
@@ -8,6 +9,7 @@ use BCLib\BCBento\GuidesService;
 use BCLib\BCBento\LibrariansService;
 use BCLib\BCBento\SpringshareService;
 use BCLib\BCBento\TypeaheadService;
+use BCLib\BCBento\VideoService;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -89,4 +91,12 @@ $app->springshare = function () {
 
 $app->faq = function () {
     return new FAQService();
+};
+
+$app->video = function () use ($app) {
+    return new VideoService($app->primo, $app->qb, $app->video_thumbs);
+};
+
+$app->video_thumbs = function () use ($app) {
+    return new VideoThumbClient(new GuzzleHttp\Client(), $app->redis);
 };

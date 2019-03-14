@@ -25,7 +25,8 @@ $paths = [
     '/worldcat'    => $seconds_until_3am,
     '/springshare' => $seconds_until_3am,
     '/website'     => $seconds_until_3am,
-    '/faq'         => $seconds_until_3am
+    '/faq'         => $seconds_until_3am,
+    '/video'       => 180
 ];
 
 
@@ -76,7 +77,8 @@ sendCORSHeaders();
 
 $app->run();
 
-function sendCORSHeaders() {
+function sendCORSHeaders()
+{
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');

@@ -9,7 +9,7 @@ use BCLib\PrimoServices\BriefSearchResult;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 
-class CatalogService extends AbstractPrimoService
+class VideoService extends AbstractPrimoService
 {
 
     const LIB_MAP = [
@@ -22,21 +22,21 @@ class CatalogService extends AbstractPrimoService
         'LAW'   => 'Law School Library'
     ];
 
-    /**
-     * @var WorldCatService
-     */
-    private $worldcat;
-
     const LIB_USE_ONLY = [
         'Reference No Loan',
         'Reading Room Use Only',
         'Reference Folio No Loan'
     ];
 
-    public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
+    /**
+     * @var VideoThumbClient
+     */
+    private $thumb_client;
+
+    public function __construct(PrimoServices $primo, QueryBuilder $query_builder, VideoThumbClient $alex)
     {
         parent::__construct($primo, $query_builder);
-        $this->worldcat = $worldcat;
+        $this->thumb_client = $alex;
     }
 
     /**
@@ -46,20 +46,12 @@ class CatalogService extends AbstractPrimoService
     protected function getQuery($keyword): \BCLib\PrimoServices\Query
     {
         $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(10)->dym();
+            ->local('VIDEO')->bulkSize(3)->dym();
         return $query;
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
-        try {
-            if ($result->total_results === 0) {
-                //return $this->worldcat->fetch($keyword);
-            }
-        } Catch (\Exception $e) {
-            // Do nothing for now.
-        }
-
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('bc.alma.exlibrisgroup.com', '01BC_INST');
         try {
@@ -74,6 +66,14 @@ class CatalogService extends AbstractPrimoService
             // error_log("$message ($items)", 3, $avail_error_log);
         }
         $items = array_map([$this, 'buildItem'], $result->results);
+
+        $alex_covers = $this->thumb_client->fetch();
+
+        for ($i = 0, $max = count($items); $i < $max; $i++) {
+            if (isset($alex_covers[$items[$i]['id']])) {
+                $items[$i]['covers'] = [$alex_covers[$items[$i]['id']]];
+            }
+        }
 
         $response = new SearchResponse($items, $this->searchPermalink($keyword), $result->total_results);
         $response->addField('dym', $result->dym);
@@ -94,8 +94,6 @@ class CatalogService extends AbstractPrimoService
     {
         $display_type = $this->displayType($item);
 
-        $item->cover_images = $this->coverImages($item);
-
         $date = $item->field('addata/date');
         $date = \is_array($date) ? $date[0] : $date;
 
@@ -103,17 +101,37 @@ class CatalogService extends AbstractPrimoService
 
         $getit = $this->getItLink($item);
 
-        if ($getit) {
+        $online = false;
+
+        if (empty($availabilities)) {
+            $mms = $item->field('display/lds11');
+
+            if (is_array($mms)) {
+                $mms = $mms[0];
+            }
+
+            $online = true;
+            $getit = "https://mlib.bc.edu/reserves-api/items/$mms";
+
             $is_avail = true;
+
+            $cover_images = null;
+            $this->thumb_client->queue($item);
         } else {
+            $cover_images = $this->coverImages($item);
+
             $is_avail = false;
             foreach ($availabilities as $avail) {
                 $is_avail = $avail->on_shelf;
             }
         }
 
+
+
+
         return [
             'id'           => $item->id,
+            'online'       => $online,
             'title'        => $item->title,
             'date'         => $date,
             'publisher'    => $item->publisher,
@@ -121,13 +139,14 @@ class CatalogService extends AbstractPrimoService
             'contributors' => $item->contributors,
             'link'         => $this->itemPermalink($item),
             'link_to_rsrc' => [],
-            'covers'       => $item->cover_images,
+            'covers'       => $cover_images,
             'isbn'         => $item->isbn,
             'type'         => $display_type,
             'avail'        => $availabilities,
             'is_avail'     => $is_avail,
             'getit'        => $getit,
-            'toc'          => $this->tableOfContents($item)
+            'toc'          => $this->tableOfContents($item),
+            'mms'          => $item->field('display/lds11')
         ];
     }
 
@@ -198,16 +217,16 @@ class CatalogService extends AbstractPrimoService
      */
     protected function coverImages(BibRecord $item): array
     {
+        $upc = $item->field('addata/lad06');
+        $upc = (is_array($upc) && isset($upc[0])) ? $upc[0] : $upc;
+        if ($upc) {
+            return ["https://secure.syndetics.com/index.aspx?isbn=/lc.jpg&client=bostonh&type=unbound&upc=$upc"];
+        }
+
         $cover_images = $item->cover_images;
 
         if (empty($cover_images)) {
             return [false];
-        }
-
-        if ($item->type === 'collection') {
-            $url_base = 'http://bc.alma.exlibrisgroup.com/view/delivery/thumbnail/01BC_INST';
-            $bare_id = str_replace('ALMA-BC', '', $item->id);
-            return ["$url_base/$bare_id"];
         }
 
         $cover_images = array_map([$this, 'getMediumCoverImage'], $cover_images);
