@@ -127,11 +127,10 @@ class VideoService extends AbstractPrimoService
         }
 
 
-
-
         return [
             'id'           => $item->id,
             'online'       => $online,
+            'format'       => $this->buildFormat($item),
             'title'        => $item->title,
             'date'         => $date,
             'publisher'    => $item->publisher,
@@ -264,5 +263,25 @@ class VideoService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url): bool
     {
         return (!strpos($image_url, 'amazon.com'));
+    }
+
+    private function buildFormat(BibRecord $item): ?string
+    {
+        $sys_req = $item->field('display/lds16');
+        $sys_req = is_array($sys_req) && isset($sys_req[0]) ? $sys_req[0] : $sys_req;
+
+        if (!$sys_req) {
+            return null;
+        }
+
+        if (strpos($sys_req, 'VHS') !== false) {
+            return 'VHS';
+        }
+
+        if (strpos($sys_req, 'DVD') !== false) {
+            return 'DVD';
+        }
+
+        return null;
     }
 }

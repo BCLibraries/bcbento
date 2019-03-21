@@ -12,10 +12,12 @@ class VideoThumbClient
 {
     private const SRC_ALEXANDER = 'ALEXANDER-STREET';
     private const SRC_MEDICITV = 'MEDICITV';
+    private const SRC_METONDEMAND = 'METONDEMAND';
 
     private const SOURCE_REGEXES = [
-        self::SRC_ALEXANDER => '#(https?://www.aspresolver.*)\$\$D#',
-        self::SRC_MEDICITV  => '#(https?://edu.medici.tv/movies.*)\$\$D#'
+        self::SRC_ALEXANDER   => '#(https?://www.aspresolver.*)\$\$D#',
+        self::SRC_MEDICITV    => '#(https?://edu.medici.tv/movies.*)\$\$D#',
+        self::SRC_METONDEMAND => '#(https?://metopera.org/Season/On-Demand/opera/\?upc=.*)\$\$D#'
     ];
 
     const REQUEST_OPTIONS = ['allow_redirects' => true];
@@ -120,6 +122,7 @@ class VideoThumbClient
             case self::SRC_ALEXANDER:
                 return $this->getAlexanderScreenCap($dom);
             case self::SRC_MEDICITV:
+            case self::SRC_METONDEMAND:
                 return $this->getOpenGraphImage($dom);
         }
 
@@ -142,8 +145,11 @@ class VideoThumbClient
     {
         $xpath = new \DOMXPath($dom);
         $metas = $xpath->query("//meta[@property='og:image']");
-        if ($metas->length > 0) {
-            return (string) $metas->item(0)->getAttribute('content');
+        for ($i = 0; $i < $metas->length; $i++) {
+            $url = $metas->item($i)->getAttribute('content');
+            if ($url) {
+                return $url;
+            }
         }
         return null;
     }
@@ -173,6 +179,8 @@ class VideoThumbClient
     {
         $pattern = '/xtid=(\d*)\$\$/';
         $link = $item->field('links/linktorsrc');
+
+        $link = is_array($link) ? $link[0] : $link;
 
         preg_match($pattern, $link, $matches);
 
