@@ -14,7 +14,7 @@ class FAQService implements ServiceInterface
                 CURLOPT_URL            => $this->url($keyword),
                 CURLOPT_USERAGENT      => 'Codular Sample cURL Request',
                 CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT => 30
+                CURLOPT_TIMEOUT        => 30
             )
         );
         $resp = curl_exec($curl);
@@ -27,7 +27,7 @@ class FAQService implements ServiceInterface
 
     private function url($keyword)
     {
-        return "https://api2.libanswers.com/1.0/search/$keyword?iid=45";
+        return "https://api2.libanswers.com/1.0/search/$keyword?iid=45&limit=5";
     }
 
     private function buildResponse($service_response, $keyword)
@@ -45,6 +45,7 @@ class FAQService implements ServiceInterface
     private function processResult($result)
     {
         return [
+            'id'       => $result->id,
             'question' => $result->question,
             'url'      => $result->url
         ];

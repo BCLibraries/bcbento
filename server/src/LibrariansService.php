@@ -58,6 +58,8 @@ class LibrariansService extends AbstractLocalService
     public function buildResponse(array $librarians)
     {
         $results = [];
+        $results['items'] = [];
+        $results['search_url'] = null;
         foreach ($librarians['hits']['hits'] as $hit) {
             if ($hit['_score'] < self::MIN_LIBRARIAN_SCORE) {
                 break;
@@ -73,8 +75,9 @@ class LibrariansService extends AbstractLocalService
                 'score'    => $hit['_score'],
                 'subjects' => $source['subjects']
             ];
-            $results[] = $librarian;
+            $results['items'][] = $librarian;
         }
+        $results['total_results'] = count($results['items']);
 
         return $results;
     }

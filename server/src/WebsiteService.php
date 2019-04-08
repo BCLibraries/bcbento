@@ -48,6 +48,8 @@ class WebsiteService implements ServiceInterface
                         'operator' => 'and'
                     ]
                 ],
+                'from'      => 0,
+                'size'      => 3,
                 'highlight' => [
                     'fields' =>
                         ['text' => (object) [
