@@ -35,7 +35,7 @@ class VideoService extends AbstractPrimoService
 
     public function __construct(PrimoServices $primo, QueryBuilder $query_builder, VideoThumbClient $alex)
     {
-        parent::__construct($primo, $query_builder);
+        parent::__construct($primo, $query_builder, 'video', 'VIDEO');
         $this->thumb_client = $alex;
     }
 

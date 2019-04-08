@@ -42,7 +42,7 @@ $app->typeahead = function () use ($app) {
 };
 
 $app->articles = function () use ($app) {
-    return new ArticlesService($app->primo, $app->qb);
+    return new ArticlesService($app->primo, $app->qb, 'pci_only', 'pci');
 };
 
 $app->catalog = function () use ($app) {

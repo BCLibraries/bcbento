@@ -35,7 +35,7 @@ class CatalogService extends AbstractPrimoService
 
     public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
     {
-        parent::__construct($primo, $query_builder);
+        parent::__construct($primo, $query_builder, 'bcl_only', 'bcl');
         $this->worldcat = $worldcat;
     }
 
@@ -45,8 +45,7 @@ class CatalogService extends AbstractPrimoService
      */
     protected function getQuery($keyword): \BCLib\PrimoServices\Query
     {
-        $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('BCL')->bulkSize(3)->dym();
+        $query = $this->query_builder->keyword($keyword)->getQuery()->local('BCL')->bulkSize(3)->dym();
         return $query;
     }
 

@@ -38,12 +38,26 @@ abstract class AbstractPrimoService implements ServiceInterface
      */
     protected $query_builder;
 
+    /**
+     * @var string
+     */
+    protected $tab;
+
+    /**
+     * @var string
+     */
+    protected $scope;
+
     public function __construct(
         PrimoServices $primo,
-        QueryBuilder $query_builder
+        QueryBuilder $query_builder,
+        string $tab,
+        string $scope
     ) {
         $this->primo = $primo;
         $this->query_builder = $query_builder;
+        $this->tab = $tab;
+        $this->scope = $scope;
     }
 
     public function fetch($keyword)
@@ -52,18 +66,18 @@ abstract class AbstractPrimoService implements ServiceInterface
         return $this->buildResponse($result, $keyword);
     }
 
-    protected function searchPermalink($keyword, bool $is_pci = false)
+    protected function searchPermalink($keyword)
     {
         $base = "https://{$this->primo->getHost()}/primo-explore/search";
         $query_params = [
             'query'        => "any,contains,$keyword",
-            'tab'          => $is_pci ? 'pci_only' : 'bcl_only',
-            'search_scope' => $is_pci ? 'pci' : 'bcl',
+            'tab'          => $this->tab,
+            'search_scope' => $this->scope,
             'vid'          => 'bclib_new',
             'lang'         => 'en_US',
             'offset'       => 0
         ];
-        return $base . '?' . http_build_query($query_params);
+        return $base.'?'.http_build_query($query_params);
     }
 
     protected function itemPermalink(BibRecord $result, bool $is_pci = false): string
@@ -80,13 +94,13 @@ abstract class AbstractPrimoService implements ServiceInterface
             $query_params = [
                 'docid'        => $result->id,
                 'context'      => $is_pci ? 'PC' : 'L',
-                'tab'          => $is_pci ? 'pci_only' : 'bcl_only',
-                'search_scope' => $is_pci ? 'pci' : 'bcl',
+                'tab'          => $this->tab,
+                'search_scope' => $this->scope,
                 'vid'          => 'bclib_new',
                 'lang'         => 'en_US',
             ];
         }
-        return $base . '?' . http_build_query($query_params);
+        return $base.'?'.http_build_query($query_params);
     }
 
     abstract protected function getQuery($keyword): Query;
