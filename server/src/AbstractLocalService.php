@@ -95,7 +95,6 @@ abstract class AbstractLocalService implements ServiceInterface
 
         $facet_array = [];
 
-	try {
         $response = $this->elastic_search->search($params);
 
         foreach ($response['facets'] as $facet) {
@@ -103,16 +102,14 @@ abstract class AbstractLocalService implements ServiceInterface
                 $facet_array[] = $facet['terms'];
             }
         }
-	} catch (\Exception $e) {
-		// do nothing
-	}
+
 
         return $facet_array;
     }
 
     protected function cacheKey($term)
     {
-        return 'search-terms:' . sha1($term);
+        return 'search-terms:'.sha1($term);
     }
 
     protected function logQuery()
