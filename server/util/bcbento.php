@@ -9,12 +9,12 @@ $config['debug'] = false;
 // convert all the command line arguments into a URL
 $argv = $GLOBALS['argv'];
 array_shift($GLOBALS['argv']);
-$pathInfo = '/' . implode('/', $argv);
+$pathInfo = '/'.implode('/', $argv);
 
 $app = new \Slim\Slim($config);
 
-require_once 'factories.php';
-require_once 'errors.php';
+require_once __DIR__.'/../provision.php';
+require_once __DIR__.'/../errors.php';
 
 // Set up the environment so that Slim can route
 $app->environment = \Slim\Environment::mock(
@@ -80,17 +80,21 @@ $app->get(
 $app->get(
     '/load/librarians',
     function () use ($app) {
-        $json = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/librarians.json');
-        $librarians = json_decode($json, true);
-        $elasticsearch = new \Elasticsearch\Client(['hosts' => [$app->config('ELASTICSEARCH_HOST')]]);
+        $librarians = file_get_contents('/Users/benjaminflorin/PhpstormProjects/bcbento-slim/server/librarians.json');
+        $librarians = json_decode($librarians, true);
         foreach ($librarians as $librarian) {
-            $params = [];
-            $params['id'] = $librarian['id'];
-            unset($librarian['id']);
-            $params['body'] = $librarian;
-            $params['index'] = 'librarians';
-            $params['type'] = 'librarian';
-            $elasticsearch->index($params);
+            try {
+                echo "Loading {$librarian['last_name']}\n";
+                $params = [];
+                $params['id'] = $librarian['id'];
+                unset($librarian['id']);
+                $params['body'] = $librarian;
+                $params['index'] = 'librarians';
+                $params['type'] = 'librarian';
+                $app->elasticsearch->index($params);
+            } catch (Exception $e) {
+                print_r($librarian); exit();
+            }
         }
 
     }
