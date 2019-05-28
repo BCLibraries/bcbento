@@ -6,6 +6,7 @@ class FAQService implements ServiceInterface
 {
     public function fetch($keyword)
     {
+        $keyword = strtolower($keyword);
         $curl = curl_init();
         curl_setopt_array(
             $curl,
