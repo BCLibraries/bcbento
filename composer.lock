@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e74d6c66b064a83f97883ebc181a226",
+    "content-hash": "3ba7df2c49fbcb20a7506e83febe149f",
     "packages": [
         {
             "name": "3ft9/dpla",
@@ -75,6 +75,48 @@
                 "OCLC"
             ],
             "time": "2017-04-11T20:56:15+00:00"
+        },
+        {
+            "name": "bclibraries/primo-client",
+            "version": "v0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BCLibraries/primo-client.git",
+                "reference": "1e6674ea37f10f6a9a30c8bab62c617df6fd2940"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/1e6674ea37f10f6a9a30c8bab62c617df6fd2940",
+                "reference": "1e6674ea37f10f6a9a30c8bab62c617df6fd2940",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7",
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BCLib\\PrimoClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Florin",
+                    "email": "benjamin.florin@bc.edu"
+                }
+            ],
+            "description": "A client for Ex Libris' Primo REST API",
+            "time": "2019-05-17T20:03:45+00:00"
         },
         {
             "name": "bclibraries/primo-services",
