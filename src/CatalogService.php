@@ -9,7 +9,7 @@ use BCLib\PrimoServices\BriefSearchResult;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 
-class VideoService extends AbstractPrimoService
+class CatalogService extends AbstractPrimoService
 {
 
     const LIB_MAP = [
@@ -22,21 +22,21 @@ class VideoService extends AbstractPrimoService
         'LAW'   => 'Law School Library'
     ];
 
+    /**
+     * @var WorldCatService
+     */
+    private $worldcat;
+
     const LIB_USE_ONLY = [
         'Reference No Loan',
         'Reading Room Use Only',
         'Reference Folio No Loan'
     ];
 
-    /**
-     * @var VideoThumbClient
-     */
-    private $thumb_client;
-
-    public function __construct(PrimoServices $primo, QueryBuilder $query_builder, VideoThumbClient $alex)
+    public function __construct(PrimoServices $primo, QueryBuilder $query_builder, WorldCatService $worldcat)
     {
-        parent::__construct($primo, $query_builder);
-        $this->thumb_client = $alex;
+        parent::__construct($primo, $query_builder, 'bcl_only', 'bcl');
+        $this->worldcat = $worldcat;
     }
 
     /**
@@ -45,13 +45,20 @@ class VideoService extends AbstractPrimoService
      */
     protected function getQuery($keyword): \BCLib\PrimoServices\Query
     {
-        $query = $this->query_builder->keyword($keyword)->getQuery()
-            ->local('VIDEO')->bulkSize(3)->dym();
+        $query = $this->query_builder->keyword($keyword)->getQuery()->local('BCL')->bulkSize(3)->dym();
         return $query;
     }
 
     protected function buildResponse(BriefSearchResult $result, $keyword)
     {
+        try {
+            if ($result->total_results === 0) {
+                //return $this->worldcat->fetch($keyword);
+            }
+        } Catch (\Exception $e) {
+            // Do nothing for now.
+        }
+
         $client_factory = new ClientFactory();
         $rta = $client_factory->buildAlmaClient('bc.alma.exlibrisgroup.com', '01BC_INST');
         try {
@@ -66,14 +73,6 @@ class VideoService extends AbstractPrimoService
             // error_log("$message ($items)", 3, $avail_error_log);
         }
         $items = array_map([$this, 'buildItem'], $result->results);
-
-        $alex_covers = $this->thumb_client->fetch();
-
-        for ($i = 0, $max = count($items); $i < $max; $i++) {
-            if (isset($alex_covers[$items[$i]['id']])) {
-                $items[$i]['covers'] = [$alex_covers[$items[$i]['id']]];
-            }
-        }
 
         $response = new SearchResponse($items, $this->searchPermalink($keyword), $result->total_results);
         $response->addField('dym', $result->dym);
@@ -94,6 +93,8 @@ class VideoService extends AbstractPrimoService
     {
         $display_type = $this->displayType($item);
 
+        $item->cover_images = $this->coverImages($item);
+
         $date = $item->field('addata/date');
         $date = \is_array($date) ? $date[0] : $date;
 
@@ -101,36 +102,17 @@ class VideoService extends AbstractPrimoService
 
         $getit = $this->getItLink($item);
 
-        $online = false;
-
-        if (empty($availabilities)) {
-            $mms = $item->field('display/lds11');
-
-            if (is_array($mms)) {
-                $mms = $mms[0];
-            }
-
-            $online = true;
-            $getit = "https://mlib.bc.edu/reserves-api/items/$mms";
-
+        if ($getit) {
             $is_avail = true;
-
-            $cover_images = null;
-            $this->thumb_client->queue($item);
         } else {
-            $cover_images = $this->coverImages($item);
-
             $is_avail = false;
             foreach ($availabilities as $avail) {
                 $is_avail = $avail->on_shelf;
             }
         }
 
-
         return [
             'id'           => $item->id,
-            'online'       => $online,
-            'format'       => $this->buildFormat($item),
             'title'        => $item->title,
             'date'         => $date,
             'publisher'    => $item->publisher,
@@ -138,14 +120,13 @@ class VideoService extends AbstractPrimoService
             'contributors' => $item->contributors,
             'link'         => $this->itemPermalink($item),
             'link_to_rsrc' => [],
-            'covers'       => $cover_images,
+            'covers'       => $item->cover_images,
             'isbn'         => $item->isbn,
             'type'         => $display_type,
             'avail'        => $availabilities,
             'is_avail'     => $is_avail,
             'getit'        => $getit,
-            'toc'          => $this->tableOfContents($item),
-            'mms'          => $item->field('display/lds11')
+            'toc'          => $this->tableOfContents($item)
         ];
     }
 
@@ -216,16 +197,16 @@ class VideoService extends AbstractPrimoService
      */
     protected function coverImages(BibRecord $item): array
     {
-        $upc = $item->field('addata/lad06');
-        $upc = (is_array($upc) && isset($upc[0])) ? $upc[0] : $upc;
-        if ($upc) {
-            return ["https://secure.syndetics.com/index.aspx?isbn=/lc.jpg&client=bostonh&type=unbound&upc=$upc"];
-        }
-
         $cover_images = $item->cover_images;
 
         if (empty($cover_images)) {
             return [false];
+        }
+
+        if ($item->type === 'collection') {
+            $url_base = 'http://bc.alma.exlibrisgroup.com/view/delivery/thumbnail/01BC_INST';
+            $bare_id = str_replace('ALMA-BC', '', $item->id);
+            return ["$url_base/$bare_id"];
         }
 
         $cover_images = array_map([$this, 'getMediumCoverImage'], $cover_images);
@@ -263,25 +244,5 @@ class VideoService extends AbstractPrimoService
     private function removeAmazonCoverImages($image_url): bool
     {
         return (!strpos($image_url, 'amazon.com'));
-    }
-
-    private function buildFormat(BibRecord $item): ?string
-    {
-        $sys_req = $item->field('display/lds16');
-        $sys_req = is_array($sys_req) && isset($sys_req[0]) ? $sys_req[0] : $sys_req;
-
-        if (!$sys_req) {
-            return null;
-        }
-
-        if (strpos($sys_req, 'VHS') !== false) {
-            return 'VHS';
-        }
-
-        if (strpos($sys_req, 'DVD') !== false) {
-            return 'DVD';
-        }
-
-        return null;
     }
 }

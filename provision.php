@@ -10,6 +10,7 @@ use BCLib\BCBento\SpringshareService;
 use BCLib\BCBento\TypeaheadService;
 use BCLib\BCBento\VideoService;
 use BCLib\BCBento\VideoThumbClient;
+use BCLib\PrimoClient\PrimoClient;
 use BCLib\PrimoServices\PrimoServices;
 use BCLib\PrimoServices\QueryBuilder;
 use Doctrine\Common\Cache\RedisCache;
@@ -17,6 +18,16 @@ use Doctrine\Common\Cache\RedisCache;
 $app->primo = function () use ($app) {
     return new PrimoServices(
         $app->config('PRIMO_HOST'), $app->config('PRIMO_INSTITUTION'), $app->redis, '4.9'
+    );
+};
+
+$app->primo_client = function () use ($app) {
+    return PrimoClient::build(
+        $app->config('EXL_API_GATEWAY'),
+        $app->config('PRIMO_APIKEY'),
+        $app->config('PRIMO_DEFAULT_TAB'),
+        $app->config('PRIMO_DEFAULT_VID'),
+        $app->config('PRIMO_DEFAULT_SCOPE')
     );
 };
 
@@ -42,11 +53,15 @@ $app->typeahead = function () use ($app) {
 };
 
 $app->articles = function () use ($app) {
-    return new ArticlesService($app->primo, $app->qb);
+    return new ArticlesService($app->primo, $app->qb, 'pci_only', 'pci');
 };
 
 $app->catalog = function () use ($app) {
     return new CatalogService($app->primo, $app->qb, $app->worldcat);
+};
+
+$app->new_catalog = function () use ($app) {
+    return new \BCLib\BCBento\NewCatalogService($app->primo_client);
 };
 
 $app->website = function () use ($app) {

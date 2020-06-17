@@ -8,7 +8,7 @@ use BCLib\PrimoServices\QueryTerm;
 
 class ArticlesService extends AbstractPrimoService
 {
-    private $results_to_send = 8;
+    private $results_to_send = 3;
 
     public function getQuery($keyword): \BCLib\PrimoServices\Query
     {
@@ -38,6 +38,7 @@ class ArticlesService extends AbstractPrimoService
             'link'      => $this->itemPermalink($result, true),
             'source'    => $this->stripTags($result->field('display/source')),
             'part_of'   => $this->stripTags($result->field('display/ispartof')),
+            'journal'   => $this->stripTags($result->field('addata/jtitle')),
             'type'      => $this->stripTags($this->displayType($result)),
             'real_type' => $result->type
         ];

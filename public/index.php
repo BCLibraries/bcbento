@@ -26,7 +26,8 @@ $paths = [
     '/springshare' => $seconds_until_3am,
     '/website'     => $seconds_until_3am,
     '/faq'         => $seconds_until_3am,
-    '/video'       => 180
+    '/video'       => 180,
+    '/new_catalog' => $seconds_until_3am
 ];
 
 

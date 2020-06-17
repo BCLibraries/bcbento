@@ -23,19 +23,19 @@ class LibrariansService extends AbstractLocalService
         $must = [];
         $should = $this->buildTaxonomySubQueries($taxonomy_terms);
 
-        $keyword_query = [
+        $terms_query = [
             'match' => [
-                'subjects' => [
+                'terms' => [
                     'query' => $keyword,
                     'boost' => $this->max_boost
                 ]
-            ]
+            ],
         ];
 
         if (\count($taxonomy_terms)) {
-            $should[] = $keyword_query;
+            $should[] = $terms_query;
         } else {
-            $must[] = $keyword_query;
+            $must[] = $terms_query;
         }
 
         $query = [
@@ -52,12 +52,17 @@ class LibrariansService extends AbstractLocalService
             $query['query']['bool']['must'] = $must;
         }
 
+        //$json = json_encode($query);
+        //echo "<pre>$json</pre>"; exit();
+
         return $query;
     }
 
     public function buildResponse(array $librarians)
     {
         $results = [];
+        $results['items'] = [];
+        $results['search_url'] = null;
         foreach ($librarians['hits']['hits'] as $hit) {
             if ($hit['_score'] < self::MIN_LIBRARIAN_SCORE) {
                 break;
@@ -67,14 +72,15 @@ class LibrariansService extends AbstractLocalService
 
             $librarian = [
                 'id'       => $hit['_id'],
-                'name'     => $source['first_name'] . ' ' . $source['last_name'],
+                'name'     => $source['first_name'].' '.$source['last_name'],
                 'image'    => $this->buildImageUrl($source),
                 'email'    => $source['email'],
                 'score'    => $hit['_score'],
                 'subjects' => $source['subjects']
             ];
-            $results[] = $librarian;
+            $results['items'][] = $librarian;
         }
+        $results['total_results'] = count($results['items']);
 
         return $results;
     }
@@ -126,7 +132,7 @@ class LibrariansService extends AbstractLocalService
             return str_replace('http://', '', $source['image']);
         }
 
-        return 'library.bc.edu/staff-portraits/' . $source['image'];
+        return 'library.bc.edu/staff-portraits/'.$source['image'];
     }
 
 }
