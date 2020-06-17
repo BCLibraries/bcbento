@@ -1,9 +1,14 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
 
 use BCLib\BCBento\Website\Indexer;
 use Elasticsearch\Client;
+
+// Check verbosity
+$options = getopt('v');
+$verbose_mode = isset($options['v']);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -13,12 +18,13 @@ $es_host = $config['ELASTICSEARCH_HOST'];
 
 // Build dependencies.
 $index_name = 'website_' . time();
-$es = new Client(['hosts' => [$es_host]]);
+$es = Elasticsearch\ClientBuilder::create()->setHosts([$es_host])->build();
 $indexer = new Indexer(
     $es,
     $config['LIBGUIDES_SITE_ID'],
     $config['LIBGUIDES_API_KEY'],
-    $index_name
+    $index_name,
+    $verbose_mode
 );
 
 build_index($es, $index_name);
@@ -59,3 +65,5 @@ function get_index_name(Client $es, string $alias) : string
     }
     return $index;
 }
+
+// @TODO Make proxy aware? (probably a bad idea)
