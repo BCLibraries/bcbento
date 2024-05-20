@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> Archived May 2024. No longer used or open for changes.
+
+
 # BCBento
 
 This is the Boston College Libraries' ["bento-box"](http://crl.acrl.org/content/74/3/227.full.pdf) search tool.
